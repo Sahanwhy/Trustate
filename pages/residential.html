@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Trustate — Verified residential properties for sale. Apartments, villas, duplexes, penthouses and more.">
+  <title>Residential Properties — Trustate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../Trustate-frontend/public/assets/css/styles.css">
+  <style>
+    /* ── Page-specific overrides ── */
+    .page-hero {
+      padding: 140px 5% 80px;
+      background: linear-gradient(150deg, rgba(11,31,58,.95) 0%, rgba(26,58,92,.88) 60%, rgba(26,74,46,.6) 100%),
+                  url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1600&q=80') center/cover no-repeat;
+      position: relative;
+    }
+    .page-hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 140px; background: linear-gradient(to top, var(--off-white), transparent); }
+    .page-hero__inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
+    .page-hero h1 { font-family: 'Cormorant Garamond',serif; font-size: clamp(2.5rem,6vw,4.5rem); font-weight: 700; color: var(--white); letter-spacing: -.025em; line-height: 1.08; margin-bottom: 1rem; }
+    .page-hero h1 em { color: var(--accent); font-style: italic; }
+    .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,.65); max-width: 520px; font-weight: 300; line-height: 1.75; }
+    .page-hero__badge { display: inline-flex; align-items: center; gap: .55rem; background: rgba(0,196,122,.15); border: 1px solid rgba(0,196,122,.35); color: #7FFFC4; padding: .42rem 1rem; border-radius: var(--radius-pill); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.5rem; }
+
+    .page-content { max-width: 1200px; margin: 0 auto; padding: 4rem 5% 6rem; }
+
+    /* Sub-type grid overview */
+    .subtype-overview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 4rem; }
+    .subtype-card { background: var(--white); border-radius: var(--radius); padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-bottom: 3px solid transparent; transition: all .25s; cursor: pointer; }
+    .subtype-card:hover, .subtype-card.active { border-color: var(--blue-mid); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .subtype-card__icon { font-size: 2rem; margin-bottom: .6rem; }
+    .subtype-card__name { font-size: .88rem; font-weight: 600; color: var(--navy); }
+    .subtype-card__count { font-size: .75rem; color: var(--text-muted); margin-top: .2rem; }
+    /* data-count auto-filled from backend */
+    .subtype-card__count[data-count]::before { content: attr(data-count) " listings"; }
+
+    @media(max-width:768px){ .subtype-overview { grid-template-columns: repeat(2,1fr); } }
+    @media(max-width:480px){ .subtype-overview { grid-template-columns: repeat(2,1fr); } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <a href="../index.html" class="navbar__logo">Trustate<span class="logo-dot"></span></a>
+  <ul class="navbar__links">
+    <li class="nav-item">
+      <a href="residential.html" style="color:var(--accent)">Residential <span class="chevron">▾</span></a>
+      <div class="nav-dropdown">
+        <a href="residential.html?subtype=apartment"><span class="dd-icon">🏢</span> Apartment / Flat</a>
+        <a href="residential.html?subtype=independent"><span class="dd-icon">🏡</span> Independent House</a>
+        <a href="residential.html?subtype=villa"><span class="dd-icon">🏰</span> Villa</a>
+        <a href="residential.html?subtype=builder-floor"><span class="dd-icon">🏗</span> Builder Floor</a>
+        <a href="residential.html?subtype=studio"><span class="dd-icon">🛋</span> Studio Apartment</a>
+        <a href="residential.html?subtype=duplex"><span class="dd-icon">🏘</span> Duplex House</a>
+        <a href="residential.html?subtype=penthouse"><span class="dd-icon">🌆</span> Penthouse</a>
+        <a href="residential.html?subtype=row-house"><span class="dd-icon">🏚</span> Row House / Townhouse</a>
+      </div>
+    </li>
+    <li><a href="commercial.html">Commercial</a></li>
+    <li><a href="agricultural.html">Agricultural</a></li>
+    <li><a href="undeveloped.html">Undeveloped Land</a></li>
+    <li><a href="#" class="navbar__cta">List Property</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu__close" id="mobileClose">✕</button>
+  <a href="../index.html">Home</a>
+  <a href="residential.html">Residential</a>
+  <a href="commercial.html">Commercial</a>
+  <a href="agricultural.html">Agricultural</a>
+  <a href="undeveloped.html">Undeveloped Land</a>
+  <a href="#" style="color:var(--accent)">List Property</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <div class="page-hero__badge">🏠 Residential Properties</div>
+    <h1>Homes Built for<br><em>Real Living</em></h1>
+    <p>Browse verified apartments, villas, duplexes, penthouses and every residential property type — all admin-checked before listing.</p>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="page-content">
+
+  <!-- Sub-type overview tiles — clicking filters the grid below -->
+  <!-- data-count on each .subtype-card__count is populated by your backend -->
+  <div class="subtype-overview reveal">
+    <div class="subtype-card active" onclick="filterPage(this,'apartment')">
+      <div class="subtype-card__icon">🏢</div>
+      <div class="subtype-card__name">Apartment / Flat</div>
+      <div class="subtype-card__count" data-count=""></div>
+    </div>
+    <div class="subtype-card" onclick="filterPage(this,'independent')">
+      <div class="subtype-card__icon">🏡</div>
+      <div class="subtype-card__name">Independent House</div>
+      <div class="subtype-card__count" data-count=""></div>
+    </div>
+    <div class="subtype-card" onclick="filterPage(this,'villa')">
+      <div class="subtype-card__icon">🏰</div>
+      <div class="subtype-card__name">Villa</div>
+      <div class="subtype-card__count" data-count=""></div>
+    </div>
+    <div class="subtype-card" onclick="filterPage(this,'builder-floor')">
+      <div class="subtype-card__icon">🏗</div>
+      <div class="subtype-card__name">Builder Floor</div>
+      <div class="subtype-card__count" data-count=""></div>
+    </div>
+    <div class="subtype-card" onclick="filterPage(this,'studio')">
+      <div class="subtype-card__icon">🛋</div>
+      <div class="subtype-card__name">Studio Apartment</div>
+      <div class="subtype-card__count" data-count=""></div>
+    </div>
+    <div class="subtype-card" onclick="filterPage(this,'duplex')">
+      <div class="subtype-card__icon">🏘</div>
+      <div class="subtype-card__name">Duplex House</div>
+      <div class="subtype-card__count" data-count=""></div>
+    </div>
+    <div class="subtype-card" onclick="filterPage(this,'penthouse')">
+      <div class="subtype-card__icon">🌆</div>
+      <div class="subtype-card__name">Penthouse</div>
+      <div class="subtype-card__count" data-count=""></div>
+    </div>
+    <div class="subtype-card" onclick="filterPage(this,'row-house')">
+      <div class="subtype-card__icon">🏚</div>
+      <div class="subtype-card__name">Row House / Townhouse</div>
+      <div class="subtype-card__count" data-count=""></div>
+    </div>
+  </div>
+
+  <!-- Active filter label -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;" class="reveal">
+    <p style="font-size:.88rem;color:var(--text-muted)">Showing: <strong id="active-filter-label" style="color:var(--navy)">All Residential</strong></p>
+    <button onclick="filterPage(null,'all')" style="font-size:.82rem;color:var(--blue);font-weight:600;cursor:pointer;background:none;border:none;">Clear Filter</button>
+  </div>
+
+  <!-- Listings grid — populated by backend API call -->
+  <!-- data-api-endpoint used by main.js fetchListings() -->
+  <div class="listings-grid" id="grid-residential" data-api-endpoint="/api/v1/listings?category=residential" data-page="1">
+    <!-- Cards injected here by JS / server-side render -->
+    <div class="listings-empty">Loading properties…</div>
+  </div>
+
+  <!-- Pagination — wired to backend via JS -->
+  <div style="display:flex;justify-content:center;gap:.5rem;margin-top:3rem;" id="pagination">
+    <button class="btn btn--navy btn--sm" data-page="1">1</button>
+    <button class="btn btn--sm" style="background:var(--white);color:var(--text-mid);border:1.5px solid var(--mid-grey);" data-page="2">2</button>
+    <button class="btn btn--sm" style="background:var(--white);color:var(--text-mid);border:1.5px solid var(--mid-grey);" data-page="3">3</button>
+  </div>
+
+</div><!-- /.page-content -->
+
+<!-- FOOTER (same as index) -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div>
+        <div class="footer__logo">Trustate<span class="logo-dot"></span></div>
+        <p class="footer__desc">India's most trusted property platform.</p>
+      </div>
+      <div class="footer__col"><h5>Browse</h5><ul><li><a href="residential.html">Residential</a></li><li><a href="commercial.html">Commercial</a></li><li><a href="agricultural.html">Agricultural</a></li><li><a href="undeveloped.html">Undeveloped</a></li></ul></div>
+      <div class="footer__col"><h5>Company</h5><ul><li><a href="#">About Us</a></li><li><a href="#">How It Works</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div class="footer__col"><h5>Support</h5><ul><li><a href="#">Help Centre</a></li><li><a href="#">List Property</a></li><li><a href="#">Report Fraud</a></li></ul></div>
+    </div>
+    <div class="footer__bottom"><span>© 2025 Trustate.</span><div class="footer__legal"><a href="#">Privacy</a><a href="#">Terms</a></div></div>
+  </div>
+</footer>
+
+<script src="../Trustate-frontend/public/assets/js/main.js"></script>
+<script>
+  // Read ?subtype= from URL and auto-filter on load
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const sub = params.get('subtype');
+    if (sub) {
+      const tile = document.querySelector(`.subtype-card[onclick*="${sub}"]`);
+      if (tile) filterPage(tile, sub);
+    }
+  });
+
+  function filterPage(tile, subtype) {
+    // Update tile active state
+    document.querySelectorAll('.subtype-card').forEach(c => c.classList.remove('active'));
+    if (tile) tile.classList.add('active');
+
+    // Update filter label
+    const label = tile ? tile.querySelector('.subtype-card__name')?.textContent : 'All Residential';
+    document.getElementById('active-filter-label').textContent = label || 'All Residential';
+
+    // ── Backend hook ──
+    // fetchListings({ category: 'residential', subtype })
+    //   .then(data => renderCards(document.getElementById('grid-residential'), data));
+    console.log('[Trustate] Filter residential by subtype:', subtype);
+  }
+</script>
+</body>
+</html>
+

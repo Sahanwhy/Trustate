@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Commercial Property — Trustate</title>
+    <link rel="stylesheet" href="../assets/css/listing.css">
+</head>
+
+<body class="cat-land">
+
+    <header class="lf-header">
+        <a href="../index.html" class="lf-logo">Trustate<span>.</span></a>
+        <a href="seller_dashboard.html" class="lf-header-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Back to Dashboard
+        </a>
+    </header>
+
+    <div class="lf-hero">
+        <div class="lf-hero-eyebrow">🏢 Commercial Properties</div>
+        <h1>List Your Commercial<br>Space for Sale/Rent</h1>
+        <p>From high-rise office spaces to strategic retail showrooms — connect with serious business investors.</p>
+    </div>
+
+    <div style="max-width:860px;margin:0 auto;padding:0 2rem;">
+        <div class="lf-progress-bar">
+            <div class="lf-progress-fill" style="width:0%"></div>
+        </div>
+    </div>
+
+    <div class="lf-body">
+
+        <div style="margin-bottom:1.75rem;">
+            <div
+                style="font-size:0.78rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--lf-muted);margin-bottom:0.75rem;">
+                Step 1 — Select Category</div>
+            <div class="lf-subtype-grid" id="subtypePicker">
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'office')">🏬 Office Space</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'retail')">🛍️ Retail Shop</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'warehouse')">🏭 Warehouse</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'industrial')">🏗️ Industrial</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'hotel')">🏨 Hotel / Guest House</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'restaurant')">🍽️ Restaurant</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'com-land')">⛽ Commercial Land</button>
+            </div>
+        </div>
+
+        <form id="listingForm" style="display:none;">
+
+            <div class="lf-admin-notice">
+                <div class="lf-admin-notice-icon">🔒</div>
+                <div class="lf-admin-notice-text"><strong>Commercial Verification:</strong> Commercial listings require trade licenses or property tax receipts for verification before going live.</div>
+            </div>
+            <div class="lf-req-note">Fields marked <span>*</span> are required.</div>
+
+            <!-- BASIC INFO -->
+            <div class="lf-section lf-section-shared">
+                <div class="lf-section-head">
+                    <div class="lf-section-icon">📌</div>
+                    <div class="lf-section-title">Basic Information</div>
+                    <span class="lf-section-badge">Required</span>
+                    <svg class="lf-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                <div class="lf-section-body">
+                    <div class="lf-field full">
+                        <label class="lf-label">Property Title <span class="req">*</span> <span class="hint">e.g. "Modern 5000 sq ft Office Space in Cyber City"</span></label>
+                        <input class="lf-input" type="text" name="title"
+                            placeholder="Enter a descriptive title" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">State <span class="req">*</span></label>
+                        <select class="lf-select" id="stateSelect" name="state" required>
+                            <option value="">Select state</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">District <span class="req">*</span></label>
+                        <select class="lf-select" id="districtSelect" name="district" disabled required>
+                            <option value="">Select district first</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Locality / Area <span class="req">*</span></label>
+                        <input class="lf-input" type="text" name="locality" placeholder="e.g. MG Road, Industrial Estate"
+                            required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Google Maps Link</label>
+                        <input class="lf-input" type="url" name="location_link"
+                            placeholder="Paste Google Maps link">
+                    </div>
+                    <div class="lf-field full">
+                        <label class="lf-label">Property Description <span class="req">*</span> <span
+                                class="hint">Outline business potential, nearby landmarks, and amenities.</span></label>
+                        <textarea class="lf-textarea" name="description"
+                            placeholder="Describe your commercial property..." required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DYNAMIC SUBTYPE SECTION -->
+            <div class="lf-section" id="subtypeSection">
+                <div class="lf-section-head">
+                    <div class="lf-section-icon" id="subtypeIcon">📍</div>
+                    <div class="lf-section-title" id="subtypeSectionTitle">Additional Details</div>
+                    <span class="lf-section-badge" id="subtypeTag">Commercial</span>
+                    <svg class="lf-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                <div class="lf-section-body" id="subtypeFields"></div>
+            </div>
+
+            <!-- PRICING -->
+            <div class="lf-section lf-section-shared">
+                <div class="lf-section-head">
+                    <div class="lf-section-icon">💰</div>
+                    <div class="lf-section-title">Pricing & Terms</div>
+                    <span class="lf-section-badge">Required</span>
+                    <svg class="lf-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                <div class="lf-section-body">
+                    <div class="lf-field">
+                        <label class="lf-label">Expected Price (₹) <span class="req">*</span></label>
+                        <div class="lf-input-unit">
+                            <span class="lf-unit-tag">₹</span>
+                            <input class="lf-input" type="number" name="price" placeholder="0" min="0" required>
+                        </div>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Price Negotiable</label>
+                        <div class="lf-toggle">
+                            <input type="radio" name="negotiable" id="neg_y" value="Yes"><label for="neg_y">Yes</label>
+                            <input type="radio" name="negotiable" id="neg_n" value="No" checked><label
+                                for="neg_n">No</label>
+                        </div>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Listing For <span class="req">*</span></label>
+                        <select class="lf-select" name="listing_type" required>
+                            <option value="Sale">For Sale</option>
+                            <option value="Rent">For Rent / Lease</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Maintenance / Month (₹)</label>
+                        <input class="lf-input" type="number" name="maintenance" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- MEDIA -->
+            <div class="lf-section lf-section-shared">
+                <div class="lf-section-head">
+                    <div class="lf-section-icon">🖼</div>
+                    <div class="lf-section-title">Photos & Documentation</div>
+                    <span class="lf-section-badge">Min 3 photos</span>
+                    <svg class="lf-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                <div class="lf-section-body single-col">
+                    <div class="lf-field">
+                        <label class="lf-label">Property Photos <span class="req">*</span> <span class="hint">Upload exterior view, interior halls, and utility areas.</span></label>
+                        <div class="lf-upload">
+                            <input type="file" name="images" accept="image/*" multiple required>
+                            <div class="lf-upload-icon">📷</div>
+                            <div class="lf-upload-title">Click or drag to upload photos</div>
+                            <div class="lf-upload-sub">JPG, PNG, WEBP — Min 3 photos required</div>
+                            <div class="lf-upload-preview"></div>
+                        </div>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Business Documents <span class="hint">Trade license, floor plans, or electricity bills.</span></label>
+                        <div class="lf-upload">
+                            <input type="file" name="documents" accept=".pdf,.jpg,.png,.docx" multiple>
+                            <div class="lf-upload-icon">📋</div>
+                            <div class="lf-upload-title">Click or drag to upload documents</div>
+                            <div class="lf-upload-sub">PDF, JPG, PNG — Recommended for faster approval</div>
+                            <div class="lf-upload-preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lf-actions">
+                <div style="display:flex;align-items:center;gap:1rem;">
+                    <button type="button" class="lf-btn-back" onclick="resetForm()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" style="width:14px;height:14px;">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg>
+                        Change Category
+                    </button>
+                    <button type="button" class="lf-save-draft">Save draft</button>
+                </div>
+                <button type="submit" class="lf-btn-submit" id="submitBtn">
+                    Submit Listing
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../assets/js/listing.js"></script>
+    <script>
+        const SUBTYPE_CONFIG = {
+            'office': {
+                label: 'Office Space', icon: '🏬',
+                fields: `
+                    <div class="lf-field">
+                        <label class="lf-label">Office Type <span class="req">*</span></label>
+                        <select class="lf-select" name="office_type" required>
+                            <option value="">Select Type</option>
+                            <option>IT Office / Corporate</option>
+                            <option>Co-working Space</option>
+                            <option>BPO / Call Center</option>
+                            <option>Private Office</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Furnishing <span class="req">*</span></label>
+                        <select class="lf-select" name="furnishing" required>
+                            <option value="">Select</option>
+                            <option>Bare Shell</option>
+                            <option>Semi-Furnished</option>
+                            <option>Fully Furnished</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Super Area (sq ft) <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="super_area" placeholder="0" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Carpet Area (sq ft) <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="carpet_area" placeholder="0" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Floor Number <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="floor_num" placeholder="e.g. 10" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Total Floors <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="total_floors" placeholder="e.g. 20" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Parking Spaces</label>
+                        <input class="lf-input" type="number" name="parking" placeholder="e.g. 5">
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Power Backup / Internet</label>
+                        <select class="lf-select" name="backup_internet">
+                            <option>None</option>
+                            <option>Power Backup Only</option>
+                            <option>Internet Only</option>
+                            <option>Both Available</option>
+                        </select>
+                    </div>
+                `
+            },
+            'retail': {
+                label: 'Retail Shop / Showroom', icon: '🛍️',
+                fields: `
+                    <div class="lf-field">
+                        <label class="lf-label">Retail Type <span class="req">*</span></label>
+                        <select class="lf-select" name="retail_type" required>
+                            <option value="">Select</option>
+                            <option>Street Shop</option>
+                            <option>Mall Showroom</option>
+                            <option>Franchise Outlet</option>
+                            <option>Hypermarket Space</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Carpet Area (sq ft) <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="carpet_area" placeholder="0" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Frontage (ft) <span class="req">*</span> <span class="hint">Main road visibility width</span></label>
+                        <input class="lf-input" type="number" name="frontage" placeholder="e.g. 25" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Footfall Area <span class="req">*</span></label>
+                        <select class="lf-select" name="footfall" required>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High (Prime Location)</option>
+                            <option>Very High (Mall/Main Market)</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Parking for Customers</label>
+                        <div class="lf-toggle">
+                            <input type="radio" name="parking" id="ret_pk_y" value="Yes" checked><label for="ret_pk_y">Yes</label>
+                            <input type="radio" name="parking" id="ret_pk_n" value="No"><label for="ret_pk_n">No</label>
+                        </div>
+                    </div>
+                `
+            },
+            'warehouse': {
+                label: 'Warehouse / Godown', icon: '🏭',
+                fields: `
+                    <div class="lf-field">
+                        <label class="lf-label">Total Land Area (sq ft) <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="land_area" placeholder="0" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Storage Capacity (Tons)</label>
+                        <input class="lf-input" type="number" name="capacity" placeholder="e.g. 500">
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Ceiling Height (ft) <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="ceiling_height" placeholder="e.g. 30" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Truck Access 🚛 <span class="req">*</span></label>
+                        <select class="lf-select" name="truck_access" required>
+                            <option>Small Trucks only</option>
+                            <option>Large Trucks / Containers</option>
+                            <option>Multi-axle Vehicles</option>
+                            <option>No Large Vehicle Access</option>
+                        </select>
+                    </div>
+                `
+            },
+            'industrial': {
+                label: 'Industrial Property', icon: '🏗️',
+                fields: `
+                    <div class="lf-field">
+                        <label class="lf-label">Plot Area (sq ft) <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="plot_area" placeholder="0" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Built-up Area (sq ft) <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="built_up_area" placeholder="0" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Industry Type Allowed <span class="req">*</span></label>
+                        <select class="lf-select" name="industry_type" required>
+                            <option>Green / Non-Polluting</option>
+                            <option>Orange Category</option>
+                            <option>Red Category (Heavy)</option>
+                            <option>Any / General</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Power Supply (kW) ⚡ <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="power_capacity" placeholder="e.g. 50" required>
+                    </div>
+                `
+            },
+            'hotel': {
+                label: 'Hotel / Guest House', icon: '🏨',
+                fields: `
+                    <div class="lf-field">
+                        <label class="lf-label">Number of Rooms <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="rooms_count" placeholder="0" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Average Occupancy Rate (%)</label>
+                        <input class="lf-input" type="number" name="occupancy" placeholder="e.g. 75">
+                    </div>
+                    <div class="lf-field full">
+                        <label class="lf-label">Hotel Features <span class="hint">e.g. Banquet Hall, Swimming Pool, In-house Restaurant</span></label>
+                        <textarea class="lf-textarea" name="hotel_features" placeholder="List key features..."></textarea>
+                    </div>
+                `
+            },
+            'restaurant': {
+                label: 'Restaurant / Cafe Space', icon: '🍽️',
+                fields: `
+                    <div class="lf-field">
+                        <label class="lf-label">Seating Capacity <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="seating" placeholder="e.g. 50" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Kitchen Setup <span class="req">*</span></label>
+                        <select class="lf-select" name="kitchen_setup" required>
+                            <option>Fully Equipped</option>
+                            <option>Basic Provisioning</option>
+                            <option>Empty Shell (No gas/ventilation)</option>
+                        </select>
+                    </div>
+                    <div class="lf-field full">
+                        <label class="lf-label">Gas Connection / Ventilation Status</label>
+                        <div class="lf-toggle">
+                            <input type="radio" name="gas_provision" id="gas_y" value="Yes" checked><label for="gas_y">Commercial Gas Avail.</label>
+                            <input type="radio" name="gas_provision" id="gas_n" value="No"><label for="gas_n">Not Available</label>
+                        </div>
+                    </div>
+                `
+            },
+            'com-land': {
+                label: 'Commercial Land', icon: '⛽',
+                fields: `
+                    <div class="lf-field">
+                        <label class="lf-label">Plot Size <span class="req">*</span></label>
+                        <div class="lf-input-unit">
+                            <input class="lf-input" type="number" name="plot_size" placeholder="0" min="0" required>
+                            <select class="lf-unit-select" name="area_unit">
+                                <option>sq ft</option>
+                                <option>sq m</option>
+                                <option>Acres</option>
+                                <option>Bigha</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Road Access Width (ft) <span class="req">*</span></label>
+                        <input class="lf-input" type="number" name="road_access" placeholder="e.g. 60" required>
+                    </div>
+                    <div class="lf-field full">
+                        <label class="lf-label">Location Type <span class="req">*</span></label>
+                        <select class="lf-select" name="location_type" required>
+                            <option>Highway Touch</option>
+                            <option>City Center / Market</option>
+                            <option>Industrial Zone</option>
+                            <option>Corner Plot (Main Road)</option>
+                        </select>
+                    </div>
+                `
+            }
+        };
+    </script>
+</body>
+
+</html>

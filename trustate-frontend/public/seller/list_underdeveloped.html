@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Undeveloped Land — Trustate</title>
+    <link rel="stylesheet" href="../assets/css/listing.css">
+</head>
+
+<body class="cat-land">
+
+    <header class="lf-header">
+        <a href="../index.html" class="lf-logo">Trustate<span>.</span></a>
+        <a href="seller_dashboard.html" class="lf-header-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Back to Dashboard
+        </a>
+    </header>
+
+    <div class="lf-hero">
+        <div class="lf-hero-eyebrow">📍 Undeveloped Land</div>
+        <h1>List Your Undeveloped<br>Land for Sale</h1>
+        <p>Vacant plots, raw land, waterfront and corner pieces — select your sub-type and get verified fast.</p>
+    </div>
+
+    <div style="max-width:860px;margin:0 auto;padding:0 2rem;">
+        <div class="lf-progress-bar">
+            <div class="lf-progress-fill" style="width:0%"></div>
+        </div>
+    </div>
+
+    <div class="lf-body">
+
+        <div style="margin-bottom:1.75rem;">
+            <div
+                style="font-size:0.78rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--lf-muted);margin-bottom:0.75rem;">
+                Step 1 — Select Sub-Type</div>
+            <div class="lf-subtype-grid" id="subtypePicker">
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'vacant-plot')">📍 Vacant Plot</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'raw-land')">🏔 Raw Land</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'waterfront')">🌊 Waterfront Land</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'corner-piece')">📐 Corner Piece</button>
+            </div>
+        </div>
+
+        <form id="listingForm" style="display:none;">
+
+            <div class="lf-admin-notice">
+                <div class="lf-admin-notice-icon">🔒</div>
+                <div class="lf-admin-notice-text"><strong>Admin-Verified Listing:</strong> Survey documents, title
+                    deeds, and
+                    encumbrance certificates are verified before undeveloped land listings go live.</div>
+            </div>
+            <div class="lf-req-note">Fields marked <span>*</span> are required.</div>
+
+            <!-- BASIC INFO -->
+            <div class="lf-section lf-section-shared">
+                <div class="lf-section-head">
+                    <div class="lf-section-icon">📌</div>
+                    <div class="lf-section-title">Basic Information</div>
+                    <span class="lf-section-badge">Required</span>
+                    <svg class="lf-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                <div class="lf-section-body">
+                    <div class="lf-field full">
+                        <label class="lf-label">Property Title <span class="req">*</span> <span class="hint">e.g. "Prime
+                                600 sqm
+                                Corner Plot in Whitefield"</span></label>
+                        <input class="lf-input" type="text" name="title"
+                            placeholder="Enter a descriptive title for your land" required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">State <span class="req">*</span></label>
+                        <select class="lf-select" id="stateSelect" name="state" required>
+                            <option value="">Select state</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">District <span class="req">*</span></label>
+                        <select class="lf-select" id="districtSelect" name="district" disabled required>
+                            <option value="">Select district first</option>
+                        </select>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Locality / Area <span class="req">*</span></label>
+                        <input class="lf-input" type="text" name="locality" placeholder="e.g. Devanahalli, Gated Layout"
+                            required>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Google Maps Link</label>
+                        <input class="lf-input" type="url" name="location_link"
+                            placeholder="Paste maps.google.com/… link">
+                    </div>
+                    <div class="lf-field full">
+                        <label class="lf-label">Property Description <span class="req">*</span> <span
+                                class="hint">Outline plot
+                                advantages, neighborhood, development potential, and surroundings.</span></label>
+                        <textarea class="lf-textarea" name="description"
+                            placeholder="Enter a detailed description of your undeveloped land..." required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBTYPE SECTION -->
+            <div class="lf-section" id="subtypeSection">
+                <div class="lf-section-head">
+                    <div class="lf-section-icon" id="subtypeIcon">📍</div>
+                    <div class="lf-section-title" id="subtypeSectionTitle">Additional Details</div>
+                    <span class="lf-section-badge" id="subtypeTag">Undeveloped</span>
+                    <svg class="lf-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                <div class="lf-section-body" id="subtypeFields"></div>
+            </div>
+
+            <!-- AREA -->
+            <div class="lf-section lf-section-shared">
+                <div class="lf-section-head">
+                    <div class="lf-section-icon">📐</div>
+                    <div class="lf-section-title">Plot / Land Area</div>
+                    <span class="lf-section-badge">Required</span>
+                    <svg class="lf-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                <div class="lf-section-body">
+                    <div class="lf-field">
+                        <label class="lf-label">Plot Size <span class="req">*</span></label>
+                        <div class="lf-input-unit">
+                            <input class="lf-input" type="number" name="total_area" placeholder="0" min="0" required>
+                            <select class="lf-unit-select" name="area_unit">
+                                <option>sq ft</option>
+                                <option>sq m</option>
+                                <option>sq yd</option>
+                                <option>Acres</option>
+                                <option>Guntha</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Plot Dimensions</label>
+                        <input class="lf-input" type="text" name="plot_dimensions" placeholder="e.g. 30 × 40 ft">
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRICING -->
+            <div class="lf-section lf-section-shared">
+                <div class="lf-section-head">
+                    <div class="lf-section-icon">💰</div>
+                    <div class="lf-section-title">Pricing</div>
+                    <span class="lf-section-badge">Required</span>
+                    <svg class="lf-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                <div class="lf-section-body">
+                    <div class="lf-field">
+                        <label class="lf-label">Expected Price (₹) <span class="req">*</span></label>
+                        <div class="lf-input-unit">
+                            <span class="lf-unit-tag">₹</span>
+                            <input class="lf-input" type="number" name="price" placeholder="0" min="0" required>
+                        </div>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Price Negotiable</label>
+                        <div class="lf-toggle">
+                            <input type="radio" name="negotiable" id="neg_y" value="Yes"><label for="neg_y">Yes</label>
+                            <input type="radio" name="negotiable" id="neg_n" value="No" checked><label
+                                for="neg_n">No</label>
+                        </div>
+                    </div>
+                    <div class="lf-field full">
+                        <label class="lf-label">Title / Ownership Documents</label>
+                        <select class="lf-select" name="title_type">
+                            <option value="">Select document type</option>
+                            <option>Certificate of Occupancy (C of O)</option>
+                            <option>Right of Occupancy (R of O)</option>
+                            <option>Governor's Consent</option>
+                            <option>Survey / Layout Plan</option>
+                            <option>Registered Sale Deed</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MEDIA -->
+            <div class="lf-section lf-section-shared">
+                <div class="lf-section-head">
+                    <div class="lf-section-icon">🖼</div>
+                    <div class="lf-section-title">Photos & Title Documents</div>
+                    <span class="lf-section-badge">Min 3 photos</span>
+                    <svg class="lf-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                <div class="lf-section-body single-col">
+                    <div class="lf-field">
+                        <label class="lf-label">Land Photos <span class="req">*</span> <span class="hint">Aerial,
+                                boundary, and
+                                entry photos recommended</span></label>
+                        <div class="lf-upload">
+                            <input type="file" name="images" accept="image/*" multiple required>
+                            <div class="lf-upload-icon">📷</div>
+                            <div class="lf-upload-title">Click or drag to upload photos</div>
+                            <div class="lf-upload-sub">JPG, PNG, WEBP — Min 3 photos required</div>
+                            <div class="lf-upload-preview"></div>
+                        </div>
+                    </div>
+                    <div class="lf-field">
+                        <label class="lf-label">Title Documents <span class="hint">Survey plan, title deed, encumbrance
+                                certificate</span></label>
+                        <div class="lf-upload">
+                            <input type="file" name="documents" accept=".pdf,.jpg,.png,.docx" multiple>
+                            <div class="lf-upload-icon">📋</div>
+                            <div class="lf-upload-title">Click or drag to upload documents</div>
+                            <div class="lf-upload-sub">PDF, JPG, PNG — Survey plan strongly recommended</div>
+                            <div class="lf-upload-preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lf-actions">
+                <div style="display:flex;align-items:center;gap:1rem;">
+                    <button type="button" class="lf-btn-back" onclick="resetForm()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" style="width:14px;height:14px;">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg>
+                        Change Type
+                    </button>
+                    <button type="button" class="lf-save-draft">Save draft</button>
+                </div>
+                <button type="submit" class="lf-btn-submit" id="submitBtn">
+                    Submit for Approval
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../assets/js/listing.js"></script>
+    <script>
+        const SUBTYPE_CONFIG = {
+            'vacant-plot': {
+                label: 'Vacant Plot', icon: '📍',
+                fields: `
+      <div class="lf-field full">
+        <label class="lf-label">Sub-Category <span class="req">*</span> <span class="hint">Intended or permitted use</span></label>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.25rem;" id="subCatPicker">
+          <button type="button" class="lf-subtype-pill" onclick="toggleSubCat(this,'Residential')">🏠 Residential</button>
+          <button type="button" class="lf-subtype-pill" onclick="toggleSubCat(this,'Commercial')">🏢 Commercial</button>
+          <button type="button" class="lf-subtype-pill" onclick="toggleSubCat(this,'Agricultural')">🌾 Agricultural</button>
+          <button type="button" class="lf-subtype-pill" onclick="toggleSubCat(this,'Industrial')">⚙️ Industrial</button>
+        </div>
+        <input type="hidden" name="sub_category" id="subCatValue" required>
+      </div>
+
+    `
+            },
+            'raw-land': {
+                label: 'Raw Land', icon: '🏔',
+                fields: `
+      <div class="lf-field"><label class="lf-label">Land Classification <span class="req">*</span></label><select class="lf-select" name="land_classification" required><option value="">Select</option><option>Revenue Land</option><option>Forest Adjacent</option><option>Hill / Slope</option><option>Plains / Flat</option><option>Wasteland</option></select></div>
+      <div class="lf-field"><label class="lf-label">Access Road</label><select class="lf-select" name="access_road"><option value="">Select</option><option>Tar Road</option><option>Gravel/Kutcha</option><option>Cart Track</option><option>No Access Road</option></select></div>
+      <div class="lf-field"><label class="lf-label">Utilities Nearby</label><select class="lf-select" name="utilities_nearby"><option value="">Select</option><option>Power Line Nearby</option><option>Water Source Nearby</option><option>Both Available</option><option>None</option></select></div>
+    `
+            },
+            'waterfront': {
+                label: 'Waterfront Land', icon: '🌊',
+                fields: `
+      <div class="lf-field"><label class="lf-label">Water Body Type <span class="req">*</span></label><select class="lf-select" name="water_body_type" required><option value="">Select</option><option>River</option><option>Lake</option><option>Sea / Ocean</option><option>Backwaters</option><option>Reservoir / Dam</option></select></div>
+      <div class="lf-field"><label class="lf-label">Distance from Water Body (meters)</label><input class="lf-input" type="number" name="distance_from_water" min="0" placeholder="e.g. 50"></div>
+      <div class="lf-field"><label class="lf-label">Flood Risk <span class="hint">Admin will verify this</span></label><select class="lf-select" name="flood_risk"><option value="">Not assessed</option><option>Low Risk</option><option>Medium Risk</option><option>High Risk — Seasonal</option></select></div>
+      <div class="lf-field"><label class="lf-label">Beachfront / Direct Access</label><div class="lf-toggle"><input type="radio" name="direct_access" id="da_y" value="Yes"><label for="da_y">Yes</label><input type="radio" name="direct_access" id="da_n" value="No" checked><label for="da_n">No</label></div></div>
+    `
+            },
+            'corner-piece': {
+                label: 'Corner Piece', icon: '📐',
+                fields: `
+      <div class="lf-field full"><label class="lf-label">Corner Plot Confirmed</label><div class="lf-toggle"><input type="radio" name="corner_confirmed" id="cc_y" value="Yes" checked><label for="cc_y">Yes — It's a corner plot</label><input type="radio" name="corner_confirmed" id="cc_n" value="No"><label for="cc_n">No</label></div></div>
+      <div class="lf-field"><label class="lf-label">Road Width — Side 1 (ft) <span class="req">*</span></label><input class="lf-input" type="number" name="road_width_1" min="0" placeholder="e.g. 40" required></div>
+      <div class="lf-field"><label class="lf-label">Road Width — Side 2 (ft) <span class="req">*</span></label><input class="lf-input" type="number" name="road_width_2" min="0" placeholder="e.g. 30" required></div>
+      <div class="lf-field"><label class="lf-label">Facing Direction (Main Road)</label><select class="lf-select" name="facing"><option value="">Select</option><option>East</option><option>West</option><option>North</option><option>South</option></select></div>
+      <div class="lf-field"><label class="lf-label">Layout Approved</label><div class="lf-toggle"><input type="radio" name="layout_approved" id="cp_la_y" value="Yes"><label for="cp_la_y">Yes</label><input type="radio" name="layout_approved" id="cp_la_n" value="No" checked><label for="cp_la_n">No</label></div></div>
+    `
+            }
+        };
+
+        function toggleSubCat(btn, value) {
+            document.querySelectorAll('#subCatPicker .lf-subtype-pill').forEach(p => p.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('subCatValue').value = value;
+        }
+    </script>
+</body>
+
+</html>

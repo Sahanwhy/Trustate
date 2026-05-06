@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Trustate — India's most trusted property platform. Verified residential, commercial, agricultural and undeveloped land listings.">
+  <title>Trustate — Find Property You Can Trust</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+
+  <!-- ================================================================
+     NAVIGATION
+     ================================================================ -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="navbar__logo" aria-label="Trustate Home">
+      Trustate<span class="logo-dot"></span>
+    </a>
+
+    <ul class="navbar__links" role="list">
+
+      <!-- Residential dropdown -->
+      <li class="nav-item">
+        <a href="pages/residential.html">
+          Residential <span class="chevron">▾</span>
+        </a>
+        <div class="nav-dropdown" role="menu">
+          <a href="pages/residential.html?subtype=apartment" role="menuitem"><span class="dd-icon">🏢</span> Apartment /
+            Flat</a>
+          <a href="pages/residential.html?subtype=independent" role="menuitem"><span class="dd-icon">🏡</span>
+            Independent House</a>
+          <a href="pages/residential.html?subtype=villa" role="menuitem"><span class="dd-icon">🏰</span> Villa</a>
+          <a href="pages/residential.html?subtype=builder-floor" role="menuitem"><span class="dd-icon">🏗</span> Builder
+            Floor</a>
+          <a href="pages/residential.html?subtype=studio" role="menuitem"><span class="dd-icon">🛋</span> Studio
+            Apartment</a>
+          <a href="pages/residential.html?subtype=duplex" role="menuitem"><span class="dd-icon">🏘</span> Duplex
+            House</a>
+          <a href="pages/residential.html?subtype=penthouse" role="menuitem"><span class="dd-icon">🌆</span>
+            Penthouse</a>
+          <a href="pages/residential.html?subtype=row-house" role="menuitem"><span class="dd-icon">🏚</span> Row House /
+            Townhouse</a>
+        </div>
+      </li>
+
+      <!-- Commercial dropdown -->
+      <li class="nav-item">
+        <a href="pages/commercial.html">
+          Commercial <span class="chevron">▾</span>
+        </a>
+        <div class="nav-dropdown" role="menu">
+          <a href="pages/commercial.html?subtype=office-space" role="menuitem"><span class="dd-icon">🏢</span> Office
+            Space</a>
+          <a href="pages/commercial.html?subtype=shop" role="menuitem"><span class="dd-icon">🛒</span> Shop</a>
+          <a href="pages/commercial.html?subtype=showroom" role="menuitem"><span class="dd-icon">🪟</span> Showroom</a>
+          <a href="pages/commercial.html?subtype=commercial-land" role="menuitem"><span class="dd-icon">🗺</span>
+            Commercial Land / Plot</a>
+          <a href="pages/commercial.html?subtype=warehouse" role="menuitem"><span class="dd-icon">🏭</span> Warehouse /
+            Godown</a>
+          <a href="pages/commercial.html?subtype=industrial" role="menuitem"><span class="dd-icon">⚙️</span> Industrial
+            / Factory</a>
+          <a href="pages/commercial.html?subtype=entire-building" role="menuitem"><span class="dd-icon">🏛</span> Entire
+            Building</a>
+        </div>
+      </li>
+
+      <!-- Agricultural dropdown -->
+      <li class="nav-item">
+        <a href="pages/agricultural.html">
+          Agricultural <span class="chevron">▾</span>
+        </a>
+        <div class="nav-dropdown" role="menu">
+          <a href="pages/agricultural.html?subtype=farmland" role="menuitem"><span class="dd-icon">🌾</span> Farmland
+            (Basic)</a>
+          <a href="pages/agricultural.html?subtype=plantation" role="menuitem"><span class="dd-icon">🌳</span>
+            Plantation / Orchard</a>
+          <a href="pages/agricultural.html?subtype=farmhouse" role="menuitem"><span class="dd-icon">🏡</span> Farmhouse
+            + Land</a>
+          <a href="pages/agricultural.html?subtype=agri-plot" role="menuitem"><span class="dd-icon">📐</span>
+            Agricultural Plot</a>
+          <a href="pages/agricultural.html?subtype=mixed-agri" role="menuitem"><span class="dd-icon">🌿</span> Mixed-Use
+            Agri Land</a>
+        </div>
+      </li>
+
+      <!-- Undeveloped -->
+      <li><a href="pages/undeveloped.html">Undeveloped Land</a></li>
+
+      <li><a href="#about">About</a></li>
+      <li><a href="trustate-frontend/public/seller/seller_dashboard.html" class="navbar__cta">List Property</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <button class="mobile-menu__close" id="mobileClose" aria-label="Close menu">✕</button>
+    <a href="pages/residential.html">Residential</a>
+    <a href="pages/commercial.html">Commercial</a>
+    <a href="pages/agricultural.html">Agricultural</a>
+    <a href="pages/undeveloped.html">Undeveloped Land</a>
+    <a href="#about">About</a>
+    <a href="trustate-frontend/public/seller/seller_dashboard.html" style="color:var(--accent)">List Property</a>
+  </div>
+
+
+  <!-- ================================================================
+     HERO
+     ================================================================ -->
+  <section class="hero" id="home" aria-label="Hero">
+    <div class="hero__bg" role="img" aria-label="Aerial view of land"></div>
+
+    <div class="hero__content">
+      <div class="hero__badge">
+        <span class="hero__badge-dot"></span>
+        Verified Listings · Trusted Transactions
+      </div>
+
+      <h1 class="hero__title">
+        Find Property<br><em>You Can Trust</em>
+      </h1>
+
+      <p class="hero__desc">
+        India's most trusted property platform. Every listing is admin-verified before you ever see it — residential,
+        commercial, agricultural and raw land.
+      </p>
+
+      <div class="hero__actions">
+        <a href="#listings" class="btn btn--primary">Explore Properties →</a>
+        <a href="#how-it-works" class="btn btn--outline">How It Works</a>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="hero__search-wrap" role="search">
+        <div class="search-box">
+
+          <div class="search-tabs" role="tablist" aria-label="Property category">
+            <button class="search-tab active" role="tab" aria-selected="true"
+              data-tab="residential">Residential</button>
+            <button class="search-tab" role="tab" aria-selected="false" data-tab="commercial">Commercial</button>
+            <button class="search-tab" role="tab" aria-selected="false" data-tab="agri">Agricultural</button>
+            <button class="search-tab" role="tab" aria-selected="false" data-tab="undeveloped">Land</button>
+          </div>
+
+          <div class="search-divider"></div>
+
+          <div class="search-field">
+            <label for="search-location">Location</label>
+            <input id="search-location" type="text" placeholder="City, state, or region…" data-field="location"
+              autocomplete="off">
+          </div>
+
+          <div class="search-divider"></div>
+
+          <div class="search-field">
+            <label for="search-price">Price Range</label>
+            <select id="search-price" data-field="price">
+              <option value="">Any Budget</option>
+              <option value="0-5m">Under ₦5M</option>
+              <option value="5m-20m">₦5M – ₦20M</option>
+              <option value="20m-100m">₦20M – ₦100M</option>
+              <option value="100m+">₦100M+</option>
+            </select>
+          </div>
+
+          <div class="search-divider"></div>
+
+          <div class="search-field">
+            <label for="search-size">Size</label>
+            <select id="search-size" data-field="size">
+              <option value="">Any Size</option>
+              <option value="0-500sqm">Under 500 sqm</option>
+              <option value="500-2000sqm">500–2000 sqm</option>
+              <option value="1-5acres">1–5 Acres</option>
+              <option value="5acres+">5+ Acres</option>
+            </select>
+          </div>
+
+          <button class="search-btn" aria-label="Search properties">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            Search
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+     STATS STRIP
+     ================================================================ -->
+  <div class="stats-strip" role="region" aria-label="Platform statistics">
+    <div class="stat-card reveal">
+      <div class="stat-card__num" data-target="2400" data-em="+">2,400<em>+</em></div>
+      <div class="stat-card__label">Verified Listings</div>
+    </div>
+    <div class="stat-card reveal reveal--d1">
+      <div class="stat-card__num" data-target="98" data-em="%">98<em>%</em></div>
+      <div class="stat-card__label">Listing Accuracy</div>
+    </div>
+    <div class="stat-card reveal reveal--d2">
+      <div class="stat-card__num" data-target="840" data-em="+">840<em>+</em></div>
+      <div class="stat-card__label">Deals Closed</div>
+    </div>
+    <div class="stat-card reveal reveal--d3">
+      <div class="stat-card__num">12<em>yrs</em></div>
+      <div class="stat-card__label">Industry Trust</div>
+    </div>
+  </div>
+
+
+  <!-- ================================================================
+     HOW IT WORKS
+     ================================================================ -->
+  <section class="models-section" id="how-it-works" aria-labelledby="how-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow eyebrow--accent">How Trustate Works</span>
+        <h2 class="section-title" id="how-heading">One Platform.<br>Full Oversight on Every Deal.</h2>
+        <p class="section-sub">Trustate acts as full admin-controlled broker for every property category — no listing
+          goes live without our verification.</p>
+      </div>
+
+      <div class="models-grid reveal">
+        <div class="model-card model-card--blue">
+          <div class="model-tag">🔵 Before Listing</div>
+          <h3>Verification Gate</h3>
+          <p class="model-card__desc">No property appears on Trustate without passing our strict admin review process.
+          </p>
+          <div class="model-steps">
+            <div class="model-step">
+              <div class="step-dot">1</div>
+              <p><strong>Seller submits</strong> property details and ownership documents</p>
+            </div>
+            <div class="model-step">
+              <div class="step-dot">2</div>
+              <p><strong>Admin reviews</strong> legitimacy, location, title deeds and approves or rejects</p>
+            </div>
+            <div class="model-step">
+              <div class="step-dot">3</div>
+              <p><strong>Verified badge</strong> applied — property goes live only after full clearance</p>
+            </div>
+          </div>
+          <a href="#listings" class="model-cta">Browse Verified Properties →</a>
+        </div>
+
+        <div class="model-card model-card--green">
+          <div class="model-tag">🟢 After Listing</div>
+          <h3>Admin-Managed Transactions</h3>
+          <p class="model-card__desc">Trustate coordinates between buyer and seller — your details stay protected until
+            the deal is finalised.</p>
+          <div class="model-steps">
+            <div class="model-step">
+              <div class="step-dot">1</div>
+              <p><strong>Buyer expresses</strong> interest through the platform — never direct contact first</p>
+            </div>
+            <div class="model-step">
+              <div class="step-dot">2</div>
+              <p><strong>Admin coordinates</strong> all communication, negotiation and documentation</p>
+            </div>
+            <div class="model-step">
+              <div class="step-dot">3</div>
+              <p><strong>Deal closes</strong> securely with Trustate managing every step to completion</p>
+            </div>
+          </div>
+          <a href="trustate-frontend/public/seller/seller_dashboard.html" class="model-cta">List Your Property →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+     LISTINGS — 4 PROPERTY CATEGORY SECTIONS
+     ================================================================ -->
+  <main class="listings-area" id="listings" aria-label="Property listings">
+    <div class="container">
+
+      <!-- ── SECTION HEADER ── -->
+      <div class="section-header reveal" style="margin-bottom:1rem;">
+        <span class="eyebrow eyebrow--blue">Verified Properties</span>
+        <h2 class="section-title">Browse by Category</h2>
+        <p class="section-sub">Every listing below has been admin-verified. Click a sub-type pill to filter.</p>
+      </div>
+
+    </div><!-- /container -->
+
+    <!-- ────────────────────────────────────────────────────────────
+       1. RESIDENTIAL PROPERTIES
+       ──────────────────────────────────────────────────────────── -->
+    <section class="prop-section prop-section--residential" id="section-residential" data-category="residential"
+      aria-labelledby="residential-heading">
+      <div class="container">
+
+        <div class="prop-section__header reveal">
+          <div class="prop-section__title-group">
+            <div class="prop-section__label">
+              <span class="prop-section__icon">🏠</span>
+              <span class="prop-section__eyebrow">Category 01</span>
+            </div>
+            <h2 class="prop-section__name" id="residential-heading">Residential Properties</h2>
+            <p class="prop-section__desc">Homes, flats, villas and more — for families and individuals looking to own or
+              invest.</p>
+          </div>
+          <a href="pages/residential.html" class="view-all-link" aria-label="View all residential properties">
+            View All Residential →
+          </a>
+        </div>
+
+        <!-- Sub-type filter pills -->
+        <!-- data-subtype must match prop-card data-subtype values -->
+        <div class="subtype-filters reveal" role="group" aria-label="Filter residential sub-types">
+          <button class="subtype-pill active" data-subtype="all">All</button>
+          <button class="subtype-pill" data-subtype="apartment">🏢 Apartment / Flat</button>
+          <button class="subtype-pill" data-subtype="independent">🏡 Independent House</button>
+          <button class="subtype-pill" data-subtype="villa">🏰 Villa</button>
+          <button class="subtype-pill" data-subtype="builder-floor">🏗 Builder Floor</button>
+          <button class="subtype-pill" data-subtype="studio">🛋 Studio Apartment</button>
+          <button class="subtype-pill" data-subtype="duplex">🏘 Duplex House</button>
+          <button class="subtype-pill" data-subtype="penthouse">🌆 Penthouse</button>
+          <button class="subtype-pill" data-subtype="row-house">🏚 Row House / Townhouse</button>
+        </div>
+
+        <!-- Cards — data-id / data-subtype populated here for backend binding -->
+        <div class="listings-grid" id="grid-residential" data-api-endpoint="/api/v1/listings?category=residential">
+
+          <article class="prop-card reveal" data-id="r001" data-type="residential" data-subtype="apartment">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80" alt="Modern apartment"
+                loading="lazy">
+              <span class="prop-badge prop-badge--residential">Residential</span>
+              <span class="prop-subtype-badge">Apartment / Flat</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦22,000,000</div>
+              <div class="prop-card__title">Luxury 3-Bedroom Apartment — Gated Estate</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Lekki Phase 1, Lagos
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">🛏 3 Beds</span>
+                <span class="meta-chip">🚿 2 Baths</span>
+                <span class="meta-chip">🅿 Parking</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d1" data-id="r002" data-type="residential" data-subtype="villa">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Villa"
+                loading="lazy">
+              <span class="prop-badge prop-badge--residential">Residential</span>
+              <span class="prop-subtype-badge">Villa</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦85,000,000</div>
+              <div class="prop-card__title">5-Bed Modern Villa with Pool &amp; Garden</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Asokoro, Abuja
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">🛏 5 Beds</span>
+                <span class="meta-chip">🚿 4 Baths</span>
+                <span class="meta-chip">🏊 Pool</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d2" data-id="r003" data-type="residential" data-subtype="duplex">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="Duplex house"
+                loading="lazy">
+              <span class="prop-badge prop-badge--residential">Residential</span>
+              <span class="prop-subtype-badge">Duplex House</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦45,000,000</div>
+              <div class="prop-card__title">4-Bedroom Duplex with BQ — Corner Piece</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Wuse 2, Abuja
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">🛏 4 Beds</span>
+                <span class="meta-chip">🚿 3 Baths</span>
+                <span class="meta-chip">🏠 BQ</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal" data-id="r004" data-type="residential" data-subtype="penthouse">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80" alt="Penthouse"
+                loading="lazy">
+              <span class="prop-badge prop-badge--residential">Residential</span>
+              <span class="prop-subtype-badge">Penthouse</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦150,000,000</div>
+              <div class="prop-card__title">Sky Penthouse — Panoramic Lagoon View</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Victoria Island, Lagos
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">🛏 6 Beds</span>
+                <span class="meta-chip">🚿 5 Baths</span>
+                <span class="meta-chip">🌆 Rooftop</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d1" data-id="r005" data-type="residential" data-subtype="studio">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="Studio apartment"
+                loading="lazy">
+              <span class="prop-badge prop-badge--residential">Residential</span>
+              <span class="prop-subtype-badge">Studio Apartment</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦8,500,000</div>
+              <div class="prop-card__title">Modern Studio — Smart Home, City Centre</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Ikeja, Lagos
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 42 sqm</span>
+                <span class="meta-chip">🚿 1 Bath</span>
+                <span class="meta-chip">💡 Smart Home</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d2" data-id="r006" data-type="residential"
+            data-subtype="independent">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=600&q=80" alt="Independent house"
+                loading="lazy">
+              <span class="prop-badge prop-badge--residential">Residential</span>
+              <span class="prop-subtype-badge">Independent House</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦35,000,000</div>
+              <div class="prop-card__title">Detached 4-Bed Family Home — Quiet Estate</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Trans Amadi, Port Harcourt
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">🛏 4 Beds</span>
+                <span class="meta-chip">🚿 3 Baths</span>
+                <span class="meta-chip">🌿 Garden</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+        </div><!-- /#grid-residential -->
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ────────────────────────────────────────────────────────────
+       2. COMMERCIAL PROPERTIES
+       ──────────────────────────────────────────────────────────── -->
+    <section class="prop-section prop-section--commercial" id="section-commercial" data-category="commercial"
+      aria-labelledby="commercial-heading">
+      <div class="container">
+
+        <div class="prop-section__header reveal">
+          <div class="prop-section__title-group">
+            <div class="prop-section__label">
+              <span class="prop-section__icon">🏢</span>
+              <span class="prop-section__eyebrow">Category 02</span>
+            </div>
+            <h2 class="prop-section__name" id="commercial-heading">Commercial Properties</h2>
+            <p class="prop-section__desc">Office spaces, shops, warehouses, factories and entire buildings — all for
+              sale.</p>
+          </div>
+          <a href="pages/commercial.html" class="view-all-link" aria-label="View all commercial properties">
+            View All Commercial →
+          </a>
+        </div>
+
+        <div class="subtype-filters reveal" role="group" aria-label="Filter commercial sub-types">
+          <button class="subtype-pill active" data-subtype="all">All</button>
+          <button class="subtype-pill" data-subtype="office-space">🏢 Office Space</button>
+          <button class="subtype-pill" data-subtype="shop">🛒 Shop</button>
+          <button class="subtype-pill" data-subtype="showroom">🪟 Showroom</button>
+          <button class="subtype-pill" data-subtype="commercial-land">🗺 Commercial Land</button>
+          <button class="subtype-pill" data-subtype="warehouse">🏭 Warehouse / Godown</button>
+          <button class="subtype-pill" data-subtype="industrial">⚙️ Industrial / Factory</button>
+          <button class="subtype-pill" data-subtype="entire-building">🏛 Entire Building</button>
+        </div>
+
+        <div class="listings-grid" id="grid-commercial" data-api-endpoint="/api/v1/listings?category=commercial">
+
+          <article class="prop-card reveal" data-id="c001" data-type="commercial" data-subtype="office-space">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="Office space"
+                loading="lazy">
+              <span class="prop-badge prop-badge--commercial">Commercial</span>
+              <span class="prop-subtype-badge">Office Space</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦55,000,000</div>
+              <div class="prop-card__title">Open-Plan Office Floor — CBD High-Rise</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Lagos Island, Lagos
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 450 sqm</span>
+                <span class="meta-chip">🅿 30 Cars</span>
+                <span class="meta-chip">⚡ 24/7 Power</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d1" data-id="c002" data-type="commercial" data-subtype="warehouse">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80" alt="Warehouse"
+                loading="lazy">
+              <span class="prop-badge prop-badge--commercial">Commercial</span>
+              <span class="prop-subtype-badge">Warehouse / Godown</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦120,000,000</div>
+              <div class="prop-card__title">Large-Span Warehouse — Truck Access Road</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Apapa, Lagos
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 2,000 sqm</span>
+                <span class="meta-chip">🚛 Loading Bay</span>
+                <span class="meta-chip">🏗 Steel Frame</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d2" data-id="c003" data-type="commercial" data-subtype="shop">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80" alt="Shop"
+                loading="lazy">
+              <span class="prop-badge prop-badge--commercial">Commercial</span>
+              <span class="prop-subtype-badge">Shop</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦18,000,000</div>
+              <div class="prop-card__title">Corner Shop Unit — High Footfall Plaza</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Garki, Abuja
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 80 sqm</span>
+                <span class="meta-chip">🏪 Ground Floor</span>
+                <span class="meta-chip">🅿 Parking</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal" data-id="c004" data-type="commercial" data-subtype="showroom">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1560472355-536de3962603?w=600&q=80" alt="Showroom"
+                loading="lazy">
+              <span class="prop-badge prop-badge--commercial">Commercial</span>
+              <span class="prop-subtype-badge">Showroom</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦65,000,000</div>
+              <div class="prop-card__title">Glass-Front Showroom — Major Highway</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Lekki-Epe Expressway, Lagos
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 600 sqm</span>
+                <span class="meta-chip">🪟 Full Glass</span>
+                <span class="meta-chip">🚗 Car Lot</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d1" data-id="c005" data-type="commercial"
+            data-subtype="entire-building">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80"
+                alt="Commercial building" loading="lazy">
+              <span class="prop-badge prop-badge--commercial">Commercial</span>
+              <span class="prop-subtype-badge">Entire Building</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦850,000,000</div>
+              <div class="prop-card__title">7-Storey Commercial Complex — CBD</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Central Business District, Abuja
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">🏢 7 Floors</span>
+                <span class="meta-chip">📐 4,200 sqm</span>
+                <span class="meta-chip">🅿 100 Cars</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d2" data-id="c006" data-type="commercial" data-subtype="industrial">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1565793399877-e6f7d0b9d7c7?w=600&q=80" alt="Factory"
+                loading="lazy">
+              <span class="prop-badge prop-badge--commercial">Commercial</span>
+              <span class="prop-subtype-badge">Industrial / Factory</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦200,000,000</div>
+              <div class="prop-card__title">Factory Complex — Heavy-Duty Power Supply</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Ota Industrial Zone, Ogun State
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 5,000 sqm</span>
+                <span class="meta-chip">⚡ 11 KVA</span>
+                <span class="meta-chip">🚛 Rail Access</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+        </div><!-- /#grid-commercial -->
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ────────────────────────────────────────────────────────────
+       3. AGRICULTURAL LAND
+       ──────────────────────────────────────────────────────────── -->
+    <section class="prop-section prop-section--agri" id="section-agri" data-category="agri"
+      aria-labelledby="agri-heading">
+      <div class="container">
+
+        <div class="prop-section__header reveal">
+          <div class="prop-section__title-group">
+            <div class="prop-section__label">
+              <span class="prop-section__icon">🌾</span>
+              <span class="prop-section__eyebrow">Category 03</span>
+            </div>
+            <h2 class="prop-section__name" id="agri-heading">Agricultural Land</h2>
+            <p class="prop-section__desc">Farmland, plantations, orchards and mixed-use agricultural plots for serious
+              investors and farmers.</p>
+          </div>
+          <a href="pages/agricultural.html" class="view-all-link" aria-label="View all agricultural land">
+            View All Agricultural →
+          </a>
+        </div>
+
+        <div class="subtype-filters reveal" role="group" aria-label="Filter agricultural sub-types">
+          <button class="subtype-pill active" data-subtype="all">All</button>
+          <button class="subtype-pill" data-subtype="farmland">🌾 Farmland (Basic)</button>
+          <button class="subtype-pill" data-subtype="plantation">🌳 Plantation / Orchard</button>
+          <button class="subtype-pill" data-subtype="farmhouse">🏡 Farmhouse + Land</button>
+          <button class="subtype-pill" data-subtype="agri-plot">📐 Agricultural Plot</button>
+          <button class="subtype-pill" data-subtype="mixed-agri">🌿 Mixed-Use Agri</button>
+        </div>
+
+        <div class="listings-grid" id="grid-agri" data-api-endpoint="/api/v1/listings?category=agri">
+
+          <article class="prop-card reveal" data-id="a001" data-type="agri" data-subtype="farmland">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80" alt="Farmland"
+                loading="lazy">
+              <span class="prop-badge prop-badge--agri">Agricultural</span>
+              <span class="prop-subtype-badge">Farmland (Basic)</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦7,500,000</div>
+              <div class="prop-card__title">Flat Arable Farmland — River Access</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Kaduna, Kaduna State
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 5 Acres</span>
+                <span class="meta-chip">🌊 River</span>
+                <span class="meta-chip">🌾 Arable</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d1" data-id="a002" data-type="agri" data-subtype="plantation">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1536599018102-9f803c140fc1?w=600&q=80" alt="Plantation"
+                loading="lazy">
+              <span class="prop-badge prop-badge--agri">Agricultural</span>
+              <span class="prop-subtype-badge">Plantation / Orchard</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦28,000,000</div>
+              <div class="prop-card__title">Mature Cassava Plantation — Processing Shed Included</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Ogun State
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 20 Acres</span>
+                <span class="meta-chip">🌱 Matured</span>
+                <span class="meta-chip">🏗 Shed</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d2" data-id="a003" data-type="agri" data-subtype="farmhouse">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80" alt="Farmhouse"
+                loading="lazy">
+              <span class="prop-badge prop-badge--agri">Agricultural</span>
+              <span class="prop-subtype-badge">Farmhouse + Land</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦42,000,000</div>
+              <div class="prop-card__title">3-Bed Farmhouse + 10 Acres Cultivated Land</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Plateau State
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">🏡 House</span>
+                <span class="meta-chip">📐 10 Acres</span>
+                <span class="meta-chip">🌾 Cultivated</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal" data-id="a004" data-type="agri" data-subtype="agri-plot">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1500076656116-558758c991c1?w=600&q=80" alt="Agricultural plot"
+                loading="lazy">
+              <span class="prop-badge prop-badge--agri">Agricultural</span>
+              <span class="prop-subtype-badge">Agricultural Plot</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦3,200,000</div>
+              <div class="prop-card__title">Small-Holding Plot — Fenced &amp; Titled</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Nasarawa State
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 2 Acres</span>
+                <span class="meta-chip">🔐 Fenced</span>
+                <span class="meta-chip">📄 Title Deed</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d1" data-id="a005" data-type="agri" data-subtype="mixed-agri">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600&q=80"
+                alt="Mixed agricultural land" loading="lazy">
+              <span class="prop-badge prop-badge--agri">Agricultural</span>
+              <span class="prop-subtype-badge">Mixed-Use Agri</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦18,000,000</div>
+              <div class="prop-card__title">Mixed-Use Farm — Crops + Poultry Infrastructure</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Kogi State
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 15 Acres</span>
+                <span class="meta-chip">🐓 Poultry</span>
+                <span class="meta-chip">🌾 Cropland</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d2" data-id="a006" data-type="agri" data-subtype="farmland">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&q=80" alt="Large farmland"
+                loading="lazy">
+              <span class="prop-badge prop-badge--agri">Agricultural</span>
+              <span class="prop-subtype-badge">Farmland (Basic)</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦55,000,000</div>
+              <div class="prop-card__title">100-Acre Bulk Farmland — Irrigation System</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Kebbi State
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 100 Acres</span>
+                <span class="meta-chip">💧 Irrigation</span>
+                <span class="meta-chip">🌾 Fertile</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+        </div><!-- /#grid-agri -->
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ────────────────────────────────────────────────────────────
+       4. UNDEVELOPED LAND
+       ──────────────────────────────────────────────────────────── -->
+    <section class="prop-section prop-section--undeveloped" id="section-undeveloped" data-category="undeveloped"
+      aria-labelledby="undeveloped-heading">
+      <div class="container">
+
+        <div class="prop-section__header reveal">
+          <div class="prop-section__title-group">
+            <div class="prop-section__label">
+              <span class="prop-section__icon">🏔</span>
+              <span class="prop-section__eyebrow">Category 04</span>
+            </div>
+            <h2 class="prop-section__name" id="undeveloped-heading">Undeveloped Land</h2>
+            <p class="prop-section__desc">Raw land, vacant plots and empty land without construction or infrastructure —
+              blank canvas for your vision.</p>
+          </div>
+          <a href="pages/undeveloped.html" class="view-all-link" aria-label="View all undeveloped land">
+            View All Land →
+          </a>
+        </div>
+
+        <!-- No sub-type pills for undeveloped — just all raw land -->
+        <div class="subtype-filters reveal" role="group" aria-label="Filter undeveloped land">
+          <button class="subtype-pill active" data-subtype="all">All Raw Land</button>
+          <button class="subtype-pill" data-subtype="vacant-plot">📍 Vacant Plot</button>
+          <button class="subtype-pill" data-subtype="raw-land">🏔 Raw Land</button>
+          <button class="subtype-pill" data-subtype="waterfront">🌊 Waterfront</button>
+          <button class="subtype-pill" data-subtype="corner-piece">📐 Corner Piece</button>
+        </div>
+
+        <div class="listings-grid" id="grid-undeveloped" data-api-endpoint="/api/v1/listings?category=undeveloped">
+
+          <article class="prop-card reveal" data-id="u001" data-type="undeveloped" data-subtype="vacant-plot">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Vacant plot"
+                loading="lazy">
+              <span class="prop-badge prop-badge--undeveloped">Undeveloped</span>
+              <span class="prop-subtype-badge">Vacant Plot</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦18,500,000</div>
+              <div class="prop-card__title">Prime Vacant Plot — C of O Title</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Lekki Phase 2, Lagos
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 650 sqm</span>
+                <span class="meta-chip">📄 C of O</span>
+                <span class="meta-chip">🏗 Build Ready</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d1" data-id="u002" data-type="undeveloped" data-subtype="waterfront">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600&q=80" alt="Waterfront land"
+                loading="lazy">
+              <span class="prop-badge prop-badge--undeveloped">Undeveloped</span>
+              <span class="prop-subtype-badge">Waterfront</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦45,000,000</div>
+              <div class="prop-card__title">Waterfront Raw Land — Beachfront Access</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Eko Atlantic, Lagos
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 1,200 sqm</span>
+                <span class="meta-chip">🌊 Beachfront</span>
+                <span class="meta-chip">📄 R of O</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d2" data-id="u003" data-type="undeveloped" data-subtype="raw-land">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=600&q=80" alt="Raw land"
+                loading="lazy">
+              <span class="prop-badge prop-badge--undeveloped">Undeveloped</span>
+              <span class="prop-subtype-badge">Raw Land</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦12,000,000</div>
+              <div class="prop-card__title">Raw Land — Flat Terrain, Road Frontage</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Ibeju-Lekki, Lagos
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 3,000 sqm</span>
+                <span class="meta-chip">🛣 Road Front</span>
+                <span class="meta-chip">📄 Survey</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal" data-id="u004" data-type="undeveloped" data-subtype="corner-piece">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1504276048855-f3d60e69632f?w=600&q=80" alt="Corner plot"
+                loading="lazy">
+              <span class="prop-badge prop-badge--undeveloped">Undeveloped</span>
+              <span class="prop-subtype-badge">Corner Piece</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦28,000,000</div>
+              <div class="prop-card__title">Corner Piece Plot — Dual Road Access</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Maitama, Abuja
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 900 sqm</span>
+                <span class="meta-chip">📐 Corner</span>
+                <span class="meta-chip">📄 C of O</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d1" data-id="u005" data-type="undeveloped"
+            data-subtype="vacant-plot">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=600&q=80" alt="Estate plot"
+                loading="lazy">
+              <span class="prop-badge prop-badge--undeveloped">Undeveloped</span>
+              <span class="prop-subtype-badge">Vacant Plot</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦9,000,000</div>
+              <div class="prop-card__title">Estate Plot — Surveyed &amp; Registered</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Enugu, Enugu State
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 500 sqm</span>
+                <span class="meta-chip">📄 Registered</span>
+                <span class="meta-chip">🏗 Build Ready</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop-card reveal reveal--d2" data-id="u006" data-type="undeveloped" data-subtype="raw-land">
+            <div class="prop-card__img">
+              <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80" alt="Bulk raw land"
+                loading="lazy">
+              <span class="prop-badge prop-badge--undeveloped">Undeveloped</span>
+              <span class="prop-subtype-badge">Raw Land</span>
+              <span class="badge-verified">✓ Verified</span>
+            </div>
+            <div class="prop-card__body">
+              <div class="prop-card__price">₦75,000,000</div>
+              <div class="prop-card__title">Bulk Raw Land — Ideal for Estate Development</div>
+              <div class="prop-card__location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Epe, Lagos State
+              </div>
+              <div class="prop-card__meta">
+                <span class="meta-chip">📐 50 Acres</span>
+                <span class="meta-chip">🛣 Road Access</span>
+                <span class="meta-chip">📄 Survey</span>
+                <span class="meta-chip">🔒 Admin Deal</span>
+              </div>
+            </div>
+          </article>
+
+        </div><!-- /#grid-undeveloped -->
+      </div>
+    </section>
+
+  </main><!-- /#listings -->
+
+
+  <!-- ================================================================
+     WHY Trustate
+     ================================================================ -->
+  <section class="why-section" id="about" aria-labelledby="why-heading">
+    <div class="container">
+      <div class="why-grid">
+
+        <div class="why-visual reveal">
+          <img class="why-img-main" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80"
+            alt="Real estate professionals in meeting" loading="lazy">
+          <img class="why-img-float" src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=500&q=80"
+            alt="Property documents" loading="lazy">
+          <div class="why-stat-badge">
+            <div>
+              <div class="big-num">98<em>%</em></div>
+            </div>
+            <p>Client satisfaction<br>since 2012</p>
+          </div>
+        </div>
+
+        <div class="why-content reveal">
+          <span class="eyebrow eyebrow--green">Why Trustate</span>
+          <h2 class="section-title" id="why-heading" style="text-align:left">Built on Verification.<br>Powered by Trust.
+          </h2>
+          <p class="section-sub" style="text-align:left;max-width:100%;margin:0 0 2.5rem">We built Trustate because too
+            many people lost money to fraudulent listings. Every property is checked before you ever see it — across all
+            four categories.</p>
+
+          <div class="why-features">
+            <div class="why-feature">
+              <div class="feature-icon feature-icon--blue">🔍</div>
+              <div class="feature-text">
+                <h4>Every Listing is Verified</h4>
+                <p>No property goes live until admin confirms ownership, documents, and location — no exceptions across
+                  residential, commercial, agricultural, or raw land.</p>
+              </div>
+            </div>
+            <div class="why-feature">
+              <div class="feature-icon feature-icon--sky">🛡️</div>
+              <div class="feature-text">
+                <h4>Protected Transactions</h4>
+                <p>Trustate acts as full broker — your identity is shielded and all communications are managed until the
+                  deal is completely secure.</p>
+              </div>
+            </div>
+            <div class="why-feature">
+              <div class="feature-icon feature-icon--green">📋</div>
+              <div class="feature-text">
+                <h4>Admin-Managed End to End</h4>
+                <p>From first enquiry to final handover, our admin team coordinates negotiation, documentation, and
+                  closing — so you never navigate it alone.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+     TESTIMONIALS
+     ================================================================ -->
+  <section class="testi-section" aria-labelledby="testi-heading">
+    <div class="container testi-inner">
+      <div class="section-header reveal">
+        <span class="eyebrow eyebrow--white">Real Stories</span>
+        <h2 class="section-title section-title--white" id="testi-heading">Trusted by Hundreds</h2>
+        <p class="section-sub" style="color:rgba(255,255,255,.42)">Buyers and sellers who found their property — safely.
+        </p>
+      </div>
+
+      <div class="testi-grid">
+        <div class="testi-card reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"I had been scammed twice before. Trustate was completely different — they handled
+            everything and I never felt exposed. The deal closed in 3 weeks."</p>
+          <div class="testi-author">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80"
+              alt="Emeka O." loading="lazy">
+            <div>
+              <div class="testi-name">Emeka Okonkwo</div>
+              <div class="testi-role">Land Buyer · Lagos</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal reveal--d1">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Listed my commercial property and had a verified buyer within 2 weeks. The admin team
+            managed every aspect of the deal professionally."</p>
+          <div class="testi-author">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&q=80"
+              alt="Amaka C." loading="lazy">
+            <div>
+              <div class="testi-name">Amaka Chukwu</div>
+              <div class="testi-role">Commercial Seller · Abuja</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal reveal--d2">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"As a diaspora buyer I couldn't be present. The Trustate admin team negotiated the
+            farmland purchase on my behalf and kept me informed every step."</p>
+          <div class="testi-author">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80"
+              alt="Tunde B." loading="lazy">
+            <div>
+              <div class="testi-name">Tunde Balogun</div>
+              <div class="testi-role">Agricultural Land Buyer · UK</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+     CTA BANNER
+     ================================================================ -->
+  <section class="cta-section" aria-label="Call to action">
+    <div class="container">
+      <div class="cta-card reveal">
+        <h2>Ready to Find Your<br><em>Perfect Property?</em></h2>
+        <p>Browse verified residential, commercial, agricultural and raw land listings — or list your own property on
+          India's most trusted platform.</p>
+        <div class="cta-actions">
+          <a href="#listings" class="btn btn--primary">Explore Listings →</a>
+          <a href="#" class="btn btn--ghost">List Your Property</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+     FOOTER
+     ================================================================ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__top">
+
+        <div>
+          <div class="footer__logo">Trustate<span class="logo-dot"></span></div>
+          <p class="footer__desc">India's most trusted property platform — admin-verified listings across residential,
+            commercial, agricultural, and undeveloped land.</p>
+          <div class="social-links" aria-label="Social media">
+            <a class="social-link" href="#" aria-label="Twitter/X">𝕏</a>
+            <a class="social-link" href="#" aria-label="Instagram">◻</a>
+            <a class="social-link" href="#" aria-label="Facebook">f</a>
+            <a class="social-link" href="#" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h5>Properties</h5>
+          <ul>
+            <li><a href="pages/residential.html">Residential</a></li>
+            <li><a href="pages/commercial.html">Commercial</a></li>
+            <li><a href="pages/agricultural.html">Agricultural</a></li>
+            <li><a href="pages/undeveloped.html">Undeveloped Land</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h5>Support</h5>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">List Property</a></li>
+            <li><a href="#">Verification</a></li>
+            <li><a href="#">Report Fraud</a></li>
+          </ul>
+        </div>
+
+      </div><!-- /.footer__top -->
+
+      <div class="footer__bottom">
+        <span>© 2025 Trustate. All rights reserved.</span>
+        <div class="footer__legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

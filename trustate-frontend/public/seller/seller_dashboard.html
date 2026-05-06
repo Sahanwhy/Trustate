@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard — Trustate</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- ① Existing site stylesheet — correct relative path from /pages/ -->
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <!-- ② Dashboard-only stylesheet — correct filename, no spaces -->
+    <link rel="stylesheet" href="../assets/css/seller_dashboard.css">
+</head>
+
+<body class="dash-page">
+
+    <!-- Mobile sidebar toggle -->
+    <button class="sb-toggle" id="sbToggle" aria-label="Open sidebar">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+    </button>
+    <div class="sb-overlay" id="sbOverlay"></div>
+
+
+    <!-- ================================================================
+     DASHBOARD WRAPPER
+     ================================================================ -->
+    <div class="dash-wrap">
+
+        <!-- ============================================================
+       SIDEBAR
+       ============================================================ -->
+        <aside class="dash-sidebar" id="dashSidebar">
+
+            <!-- Logo -->
+            <a href="../index.html" class="sb-logo">
+                <span class="sb-logo-text">Trustate</span>
+                <span class="logo-dot"></span>
+                <span class="sb-logo-badge">Seller</span>
+            </a>
+
+            <!-- User -->
+            <div class="sb-user">
+                <div class="sb-avatar">--</div>
+                <div>
+                    <div class="sb-user-name">Loading...</div>
+                    <div class="sb-user-email">...</div>
+                </div>
+                <span class="sb-verified">✓ Active</span>
+            </div>
+
+            <!-- Nav -->
+            <nav class="sb-nav">
+
+                <div class="sb-section-label">Main</div>
+
+                <a class="sb-link is-active" href="#">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                    </svg>
+                    Dashboard
+                </a>
+
+                <a class="sb-link" href="#listings-section">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                    My Listings
+                    <span class="sb-badge" id="sbCount">6</span>
+                </a>
+
+                <a class="sb-link" href="#">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                    Enquiries
+                    <span class="sb-badge">3</span>
+                </a>
+
+                <a class="sb-link" href="#">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                    Analytics
+                </a>
+
+                <div class="sb-section-label">Account</div>
+
+                <a class="sb-link" href="#">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    Profile
+                </a>
+
+                <a class="sb-link" href="#">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M20 12h2M2 12h2M17.66 17.66l-1.41-1.41M6.34 17.66l1.41-1.41" />
+                    </svg>
+                    Settings
+                </a>
+
+            </nav>
+
+            <!-- Logout -->
+            <div class="sb-footer">
+                <button class="sb-logout" id="logoutBtn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    Sign Out
+                </button>
+            </div>
+
+        </aside>
+
+
+        <!-- ============================================================
+       MAIN
+       ============================================================ -->
+        <main class="dash-main">
+
+            <!-- Top bar -->
+            <div class="dash-topbar">
+                <div>
+                    <div class="topbar-heading">Seller Dashboard</div>
+                    <div class="topbar-sub">Welcome back... 👋</div>
+                </div>
+                <div class="topbar-right">
+                    <button class="tb-btn" id="tbListBtn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        List Property
+                    </button>
+                    <div class="tb-avatar">--</div>
+                </div>
+            </div>
+
+            <!-- Page body -->
+            <div class="dash-body">
+
+                <!-- ── Stats ── -->
+                <div class="d-stats">
+
+                    <div class="dstat-card">
+                        <div class="dstat-top">
+                            <div>
+                                <div class="dstat-label">Total Listings</div>
+                                <div class="dstat-num" id="statTotal">0</div>
+                            </div>
+                            <div class="dstat-icon">🏠</div>
+                        </div>
+                        <div class="dstat-foot">All property types</div>
+                    </div>
+
+                    <div class="dstat-card">
+                        <div class="dstat-top">
+                            <div>
+                                <div class="dstat-label">Approved</div>
+                                <div class="dstat-num" id="statApproved">0</div>
+                            </div>
+                            <div class="dstat-icon">✅</div>
+                        </div>
+                        <div class="dstat-foot"><strong>Live</strong> on the platform</div>
+                    </div>
+
+                    <div class="dstat-card">
+                        <div class="dstat-top">
+                            <div>
+                                <div class="dstat-label">Pending Review</div>
+                                <div class="dstat-num" id="statPending">0</div>
+                            </div>
+                            <div class="dstat-icon">⏳</div>
+                        </div>
+                        <div class="dstat-foot">Awaiting admin approval</div>
+                    </div>
+
+                    <div class="dstat-card">
+                        <div class="dstat-top">
+                            <div>
+                                <div class="dstat-label">Total Views</div>
+                                <div class="dstat-num" id="statViews">258</div>
+                            </div>
+                            <div class="dstat-icon">👁</div>
+                        </div>
+                        <div class="dstat-foot"><strong>+12%</strong> from last month</div>
+                    </div>
+
+                </div>
+
+
+                <!-- ── List a New Property ── -->
+                <div style="margin-bottom:2rem">
+                    <div class="d-section-hd">
+                        <div>
+                            <h2>List a New Property</h2>
+                            <p>Select a category — fill in details for admin approval</p>
+                        </div>
+                    </div>
+
+                    <div class="list-type-grid">
+
+                        <a href="list_residential.html" class="lt-card lt-card--res">
+                            <div class="lt-card__icon">🏠</div>
+                            <div class="lt-card__name">Residential</div>
+                            <div class="lt-card__desc">Apartments, villas, duplexes &amp; independent houses</div>
+                            <div class="lt-card__cta">+ List Now →</div>
+                        </a>
+
+                        <a href="list_commercial.html" class="lt-card lt-card--com">
+                            <div class="lt-card__icon">🏢</div>
+                            <div class="lt-card__name">Commercial</div>
+                            <div class="lt-card__desc">Offices, shops, warehouses &amp; industrial spaces</div>
+                            <div class="lt-card__cta">+ List Now →</div>
+                        </a>
+
+                        <a href="list_agricultural.html" class="lt-card lt-card--agri">
+                            <div class="lt-card__icon">🌾</div>
+                            <div class="lt-card__name">Agricultural</div>
+                            <div class="lt-card__desc">Farmland, plantations, orchards &amp; agri plots</div>
+                            <div class="lt-card__cta">+ List Now →</div>
+                        </a>
+
+                        <a href="list_underdeveloped.html" class="lt-card lt-card--land">
+                            <div class="lt-card__icon">📍</div>
+                            <div class="lt-card__name">Undeveloped Land</div>
+                            <div class="lt-card__desc">Vacant plots, raw land, waterfront &amp; corner pieces</div>
+                            <div class="lt-card__cta">+ List Now →</div>
+                        </a>
+
+                    </div>
+                </div>
+
+
+                <!-- ── My Listings Table ── -->
+                <div id="listings-section">
+                    <div class="d-section-hd">
+                        <div>
+                            <h2>My Listings</h2>
+                            <p>All your submitted and live properties</p>
+                        </div>
+                    </div>
+
+                    <!-- Toolbar -->
+                    <div class="listings-toolbar">
+                        <div class="ltool-filters">
+                            <button class="lpill on" data-f="all">All</button>
+                            <button class="lpill" data-f="res">🏠 Residential</button>
+                            <button class="lpill" data-f="com">🏢 Commercial</button>
+                            <button class="lpill" data-f="agri">🌾 Agricultural</button>
+                            <button class="lpill" data-f="land">📍 Land</button>
+                            <button class="lpill" data-f="pending">⏳ Pending</button>
+                            <button class="lpill" data-f="approved">✅ Approved</button>
+                        </div>
+                        <div class="lsearch">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                            <input type="text" id="listingSearch" placeholder="Search listings…">
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="ltable-wrap">
+                        <table class="ltable">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Type</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Listed On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listingsBody"></tbody>
+                        </table>
+
+                        <div class="ltable-empty" id="tableEmpty" style="display:none">
+                            <div class="e-icon">🔍</div>
+                            <div class="e-title">No listings found</div>
+                            <div class="e-sub">Try a different filter, or add your first property above.</div>
+                        </div>
+                    </div>
+
+                </div><!-- /#listings-section -->
+
+            </div><!-- /.dash-body -->
+        </main>
+
+    </div><!-- /.dash-wrap -->
+
+
+    <!-- ================================================================
+     MODAL — List / Edit Property
+     ================================================================ -->
+    <div class="m-overlay" id="mOverlay">
+        <div class="m-box" id="mBox">
+
+            <div class="m-head">
+                <div>
+                    <div class="m-type-tag" id="mTypeTag">🏠 Residential Property</div>
+                    <div class="m-title" id="mTitle">New Listing — Submit for Approval</div>
+                    <div class="m-sub" id="mSub">Fill in the details. Admin will review within 24 hours.</div>
+                </div>
+                <button class="m-close" id="mClose">✕</button>
+            </div>
+
+            <div class="m-body">
+                <div class="m-grid" id="mGrid">
+                    <!-- Injected by dashboard.js -->
+                </div>
+
+                <div class="m-note">
+                    ℹ️ &nbsp;All submissions are reviewed by our admin team before going live.
+                    You'll receive an email notification once approved — usually within 24 hours.
+                </div>
+            </div>
+
+            <div class="m-foot">
+                <button class="m-cancel" id="mCancel">Cancel</button>
+                <button class="m-submit" id="mSubmit">
+                    <span class="submit-txt">Submit for Approval →</span>
+                    <span class="d-spinner"></span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ① Existing site JS — correct path -->
+    <script src="../assets/js/main.js"></script>
+    <!-- ② Dashboard-only JS — correct filename, no spaces -->
+    <script src="../assets/js/seller_dashboard.js"></script>
+
+</body>
+
+</html>

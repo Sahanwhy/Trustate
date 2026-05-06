@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Sign Up — Trustate</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    :root {
+      --navy: #0B1F3A;
+      --navy-mid: #1A3A5C;
+      --blue: #1E5F8E;
+      --blue-mid: #2878B5;
+      --blue-pale: #E8F3FB;
+      --forest: #1A4A2E;
+      --green: #2A7A4B;
+      --green-mid: #3AA864;
+      --green-pale: #E6F7ED;
+      --accent: #00C47A;
+      --accent-dark: #009B5E;
+      --white: #FFFFFF;
+      --off-white: #F5F9FC;
+      --light-grey: #EBF2F8;
+      --mid-grey: #D0DDE8;
+      --text: #0B1F3A;
+      --text-mid: #3A5470;
+      --text-muted: #7A9AB5;
+      --error: #E53E3E;
+      --shadow-sm: 0 2px 12px rgba(11, 31, 58, .07);
+      --shadow-md: 0 8px 32px rgba(11, 31, 58, .13);
+      --shadow-lg: 0 20px 60px rgba(11, 31, 58, .18);
+      --radius: 14px;
+      --radius-lg: 22px;
+      --radius-pill: 100px;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    input {
+      font-family: inherit;
+    }
+
+    /* ── Page Layout ── */
+    .auth-page {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Left Panel ── */
+    .auth-panel {
+      background: linear-gradient(150deg, rgba(11, 31, 58, .97) 0%, rgba(26, 74, 46, .9) 60%, rgba(11, 31, 58, .95) 100%),
+        url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1000&q=80') center/cover no-repeat;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-panel::before {
+      content: '';
+      position: absolute;
+      bottom: -120px;
+      right: -120px;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      border: 70px solid rgba(0, 196, 122, .08);
+      pointer-events: none;
+    }
+
+    .auth-panel::after {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: -80px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 196, 122, .07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .panel-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-bottom: 6px;
+      flex-shrink: 0;
+    }
+
+    .panel-body {
+      position: relative;
+      z-index: 2;
+    }
+
+    .panel-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(0, 196, 122, .15);
+      border: 1px solid rgba(0, 196, 122, .3);
+      color: #7FFFC4;
+      padding: .4rem .9rem;
+      border-radius: var(--radius-pill);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+    }
+
+    .panel-title em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .panel-desc {
+      font-size: .92rem;
+      color: rgba(255, 255, 255, .55);
+      line-height: 1.75;
+      font-weight: 300;
+      max-width: 340px;
+      margin-bottom: 2.5rem;
+    }
+
+    .panel-features {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .panel-feature {
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+    }
+
+    .feature-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 196, 122, .15);
+      border: 1px solid rgba(0, 196, 122, .3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      flex-shrink: 0;
+    }
+
+    .panel-feature p {
+      font-size: .85rem;
+      color: rgba(255, 255, 255, .6);
+      font-weight: 400;
+    }
+
+    .panel-feature p strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .panel-footer {
+      position: relative;
+      z-index: 2;
+      font-size: .78rem;
+      color: rgba(255, 255, 255, .28);
+    }
+
+    /* ── Right Panel (Form) ── */
+    .auth-form-wrap {
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem 4rem;
+      overflow-y: auto;
+    }
+
+    .form-header {
+      margin-bottom: 2.2rem;
+    }
+
+    .form-header__back {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 1.8rem;
+      transition: color .2s;
+    }
+
+    .form-header__back:hover {
+      color: var(--navy);
+    }
+
+    .form-eyebrow {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .6rem;
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: .5rem;
+    }
+
+    .form-subtitle {
+      font-size: .88rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .form-subtitle a {
+      color: var(--blue);
+      font-weight: 600;
+      transition: color .2s;
+    }
+
+    .form-subtitle a:hover {
+      color: var(--navy);
+    }
+
+    /* ── Form Fields ── */
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .field-group label {
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: .85rem 1rem .85rem 2.8rem;
+      border: 1.5px solid var(--mid-grey);
+      border-radius: var(--radius);
+      font-size: .92rem;
+      color: var(--text);
+      background: var(--off-white);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .field-input:focus {
+      border-color: var(--blue-mid);
+      box-shadow: 0 0 0 3px rgba(40, 120, 181, .1);
+      background: var(--white);
+    }
+
+    .field-input.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(229, 62, 62, .08);
+    }
+
+    .field-input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Password toggle eye */
+    .eye-btn {
+      position: absolute;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: .2rem;
+      border-radius: 4px;
+      transition: color .2s;
+      outline: none;
+    }
+
+    .eye-btn:hover {
+      color: var(--navy);
+    }
+
+    .eye-btn:focus-visible {
+      outline: 2px solid var(--blue-mid);
+    }
+
+    /* Password strength */
+    .password-strength {
+      display: flex;
+      gap: .3rem;
+      margin-top: .35rem;
+    }
+
+    .strength-bar {
+      flex: 1;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--mid-grey);
+      transition: background .3s;
+    }
+
+    .strength-bar.weak {
+      background: #E53E3E;
+    }
+
+    .strength-bar.medium {
+      background: #ED8936;
+    }
+
+    .strength-bar.strong {
+      background: var(--accent);
+    }
+
+    .strength-label {
+      font-size: .72rem;
+      color: var(--text-muted);
+      margin-top: .3rem;
+    }
+
+    /* Field error text */
+    .field-error {
+      font-size: .75rem;
+      color: var(--error);
+      font-weight: 500;
+      display: none;
+    }
+
+    .field-error.show {
+      display: block;
+    }
+
+    /* Phone prefix */
+    .phone-wrap {
+      display: flex;
+      gap: .5rem;
+    }
+
+    .phone-prefix {
+      padding: .85rem 1rem;
+      border: 1.5px solid var(--mid-grey);
+      border-radius: var(--radius);
+      font-size: .92rem;
+      color: var(--text-mid);
+      background: var(--light-grey);
+      font-weight: 600;
+      white-space: nowrap;
+      font-family: 'Outfit', sans-serif;
+      flex-shrink: 0;
+    }
+
+    .phone-wrap .field-input {
+      padding-left: 1rem;
+    }
+
+    /* Divider */
+    .form-divider {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      margin: .3rem 0;
+    }
+
+    .form-divider::before,
+    .form-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--mid-grey);
+    }
+
+    .form-divider span {
+      font-size: .75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      font-size: .95rem;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      margin-top: .4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(11, 31, 58, .2);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit.loading {
+      pointer-events: none;
+    }
+
+    .btn-submit .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    .btn-submit.loading .btn-text {
+      display: none;
+    }
+
+    .btn-submit.loading .spinner {
+      display: block;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Terms */
+    .terms-text {
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: .2rem;
+      line-height: 1.6;
+    }
+
+    .terms-text a {
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    /* Success overlay */
+    .success-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    .success-overlay.show {
+      display: flex;
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--green-pale);
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      animation: popIn .4s cubic-bezier(.175, .885, .32, 1.275) both;
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0);
+        opacity: 0
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .success-desc {
+      font-size: .9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .success-btn {
+      padding: .8rem 2rem;
+      background: var(--accent);
+      color: var(--white);
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: .9rem;
+      font-family: 'Outfit', sans-serif;
+      border: none;
+      cursor: pointer;
+      transition: background .2s;
+      margin-top: .5rem;
+    }
+
+    .success-btn:hover {
+      background: var(--accent-dark);
+    }
+
+    /* Responsive */
+    @media(max-width: 900px) {
+      .auth-page {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-panel {
+        display: none;
+      }
+
+      .auth-form-wrap {
+        padding: 2.5rem 1.8rem;
+      }
+    }
+
+    @media(max-width: 480px) {
+      .auth-form-wrap {
+        padding: 2rem 1.2rem;
+      }
+
+      .form-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-page">
+
+    <!-- ── Left Panel ── -->
+    <div class="auth-panel">
+      <a href="index.html" class="panel-logo">Trustate<span class="logo-dot"></span></a>
+
+      <div class="panel-body">
+        <div class="panel-tag">🏠 Seller Portal</div>
+        <h1 class="panel-title">List Your Property<br>with <em>Confidence</em></h1>
+        <p class="panel-desc">Join thousands of verified sellers on India's most trusted property platform. Every
+          listing is admin-reviewed before going live.</p>
+
+        <div class="panel-features">
+          <div class="panel-feature">
+            <div class="feature-dot">🔍</div>
+            <p><strong>Admin Verified</strong> — your listing is reviewed before going live</p>
+          </div>
+          <div class="panel-feature">
+            <div class="feature-dot">🛡️</div>
+            <p><strong>Protected Identity</strong> — your details stay private until deal closes</p>
+          </div>
+          <div class="panel-feature">
+            <div class="feature-dot">📋</div>
+            <p><strong>Managed End to End</strong> — we handle negotiation and documentation</p>
+          </div>
+          <div class="panel-feature">
+            <div class="feature-dot">⚡</div>
+            <p><strong>Fast Listings</strong> — go live within 24 hours of approval</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-footer">© 2025 Trustate. All rights reserved.</div>
+    </div>
+
+    <!-- ── Right Panel (Form) ── -->
+    <div class="auth-form-wrap">
+
+      <div class="form-header">
+        <a href="index.html" class="form-header__back">
+          ← Back to Trustate
+        </a>
+        <div class="form-eyebrow">Seller Account</div>
+        <h2 class="form-title">Create your account</h2>
+        <p class="form-subtitle">Already have an account? <a href="login.html">Sign in here</a></p>
+      </div>
+
+      <!-- Main form -->
+      <form class="auth-form" id="signupForm" novalidate>
+
+        <!-- Owner Name -->
+        <div class="field-group">
+          <label for="ownerName">Owner / Business Name</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </span>
+            <input class="field-input" type="text" id="ownerName" name="ownerName" placeholder="e.g. Rajesh Kumar"
+              autocomplete="name">
+          </div>
+          <span class="field-error" id="ownerNameErr">Please enter your name.</span>
+        </div>
+
+        <!-- Email -->
+        <div class="field-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+            </span>
+            <input class="field-input" type="email" id="email" name="email" placeholder="you@example.com"
+              autocomplete="email">
+          </div>
+          <span class="field-error" id="emailErr">Please enter a valid email address.</span>
+        </div>
+
+        <!-- Phone -->
+        <div class="field-group">
+          <label for="phone">Phone Number</label>
+          <div class="phone-wrap">
+            <span class="phone-prefix">🇮🇳 +91</span>
+            <div class="input-wrap" style="flex:1">
+
+              <input class="field-input" type="tel" id="phone" name="phone" placeholder=" 98765 43210" maxlength="10"
+                autocomplete="tel">
+            </div>
+          </div>
+          <span class="field-error" id="phoneErr">Please enter a valid 10-digit phone number.</span>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </span>
+            <input class="field-input" type="password" id="password" name="password" placeholder="Min. 8 characters"
+              autocomplete="new-password" style="padding-right:3rem">
+            <button type="button" class="eye-btn" id="eyeBtn" aria-label="Toggle password visibility">
+              <!-- Eye open -->
+              <svg id="eyeOpen" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <!-- Eye closed (hidden by default) -->
+              <svg id="eyeClosed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                <line x1="1" y1="1" x2="23" y2="23" />
+              </svg>
+            </button>
+          </div>
+          <!-- Strength bars -->
+          <div class="password-strength" id="strengthBars">
+            <div class="strength-bar" id="bar1"></div>
+            <div class="strength-bar" id="bar2"></div>
+            <div class="strength-bar" id="bar3"></div>
+            <div class="strength-bar" id="bar4"></div>
+          </div>
+          <span class="strength-label" id="strengthLabel">Enter a password to check strength</span>
+          <span class="field-error" id="passwordErr">Password must be at least 8 characters.</span>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-text">Create Seller Account →</span>
+          <div class="spinner"></div>
+        </button>
+
+        <p class="terms-text">
+          By creating an account, you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+        </p>
+
+      </form>
+
+      <!-- Success state -->
+      <div class="success-overlay" id="successOverlay">
+        <div class="success-icon">✓</div>
+        <h3 class="success-title">Account Created!</h3>
+        <p class="success-desc">Your seller account is under review.<br>You'll receive an email once approved — usually
+          within 24 hours.</p>
+        <button class="success-btn" onclick="window.location.href='login.html'">Go to Login →</button>
+      </div>
+
+    </div><!-- /.auth-form-wrap -->
+  </div><!-- /.auth-page -->
+
+  <script>
+    /* ── Eye toggle ── */
+    const eyeBtn = document.getElementById('eyeBtn');
+    const pwInput = document.getElementById('password');
+    const eyeOpen = document.getElementById('eyeOpen');
+    const eyeClosed = document.getElementById('eyeClosed');
+
+    eyeBtn.addEventListener('click', () => {
+      const isHidden = pwInput.type === 'password';
+      pwInput.type = isHidden ? 'text' : 'password';
+      eyeOpen.style.display = isHidden ? 'none' : 'block';
+      eyeClosed.style.display = isHidden ? 'block' : 'none';
+    });
+
+    /* ── Password strength ── */
+    pwInput.addEventListener('input', () => {
+      const val = pwInput.value;
+      const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3'), document.getElementById('bar4')];
+      const label = document.getElementById('strengthLabel');
+
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+
+      const levels = ['', 'weak', 'medium', 'strong', 'strong'];
+      const labels = ['Enter a password to check strength', 'Weak — add more characters', 'Fair — try adding numbers', 'Good — add a symbol to strengthen', 'Strong password ✓'];
+
+      bars.forEach((bar, i) => {
+        bar.className = 'strength-bar';
+        if (i < score) bar.classList.add(score <= 1 ? 'weak' : score <= 2 ? 'medium' : 'strong');
+      });
+      label.textContent = val.length ? labels[score] : labels[0];
+      label.style.color = score <= 1 ? '#E53E3E' : score === 2 ? '#ED8936' : 'var(--accent)';
+    });
+
+    /* ── Validation helpers ── */
+    function showError(inputId, errId) {
+      document.getElementById(inputId).classList.add('error');
+      document.getElementById(errId).classList.add('show');
+    }
+    function clearError(inputId, errId) {
+      document.getElementById(inputId)?.classList.remove('error');
+      document.getElementById(errId)?.classList.remove('show');
+    }
+
+    /* Clear errors on input */
+    ['ownerName', 'email', 'phone', 'password'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', () => {
+        clearError(id, id + 'Err');
+      });
+    });
+
+    /* ── Form submit ── */
+    document.getElementById('signupForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      let valid = true;
+
+      const name = document.getElementById('ownerName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!name) { showError('ownerName', 'ownerNameErr'); valid = false; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('email', 'emailErr'); valid = false; }
+      if (!phone || !/^\d{10}$/.test(phone)) { showError('phone', 'phoneErr'); valid = false; }
+      if (!password || password.length < 8) { showError('password', 'passwordErr'); valid = false; }
+
+      if (!valid) return;
+
+      /* Loading state */
+      const btn = document.getElementById('submitBtn');
+      btn.classList.add('loading');
+
+      /* Real Signup API Call */
+      fetch('http://localhost:5000/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullName: name, email, password, phoneNumber: phone })
+      })
+      .then(res => res.json().then(data => ({ status: res.status, data })))
+      .then(({ status, data }) => {
+        btn.classList.remove('loading');
+        if (status === 201) {
+          document.getElementById('signupForm').style.display = 'none';
+          document.getElementById('successOverlay').classList.add('show');
+        } else {
+          alert(data.message || 'Signup failed. Please try again.');
+        }
+      })
+      .catch(err => {
+        btn.classList.remove('loading');
+        console.error('Signup error:', err);
+        alert('Network error. Is the backend running?');
+      });
+
+    });
+  </script>
+</body>
+
+</html>

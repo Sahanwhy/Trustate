@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — Trustate</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/admin_dashboard.css">
+</head>
+
+<body class="admin-page">
+
+    <div class="admin-wrap">
+
+        <!-- ══════════════════════════════════════
+       SIDEBAR
+       ══════════════════════════════════════ -->
+        <aside class="adm-sidebar" id="sidebar">
+
+            <a href="../index.html" class="adm-logo">
+                <span class="adm-logo-text">Trustate</span>
+                <span class="dot"></span>
+                <span class="adm-logo-badge">Admin</span>
+            </a>
+
+            <div class="adm-identity">
+                <div class="adm-avatar">SA</div>
+                <div>
+                    <div class="adm-name">Super Admin</div>
+                    <div class="adm-role">Full Access</div>
+                </div>
+            </div>
+
+            <span class="adm-section-label">Overview</span>
+            <nav class="adm-nav">
+                <a class="adm-nav-item active" href="#" data-goto="prop">
+                    <span class="ni-icon">🏠</span> Properties
+                    <span class="ni-badge warn" id="sb-prop-pending">0</span>
+                </a>
+                <a class="adm-nav-item" href="#" data-goto="rent">
+                    <span class="ni-icon">🔑</span> Rent Listings
+                    <span class="ni-badge warn" id="sb-rent-pending">0</span>
+                </a>
+            </nav>
+
+            <span class="adm-section-label">Management</span>
+            <nav class="adm-nav">
+                <a class="adm-nav-item" href="#" data-goto="prop" data-tab="users">
+                    <span class="ni-icon">👥</span> All Users
+                    <span class="ni-badge" style="background:var(--blue-lite);color:var(--navy)">0</span>
+                </a>
+                <a class="adm-nav-item" href="#" data-goto="prop" data-tab="inquiries">
+                    <span class="ni-icon">💬</span> Inquiries
+                    <span class="ni-badge red">0</span>
+                </a>
+            </nav>
+
+            <div class="adm-divider"></div>
+
+            <nav class="adm-nav">
+                <a class="adm-nav-item" href="#">
+                    <span class="ni-icon">📊</span> Analytics
+                </a>
+                <a class="adm-nav-item" href="#">
+                    <span class="ni-icon">⚙️</span> Settings
+                </a>
+            </nav>
+
+            <div class="adm-logout">
+                <a href="../index.html">
+                    <span>↩</span> Sign out
+                </a>
+            </div>
+
+        </aside>
+
+        <!-- ── Mobile sidebar backdrop ── -->
+        <div class="sidebar-mob-overlay" id="sidebarOverlay"></div>
+
+        <!-- ══════════════════════════════════════
+       MAIN
+       ══════════════════════════════════════ -->
+        <main class="adm-main">
+
+            <!-- ── Topbar ── -->
+            <div class="adm-topbar">
+                <div style="display:flex;align-items:center;gap:.75rem">
+                    <button class="adm-hamburger" id="hamburger" aria-label="Toggle menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <span class="adm-topbar-title" id="topbarTitle">Properties <span>/ Pending</span></span>
+                </div>
+                <div class="adm-topbar-right">
+                    <div class="adm-search">
+                        <span class="si">🔍</span>
+                        <input type="text" id="searchInput" placeholder="Search listings, users…">
+                    </div>
+                    <div class="adm-bell" title="Notifications">
+                        🔔
+                        <span class="bell-dot"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════
+         SECTION SWITCHER
+         ══════════════════════════════════════ -->
+            <div class="adm-switcher">
+                <button class="adm-sw-btn active" data-section="prop" id="swProp">
+                    <span class="sw-icon">🏠</span>
+                    For Sale — Properties
+                    <span class="sw-count" id="sw-prop-count">0</span>
+                </button>
+                <button class="adm-sw-btn" data-section="rent" id="swRent">
+                    <span class="sw-icon">🔑</span>
+                    For Rent — Listings
+                    <span class="sw-count" id="sw-rent-count">0</span>
+                </button>
+            </div>
+
+            <!-- ══════════════════════════════════════
+         PROPERTIES SECTION
+         ══════════════════════════════════════ -->
+            <div id="sectionProp">
+
+                <!-- Tab strip -->
+                <div class="adm-tab-strip">
+                    <button class="adm-tab active" data-section="prop" data-tab="pending">
+                        <span class="tab-dot"></span>Pending
+                        <span class="tab-count" id="prop-pending-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="prop" data-tab="approved">
+                        <span class="tab-dot"></span>Approved
+                        <span class="tab-count" id="prop-approved-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="prop" data-tab="rejected">
+                        <span class="tab-dot"></span>Rejected
+                        <span class="tab-count" id="prop-rejected-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="prop" data-tab="sold">
+                        <span class="tab-dot"></span>Sold
+                        <span class="tab-count" id="prop-sold-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="prop" data-tab="users">
+                        <span class="tab-dot"></span>Users
+                        <span class="tab-count" id="prop-users-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="prop" data-tab="inquiries">
+                        <span class="tab-dot"></span>Inquiries
+                        <span class="tab-count" id="prop-inq-count">0</span>
+                    </button>
+                </div>
+
+                <!-- Stats strip -->
+                <div class="adm-stats">
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">0</div>
+                        <div class="adm-stat-lbl">Total Listings</div>
+                        <div class="adm-stat-change up">↑ 0 this week</div>
+                    </div>
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">0</div>
+                        <div class="adm-stat-lbl">Pending Review</div>
+                        <div class="adm-stat-change neu">Awaiting action</div>
+                    </div>
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">0</div>
+                        <div class="adm-stat-lbl">Live & Approved</div>
+                        <div class="adm-stat-change up">↑ 0 this week</div>
+                    </div>
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">0</div>
+                        <div class="adm-stat-lbl">Sold</div>
+                        <div class="adm-stat-change up">↑ 0 this month</div>
+                    </div>
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">₹0</div>
+                        <div class="adm-stat-lbl">Avg. Listing Price</div>
+                        <div class="adm-stat-change neu">No data available</div>
+                    </div>
+                </div>
+
+                <!-- ── PENDING ── -->
+                <div class="adm-panel active" id="prop-panel-pending">
+                    <div class="adm-tbl-wrap">
+                        <div class="adm-tbl-toolbar">
+                            <span class="adm-tbl-title">Pending Review — Properties for Sale</span>
+                            <div class="adm-tbl-actions">
+                                <select class="adm-filter-sel" id="filter-prop-pending">
+                                    <option>All Types</option>
+                                    <option>Residential</option>
+                                    <option>Commercial</option>
+                                    <option>Agricultural</option>
+                                    <option>Undeveloped</option>
+                                </select>
+                                <button class="adm-export-btn">⬇ Export</button>
+                            </div>
+                        </div>
+                        <table class="adm-tbl">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Price</th>
+                                    <th>Submitted</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prop-pending-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ── APPROVED ── -->
+                <div class="adm-panel" id="prop-panel-approved">
+                    <div class="adm-tbl-wrap">
+                        <div class="adm-tbl-toolbar">
+                            <span class="adm-tbl-title">Approved — Properties for Sale</span>
+                            <div class="adm-tbl-actions">
+                                <select class="adm-filter-sel" id="filter-prop-approved">
+                                    <option>All Types</option>
+                                    <option>Residential</option>
+                                    <option>Commercial</option>
+                                    <option>Agricultural</option>
+                                    <option>Undeveloped</option>
+                                </select>
+                                <button class="adm-export-btn">⬇ Export</button>
+                            </div>
+                        </div>
+                        <table class="adm-tbl">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Price</th>
+                                    <th>Approved On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prop-approved-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ── REJECTED ── -->
+                <div class="adm-panel" id="prop-panel-rejected">
+                    <div class="adm-tbl-wrap">
+                        <div class="adm-tbl-toolbar">
+                            <span class="adm-tbl-title">Rejected — Properties for Sale</span>
+                            <div class="adm-tbl-actions">
+                                <button class="adm-export-btn">⬇ Export</button>
+                            </div>
+                        </div>
+                        <table class="adm-tbl">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Price</th>
+                                    <th>Rejected On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prop-rejected-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ── SOLD ── -->
+                <div class="adm-panel" id="prop-panel-sold">
+                    <div class="adm-tbl-wrap">
+                        <div class="adm-tbl-toolbar">
+                            <span class="adm-tbl-title">Sold Properties</span>
+                            <div class="adm-tbl-actions"><button class="adm-export-btn">⬇ Export</button></div>
+                        </div>
+                        <table class="adm-tbl">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Sale Price</th>
+                                    <th>Sold On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prop-sold-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ── USERS ── -->
+                <div class="adm-panel" id="prop-panel-users">
+                    <div class="user-grid" id="prop-users-grid"></div>
+                </div>
+
+                <!-- ── INQUIRIES ── -->
+                <div class="adm-panel" id="prop-panel-inquiries">
+                    <div id="prop-inq-list"></div>
+                </div>
+
+            </div><!-- /#sectionProp -->
+
+            <!-- ══════════════════════════════════════
+         RENT SECTION
+         ══════════════════════════════════════ -->
+            <div id="sectionRent" style="display:none">
+
+                <!-- Tab strip -->
+                <div class="adm-tab-strip">
+                    <button class="adm-tab active" data-section="rent" data-tab="pending">
+                        <span class="tab-dot"></span>Pending
+                        <span class="tab-count" id="rent-pending-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="rent" data-tab="approved">
+                        <span class="tab-dot"></span>Approved
+                        <span class="tab-count" id="rent-approved-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="rent" data-tab="rejected">
+                        <span class="tab-dot"></span>Rejected
+                        <span class="tab-count" id="rent-rejected-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="rent" data-tab="sold">
+                        <span class="tab-dot"></span>Rented Out
+                        <span class="tab-count" id="rent-sold-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="rent" data-tab="users">
+                        <span class="tab-dot"></span>Tenants
+                        <span class="tab-count" id="rent-users-count">0</span>
+                    </button>
+                    <button class="adm-tab" data-section="rent" data-tab="inquiries">
+                        <span class="tab-dot"></span>Inquiries
+                        <span class="tab-count" id="rent-inq-count">0</span>
+                    </button>
+                </div>
+
+                <!-- Stats strip -->
+                <div class="adm-stats">
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">0</div>
+                        <div class="adm-stat-lbl">Total Rent Listings</div>
+                        <div class="adm-stat-change up">↑ 0 this week</div>
+                    </div>
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">0</div>
+                        <div class="adm-stat-lbl">Pending Review</div>
+                        <div class="adm-stat-change neu">Awaiting action</div>
+                    </div>
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">0</div>
+                        <div class="adm-stat-lbl">Live & Approved</div>
+                        <div class="adm-stat-change up">↑ 0 this week</div>
+                    </div>
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">0</div>
+                        <div class="adm-stat-lbl">Rented Out</div>
+                        <div class="adm-stat-change up">↑ 0 this month</div>
+                    </div>
+                    <div class="adm-stat">
+                        <div class="adm-stat-val">₹0</div>
+                        <div class="adm-stat-lbl">Avg. Monthly Rent</div>
+                        <div class="adm-stat-change neu">No data available</div>
+                    </div>
+                </div>
+
+                <!-- ── PENDING ── -->
+                <div class="adm-panel active" id="rent-panel-pending">
+                    <div class="adm-tbl-wrap">
+                        <div class="adm-tbl-toolbar">
+                            <span class="adm-tbl-title">Pending Review — Rent Listings</span>
+                            <div class="adm-tbl-actions">
+                                <select class="adm-filter-sel" id="filter-rent-pending">
+                                    <option>All Types</option>
+                                    <option>Residential</option>
+                                    <option>Commercial</option>
+                                    <option>PG / Hostel</option>
+                                </select>
+                                <button class="adm-export-btn">⬇ Export</button>
+                            </div>
+                        </div>
+                        <table class="adm-tbl">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Rent/mo</th>
+                                    <th>Submitted</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rent-pending-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ── APPROVED ── -->
+                <div class="adm-panel" id="rent-panel-approved">
+                    <div class="adm-tbl-wrap">
+                        <div class="adm-tbl-toolbar">
+                            <span class="adm-tbl-title">Approved — Rent Listings</span>
+                            <div class="adm-tbl-actions">
+                                <select class="adm-filter-sel" id="filter-rent-approved">
+                                    <option>All Types</option>
+                                    <option>Residential</option>
+                                    <option>Commercial</option>
+                                    <option>PG / Hostel</option>
+                                </select>
+                                <button class="adm-export-btn">⬇ Export</button>
+                            </div>
+                        </div>
+                        <table class="adm-tbl">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Rent/mo</th>
+                                    <th>Approved On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rent-approved-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ── REJECTED ── -->
+                <div class="adm-panel" id="rent-panel-rejected">
+                    <div class="adm-tbl-wrap">
+                        <div class="adm-tbl-toolbar">
+                            <span class="adm-tbl-title">Rejected — Rent Listings</span>
+                            <div class="adm-tbl-actions"><button class="adm-export-btn">⬇ Export</button></div>
+                        </div>
+                        <table class="adm-tbl">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Rent/mo</th>
+                                    <th>Rejected On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rent-rejected-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ── RENTED OUT ── -->
+                <div class="adm-panel" id="rent-panel-sold">
+                    <div class="adm-tbl-wrap">
+                        <div class="adm-tbl-toolbar">
+                            <span class="adm-tbl-title">Rented Out</span>
+                            <div class="adm-tbl-actions"><button class="adm-export-btn">⬇ Export</button></div>
+                        </div>
+                        <table class="adm-tbl">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Rent/mo</th>
+                                    <th>Rented On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rent-sold-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ── TENANTS ── -->
+                <div class="adm-panel" id="rent-panel-users">
+                    <div class="user-grid" id="rent-users-grid"></div>
+                </div>
+
+                <!-- ── INQUIRIES ── -->
+                <div class="adm-panel" id="rent-panel-inquiries">
+                    <div id="rent-inq-list"></div>
+                </div>
+
+            </div><!-- /#sectionRent -->
+
+        </main><!-- /.adm-main -->
+    </div><!-- /.admin-wrap -->
+
+    <!-- ══════════════════════════════════════
+     FEEDBACK FAB
+     ══════════════════════════════════════ -->
+    <div class="feedback-fab">
+        <button class="fab-btn" id="feedbackFab">
+            <span class="fab-icon">💬</span> Feedback
+        </button>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     FEEDBACK MODAL
+     ══════════════════════════════════════ -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div class="modal-head">
+                <span class="modal-title">Share Your Feedback</span>
+                <button class="modal-close" id="modalClose">✕</button>
+            </div>
+            <label class="modal-label">How would you rate the admin panel?</label>
+            <div class="star-row" id="starRow">
+                <button class="star-btn" data-s="1" type="button">★</button>
+                <button class="star-btn" data-s="2" type="button">★</button>
+                <button class="star-btn" data-s="3" type="button">★</button>
+                <button class="star-btn" data-s="4" type="button">★</button>
+                <button class="star-btn" data-s="5" type="button">★</button>
+            </div>
+            <label class="modal-label" for="feedbackText">Your thoughts</label>
+            <textarea class="modal-textarea" id="feedbackText"
+                placeholder="What's working well? What could be improved?"></textarea>
+            <div class="modal-actions">
+                <button class="modal-cancel" id="modalCancel">Cancel</button>
+                <button class="modal-submit" id="modalSubmit">Send Feedback →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     PROPERTY DETAIL DRAWER
+     ══════════════════════════════════════ -->
+    <div class="drawer-overlay" id="drawerOverlay">
+        <div class="drawer" id="drawer">
+            <div class="drawer-head">
+                <span class="drawer-title" id="drawerTitle">Property Details</span>
+                <button class="drawer-close" id="drawerClose">✕</button>
+            </div>
+            <div class="drawer-body" id="drawerBody">
+                <!-- filled by JS -->
+            </div>
+            <div class="drawer-foot" id="drawerFoot">
+                <button class="drawer-act-btn approve" id="drawerApprove">✓ Approve</button>
+                <button class="drawer-act-btn reject" id="drawerReject">✕ Reject</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="adm-toast" id="toast"></div>
+
+    <script src="../assets/js/admin_dashboard.js"></script>
+</body>
+
+</html>

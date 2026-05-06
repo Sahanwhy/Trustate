@@ -1,0 +1,503 @@
+/* ================================================================
+   Trustate — listing.css
+   Used for property listing forms (Underdeveloped Land, etc.)
+   ================================================================ */
+
+:root {
+  --lf-bg: #F8FAFC;
+  --lf-card: #FFFFFF;
+  --lf-border: #E2E8F0;
+  --lf-text: #0F172A;
+  --lf-muted: #64748B;
+  --lf-accent: #00C47A;
+  --lf-accent-hover: #009B5E;
+  --lf-error: #EF4444;
+  --lf-shadow: 0 4px 20px rgba(11, 31, 58, 0.08);
+  --lf-radius: 12px;
+}
+
+body.cat-land {
+  background: var(--lf-bg);
+  color: var(--lf-text);
+  line-height: 1.6;
+}
+
+/* ── Header ── */
+.lf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 5%;
+  background: var(--lf-card);
+  border-bottom: 1px solid var(--lf-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.lf-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.lf-logo span {
+  color: var(--lf-accent);
+}
+
+.lf-header-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--lf-muted);
+  transition: color 0.2s;
+}
+
+.lf-header-back:hover {
+  color: var(--lf-text);
+}
+
+.lf-header-back svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Hero ── */
+.lf-hero {
+  padding: 4rem 5% 3rem;
+  text-align: center;
+  background: linear-gradient(to bottom, #FFFFFF, var(--lf-bg));
+}
+
+.lf-hero-eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--lf-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.lf-hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  color: var(--navy);
+}
+
+.lf-hero p {
+  font-size: 1rem;
+  color: var(--lf-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── Progress Bar ── */
+.lf-progress-bar {
+  height: 6px;
+  background: var(--lf-border);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.lf-progress-fill {
+  height: 100%;
+  background: var(--lf-accent);
+  transition: width 0.4s ease;
+}
+
+/* ── Body ── */
+.lf-body {
+  max-width: 860px;
+  margin: 0 auto 6rem;
+  padding: 0 2rem;
+}
+
+/* ── Subtype Picker ── */
+.lf-subtype-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.lf-subtype-pill {
+  padding: 1.25rem;
+  background: var(--lf-card);
+  border: 2px solid var(--lf-border);
+  border-radius: var(--lf-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--lf-text);
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.lf-subtype-pill:hover {
+  border-color: var(--lf-accent);
+  background: var(--green-pale);
+}
+
+.lf-subtype-pill.selected {
+  border-color: var(--lf-accent);
+  background: var(--green-pale);
+  box-shadow: 0 0 0 4px rgba(0, 196, 122, 0.1);
+}
+
+/* ── Form Notice ── */
+.lf-admin-notice {
+  display: flex;
+  gap: 1rem;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  padding: 1.25rem;
+  border-radius: var(--lf-radius);
+  margin-bottom: 2rem;
+}
+
+.lf-admin-notice-icon {
+  font-size: 1.25rem;
+}
+
+.lf-admin-notice-text {
+  font-size: 0.88rem;
+  color: #1E40AF;
+  line-height: 1.5;
+}
+
+.lf-admin-notice-text strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.lf-req-note {
+  font-size: 0.8rem;
+  color: var(--lf-muted);
+  margin-bottom: 1.5rem;
+}
+
+.lf-req-note span {
+  color: var(--lf-error);
+}
+
+/* ── Sections ── */
+.lf-section {
+  background: var(--lf-card);
+  border: 1px solid var(--lf-border);
+  border-radius: var(--lf-radius);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: var(--lf-shadow);
+}
+
+.lf-section-head {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  background: var(--lf-card);
+  transition: background 0.2s;
+}
+
+.lf-section-head:hover {
+  background: var(--off-white);
+}
+
+.lf-section-icon {
+  font-size: 1.25rem;
+}
+
+.lf-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  flex: 1;
+}
+
+.lf-section-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lf-muted);
+  background: var(--light-grey);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+}
+
+.lf-section-chevron {
+  width: 20px;
+  height: 20px;
+  color: var(--lf-muted);
+  transition: transform 0.3s;
+}
+
+.lf-section.collapsed .lf-section-chevron {
+  transform: rotate(-90deg);
+}
+
+.lf-section.collapsed .lf-section-body {
+  display: none;
+}
+
+.lf-section-body {
+  padding: 0 1.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  border-top: 1px solid var(--lf-border);
+  padding-top: 1.5rem;
+}
+
+.lf-section-body.single-col {
+  grid-template-columns: 1fr;
+}
+
+/* ── Fields ── */
+.lf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lf-field.full {
+  grid-column: 1 / -1;
+}
+
+.lf-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--lf-text);
+}
+
+.lf-label span.req {
+  color: var(--lf-error);
+}
+
+.lf-label span.hint {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--lf-muted);
+  margin-top: 0.15rem;
+}
+
+.lf-input, .lf-select, .lf-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--lf-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--lf-text);
+  background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.lf-input:focus, .lf-select:focus, .lf-textarea:focus {
+  outline: none;
+  border-color: var(--lf-accent);
+  box-shadow: 0 0 0 3px rgba(0, 196, 122, 0.1);
+}
+
+.lf-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.lf-input-unit {
+  display: flex;
+  position: relative;
+}
+
+.lf-input-unit .lf-input {
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.lf-unit-select {
+  width: 100px;
+  border: 1.5px solid var(--lf-border);
+  border-radius: 0 8px 8px 0;
+  padding: 0 0.5rem;
+  background: var(--light-grey);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lf-unit-tag {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--lf-muted);
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.lf-unit-tag + .lf-input {
+  padding-left: 2rem;
+}
+
+/* ── Toggle ── */
+.lf-toggle {
+  display: flex;
+  background: var(--light-grey);
+  padding: 4px;
+  border-radius: 8px;
+  gap: 4px;
+}
+
+.lf-toggle input {
+  display: none;
+}
+
+.lf-toggle label {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--lf-muted);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lf-toggle input:checked + label {
+  background: var(--white);
+  color: var(--navy);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* ── Upload ── */
+.lf-upload {
+  border: 2px dashed var(--lf-border);
+  border-radius: var(--lf-radius);
+  padding: 2.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.lf-upload:hover {
+  border-color: var(--lf-accent);
+  background: var(--green-pale);
+}
+
+.lf-upload input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.lf-upload-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.lf-upload-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--navy);
+  margin-bottom: 0.25rem;
+}
+
+.lf-upload-sub {
+  font-size: 0.8rem;
+  color: var(--lf-muted);
+}
+
+.lf-upload-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.lf-upload-preview img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--lf-border);
+}
+
+/* ── Actions ── */
+.lf-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1.5px solid var(--lf-border);
+}
+
+.lf-btn-back, .lf-save-draft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--lf-muted);
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.lf-btn-back:hover, .lf-save-draft:hover {
+  background: var(--light-grey);
+  color: var(--lf-text);
+}
+
+.lf-btn-submit {
+  background: var(--navy);
+  color: var(--white);
+  padding: 1rem 2.5rem;
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s;
+}
+
+.lf-btn-submit:hover {
+  background: var(--blue-mid);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(11, 31, 58, 0.2);
+}
+
+.lf-btn-submit svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .lf-section-body {
+    grid-template-columns: 1fr;
+  }
+  .lf-actions {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+  }
+  .lf-btn-submit {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

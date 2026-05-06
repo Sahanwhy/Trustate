@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Login — Trustate</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    :root {
+      --navy: #0B1F3A;
+      --navy-mid: #1A3A5C;
+      --blue: #1E5F8E;
+      --blue-mid: #2878B5;
+      --blue-pale: #E8F3FB;
+      --forest: #1A4A2E;
+      --green: #2A7A4B;
+      --green-mid: #3AA864;
+      --green-pale: #E6F7ED;
+      --accent: #00C47A;
+      --accent-dark: #009B5E;
+      --white: #FFFFFF;
+      --off-white: #F5F9FC;
+      --light-grey: #EBF2F8;
+      --mid-grey: #D0DDE8;
+      --text: #0B1F3A;
+      --text-mid: #3A5470;
+      --text-muted: #7A9AB5;
+      --error: #E53E3E;
+      --shadow-sm: 0 2px 12px rgba(11, 31, 58, .07);
+      --shadow-md: 0 8px 32px rgba(11, 31, 58, .13);
+      --radius: 14px;
+      --radius-lg: 22px;
+      --radius-pill: 100px;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    input {
+      font-family: inherit;
+    }
+
+    /* ── Page Layout ── */
+    .auth-page {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Left Panel ── */
+    .auth-panel {
+      background: linear-gradient(150deg, rgba(11, 31, 58, .97) 0%, rgba(26, 58, 92, .9) 50%, rgba(26, 74, 46, .88) 100%),
+        url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1000&q=80') center/cover no-repeat;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-panel::before {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      border: 60px solid rgba(0, 196, 122, .07);
+      pointer-events: none;
+    }
+
+    .auth-panel::after {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(30, 95, 142, .12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .panel-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-bottom: 6px;
+      flex-shrink: 0;
+    }
+
+    .panel-body {
+      position: relative;
+      z-index: 2;
+    }
+
+    .panel-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(0, 196, 122, .15);
+      border: 1px solid rgba(0, 196, 122, .3);
+      color: #7FFFC4;
+      padding: .4rem .9rem;
+      border-radius: var(--radius-pill);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+    }
+
+    .panel-title em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .panel-desc {
+      font-size: .92rem;
+      color: rgba(255, 255, 255, .5);
+      line-height: 1.75;
+      font-weight: 300;
+      max-width: 340px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Testimonial quote on login panel */
+    .panel-quote {
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .panel-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: rgba(255, 255, 255, .75);
+      line-height: 1.65;
+      margin-bottom: .8rem;
+    }
+
+    .panel-quote-author {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+    }
+
+    .quote-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(0, 196, 122, .35);
+    }
+
+    .quote-name {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .quote-role {
+      font-size: .72rem;
+      color: rgba(255, 255, 255, .4);
+    }
+
+    .panel-footer {
+      position: relative;
+      z-index: 2;
+      font-size: .78rem;
+      color: rgba(255, 255, 255, .25);
+    }
+
+    /* ── Right Panel (Form) ── */
+    .auth-form-wrap {
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem 4rem;
+      overflow-y: auto;
+    }
+
+    .form-header {
+      margin-bottom: 2.2rem;
+    }
+
+    .form-header__back {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 1.8rem;
+      transition: color .2s;
+    }
+
+    .form-header__back:hover {
+      color: var(--navy);
+    }
+
+    .form-eyebrow {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .6rem;
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: .5rem;
+    }
+
+    .form-subtitle {
+      font-size: .88rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .form-subtitle a {
+      color: var(--blue);
+      font-weight: 600;
+      transition: color .2s;
+    }
+
+    .form-subtitle a:hover {
+      color: var(--navy);
+    }
+
+    /* ── Form Fields ── */
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .field-group label {
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: .85rem 1rem .85rem 2.8rem;
+      border: 1.5px solid var(--mid-grey);
+      border-radius: var(--radius);
+      font-size: .92rem;
+      color: var(--text);
+      background: var(--off-white);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .field-input:focus {
+      border-color: var(--blue-mid);
+      box-shadow: 0 0 0 3px rgba(40, 120, 181, .1);
+      background: var(--white);
+    }
+
+    .field-input.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(229, 62, 62, .08);
+    }
+
+    .field-input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Eye button */
+    .eye-btn {
+      position: absolute;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: .2rem;
+      border-radius: 4px;
+      transition: color .2s;
+      outline: none;
+    }
+
+    .eye-btn:hover {
+      color: var(--navy);
+    }
+
+    .eye-btn:focus-visible {
+      outline: 2px solid var(--blue-mid);
+    }
+
+    /* Field error */
+    .field-error {
+      font-size: .75rem;
+      color: var(--error);
+      font-weight: 500;
+      display: none;
+    }
+
+    .field-error.show {
+      display: block;
+    }
+
+    /* Forgot password row */
+    .field-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .field-row label {
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+
+    .forgot-link {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--blue);
+      transition: color .2s;
+    }
+
+    .forgot-link:hover {
+      color: var(--navy);
+      text-decoration: underline;
+    }
+
+    /* Remember me */
+    .remember-row {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .remember-row input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      accent-color: var(--blue-mid);
+      cursor: pointer;
+    }
+
+    .remember-row label {
+      font-size: .83rem;
+      color: var(--text-mid);
+      font-weight: 500;
+      cursor: pointer;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* Login alert (wrong creds) */
+    .login-alert {
+      background: rgba(229, 62, 62, .07);
+      border: 1px solid rgba(229, 62, 62, .25);
+      border-radius: var(--radius);
+      padding: .85rem 1rem;
+      font-size: .83rem;
+      color: var(--error);
+      font-weight: 500;
+      display: none;
+    }
+
+    .login-alert.show {
+      display: block;
+    }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      font-size: .95rem;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      margin-top: .2rem;
+    }
+
+    .btn-submit:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(11, 31, 58, .2);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit.loading {
+      pointer-events: none;
+    }
+
+    .btn-submit .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    .btn-submit.loading .btn-text {
+      display: none;
+    }
+
+    .btn-submit.loading .spinner {
+      display: block;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Divider */
+    .form-divider {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+
+    .form-divider::before,
+    .form-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--mid-grey);
+    }
+
+    .form-divider span {
+      font-size: .75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Create account CTA */
+    .create-cta {
+      display: block;
+      width: 100%;
+      padding: .95rem;
+      background: var(--white);
+      color: var(--navy);
+      border: 1.5px solid var(--mid-grey);
+      border-radius: var(--radius);
+      font-size: .92rem;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      text-align: center;
+    }
+
+    .create-cta:hover {
+      border-color: var(--navy);
+      background: var(--off-white);
+    }
+
+    /* Responsive */
+    @media(max-width: 900px) {
+      .auth-page {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-panel {
+        display: none;
+      }
+
+      .auth-form-wrap {
+        padding: 2.5rem 1.8rem;
+      }
+    }
+
+    @media(max-width: 480px) {
+      .auth-form-wrap {
+        padding: 2rem 1.2rem;
+      }
+
+      .form-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-page">
+
+    <!-- ── Left Panel ── -->
+    <div class="auth-panel">
+      <a href="index.html" class="panel-logo">Trustate<span class="logo-dot"></span></a>
+
+      <div class="panel-body">
+        <div class="panel-tag">🏠 Seller Portal</div>
+        <h1 class="panel-title">Welcome<br><em>Back</em></h1>
+        <p class="panel-desc">Sign in to manage your listings, track enquiries, and connect with verified buyers — all
+          from one dashboard.</p>
+
+        <div class="panel-quote">
+          <p>"Listed my commercial property and had a verified buyer within 2 weeks. The admin team managed every aspect
+            professionally."</p>
+          <div class="panel-quote-author">
+            <img class="quote-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&q=80"
+              alt="Priya S.">
+            <div>
+              <div class="quote-name">Priya Sharma</div>
+              <div class="quote-role">Commercial Seller · Mumbai</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-footer">© 2025 Trustate. All rights reserved.</div>
+    </div>
+
+    <!-- ── Right Panel (Form) ── -->
+    <div class="auth-form-wrap">
+
+      <div class="form-header">
+        <a href="index.html" class="form-header__back">← Back to Trustate</a>
+        <div class="form-eyebrow">Seller Account</div>
+        <h2 class="form-title">Sign in to your account</h2>
+        <p class="form-subtitle">Don't have an account? <a href="sign up.html">Create one free</a></p>
+      </div>
+
+      <form class="auth-form" id="loginForm" novalidate>
+
+        <!-- Login alert -->
+        <div class="login-alert" id="loginAlert">
+          ⚠ Incorrect email or password. Please try again.
+        </div>
+
+        <!-- Email -->
+        <div class="field-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+            </span>
+            <input class="field-input" type="email" id="email" name="email" placeholder="you@example.com"
+              autocomplete="email">
+          </div>
+          <span class="field-error" id="emailErr">Please enter a valid email address.</span>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group">
+          <div class="field-row">
+            <label for="password">Password</label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </span>
+            <input class="field-input" type="password" id="password" name="password" placeholder="Enter your password"
+              autocomplete="current-password" style="padding-right:3rem">
+            <button type="button" class="eye-btn" id="eyeBtn" aria-label="Toggle password visibility">
+              <svg id="eyeOpen" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <svg id="eyeClosed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                <line x1="1" y1="1" x2="23" y2="23" />
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="passwordErr">Please enter your password.</span>
+        </div>
+
+        <!-- Remember me -->
+        <div class="remember-row">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Keep me signed in</label>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-text">Sign In →</span>
+          <div class="spinner"></div>
+        </button>
+
+        <div class="form-divider"><span>or</span></div>
+
+        <a href="sign up.html" class="create-cta">Create a Seller Account</a>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    /* ── Eye toggle ── */
+    const eyeBtn = document.getElementById('eyeBtn');
+    const pwInput = document.getElementById('password');
+    const eyeOpen = document.getElementById('eyeOpen');
+    const eyeClosed = document.getElementById('eyeClosed');
+
+    eyeBtn.addEventListener('click', () => {
+      const isHidden = pwInput.type === 'password';
+      pwInput.type = isHidden ? 'text' : 'password';
+      eyeOpen.style.display = isHidden ? 'none' : 'block';
+      eyeClosed.style.display = isHidden ? 'block' : 'none';
+    });
+
+    /* ── Clear errors on input ── */
+    function showError(inputId, errId) {
+      document.getElementById(inputId).classList.add('error');
+      document.getElementById(errId).classList.add('show');
+    }
+    function clearError(inputId, errId) {
+      document.getElementById(inputId)?.classList.remove('error');
+      document.getElementById(errId)?.classList.remove('show');
+    }
+
+    ['email', 'password'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', () => {
+        clearError(id, id + 'Err');
+        document.getElementById('loginAlert')?.classList.remove('show');
+      });
+    });
+
+    /* ── Form submit ── */
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      let valid = true;
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('email', 'emailErr'); valid = false; }
+      if (!password) { showError('password', 'passwordErr'); valid = false; }
+      if (!valid) return;
+
+      /* Loading state */
+      const btn = document.getElementById('submitBtn');
+      btn.classList.add('loading');
+
+      /* Real Login API Call */
+      fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json().then(data => ({ status: res.status, data })))
+      .then(({ status, data }) => {
+        btn.classList.remove('loading');
+        if (status === 200) {
+          localStorage.setItem('Trustate_token', data.token);
+          localStorage.setItem('Trustate_user', JSON.stringify(data.user));
+          window.location.href = '../seller/seller_dashboard.html';
+        } else {
+          document.getElementById('loginAlert').textContent = data.message || 'Invalid credentials';
+          document.getElementById('loginAlert').classList.add('show');
+        }
+      })
+      .catch(err => {
+        btn.classList.remove('loading');
+        console.error('Login error:', err);
+        alert('Network error. Is the backend running?');
+      });
+
+    });
+  </script>
+</body>
+
+</html>
