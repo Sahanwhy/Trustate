@@ -12,6 +12,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/properties', require('./routes/property'));
 
 // Basic Route
 app.get('/', (req, res) => {
@@ -31,4 +32,13 @@ mongoose.connect(uri)
 
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
+});
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error('SERVER ERROR:', err);
+    res.status(500).json({
+        message: 'Something went wrong!',
+        error: err.message
+    });
 });

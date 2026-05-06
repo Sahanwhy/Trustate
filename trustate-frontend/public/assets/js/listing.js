@@ -108,32 +108,87 @@
     };
 
     // ── Form Submission ──
-    listingForm?.addEventListener('submit', function(e) {
+    listingForm?.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const btn = document.getElementById('submitBtn');
         const originalText = btn.innerHTML;
         
+        // Get the selected subtype
+        const selectedSubtypeBtn = document.querySelector('.lf-subtype-pill.selected');
+        if (!selectedSubtypeBtn) {
+            alert('Please select a property type first.');
+            return;
+        }
+        
+        // Find the subtype key from SUBTYPE_CONFIG
+        let subtype = '';
+        for (const [key, config] of Object.entries(window.SUBTYPE_CONFIG || {})) {
+            if (config.label === selectedSubtypeBtn.textContent.split(' ').slice(1).join(' ')) {
+                subtype = key;
+                break;
+            }
+        }
+        // Fallback: If not found by label, we might need a better way. 
+        // Let's modify selectSubtype to store the current subtype.
+        subtype = window.currentSubtype; 
+
         btn.disabled = true;
         btn.innerHTML = 'Submitting...';
 
-        // Simulated API call
-        setTimeout(() => {
-            alert('Listing submitted successfully for admin approval!');
-            btn.innerHTML = '✓ Submitted';
-            btn.style.background = 'var(--lf-accent)';
-            
-            // Redirect back to dashboard after a delay
-            setTimeout(() => {
-                window.location.href = '../seller/seller_dashboard.html';
-            }, 1500);
-        }, 2000);
+        const formData = new FormData(listingForm);
+        formData.append('subtype', subtype);
+
+        const token = localStorage.getItem('Trustate_token');
+        if (!token) {
+            alert('Session expired. Please login again.');
+            window.location.href = '../auth/login.html';
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/api/properties/residential', {
+                method: 'POST',
+                headers: {
+                    'x-auth-token': token
+                },
+                body: formData // Send FormData directly
+            });
+
+            const contentType = response.headers.get('content-type');
+            let result;
+            if (contentType && contentType.includes('application/json')) {
+                result = await response.json();
+            } else {
+                const text = await response.text();
+                console.error('Non-JSON response:', text);
+                throw new Error(`Server returned ${response.status}: ${response.statusText}. Please check backend logs.`);
+            }
+
+            if (response.ok) {
+                btn.innerHTML = '✓ Submitted';
+                btn.style.background = 'var(--lf-accent)';
+                alert(result.message || 'Listing submitted successfully!');
+                
+                setTimeout(() => {
+                    window.location.href = '../seller/seller_dashboard.html';
+                }, 1500);
+            } else {
+                throw new Error(result.message || 'Submission failed');
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            alert('Error: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
     });
 
     // ── Shared Listing Logic ──
     window.selectSubtype = function(btn, sub) {
         if (typeof SUBTYPE_CONFIG === 'undefined') return;
         
+        window.currentSubtype = sub; // Store the current subtype globally
         document.querySelectorAll('.lf-subtype-pill').forEach(p => p.classList.remove('selected'));
         btn.classList.add('selected');
         
