@@ -10,39 +10,61 @@
     let LISTINGS = [];
 
     async function fetchUserListings() {
-        console.log('[Dashboard] Fetching dummy listings...');
+        console.log('[Dashboard] Fetching listings from backend...');
         
-        // Dummy data for preview without backend
-        const dummyData = [
-            { id: 1, title: 'Luxury Villa', category: 'RESIDENTIAL', subtype: 'Villa', locality: 'Lekki', district: 'Lagos', price: 120000000, status: 'APPROVED', createdAt: new Date().toISOString() },
-            { id: 2, title: 'Modern Office', category: 'COMMERCIAL', subtype: 'Office Space', locality: 'Ikeja', district: 'Lagos', price: 45000000, status: 'PENDING', createdAt: new Date().toISOString() }
-        ];
+        const token = localStorage.getItem('Trustate_token');
+        if (!token) {
+            console.error('No token found');
+            return;
+        }
 
-        LISTINGS = dummyData.map(item => {
-            const categoryMap = {
-                'RESIDENTIAL': { type: 'res', view: 'view_res.html' },
-                'COMMERCIAL': { type: 'com', view: 'view_com.html' },
-                'AGRICULTURAL': { type: 'agri', view: 'view_agri.html' },
-                'UNDEVELOPED': { type: 'land', view: 'view_uland.html' }
-            };
-            const catInfo = categoryMap[item.category] || { type: 'res', view: 'view_res.html' };
-            return {
-                id: item.id,
-                category: item.category,
-                type: catInfo.type,
-                viewPage: catInfo.view,
-                subtype: item.subtype || 'Property',
-                name: item.title || 'Untitled Property',
-                location: [item.locality, item.district].filter(Boolean).join(', ') || 'N/A',
-                price: '₹' + (item.price ? parseFloat(item.price).toLocaleString('en-IN') : 'N/A'),
-                status: (item.status || 'PENDING').toLowerCase(),
-                date: item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : 'N/A',
-                img: '../assets/img/placeholder-prop.jpg'
-            };
-        });
+        try {
+            const response = await fetch('http://localhost:5000/api/properties/my-listings', {
+                headers: {
+                    'x-auth-token': token
+                }
+            });
 
-        renderTable();
-        refreshStats();
+            if (!response.ok) {
+                throw new Error('Failed to fetch listings');
+            }
+
+            const data = await response.json();
+            console.log('[Dashboard] Listings received:', data);
+
+            LISTINGS = data.map(item => {
+                // Map the backend data to the dashboard's display format
+                // In this simplified version, we'll try to guess the type if not explicitly stored
+                // based on what fields are present, but for now we'll use a default or 'res'
+                const type = (item.type || 'res').toLowerCase(); 
+                
+                const categoryMap = {
+                    'residential': { type: 'res', view: 'view_res.html' },
+                    'commercial': { type: 'com', view: 'view_com.html' },
+                    'agricultural': { type: 'agri', view: 'view_agri.html' },
+                    'underdeveloped': { type: 'land', view: 'view_uland.html' }
+                };
+                const catInfo = categoryMap[type] || { type: 'res', view: 'view_res.html' };
+
+                return {
+                    id: item._id,
+                    type: catInfo.type,
+                    viewPage: catInfo.view,
+                    subtype: item.subtype || 'Property',
+                    name: item.title || 'Untitled Property',
+                    location: [item.locality, item.city_town_village, item.district].filter(Boolean).join(', ') || 'N/A',
+                    price: '₹' + (item.price ? parseFloat(item.price).toLocaleString('en-IN') : 'N/A'),
+                    status: (item.status || 'pending').toLowerCase(),
+                    date: item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : 'N/A',
+                    img: (item.images && item.images.length > 0) ? item.images[0] : '../assets/img/placeholder-prop.jpg'
+                };
+            });
+
+            renderTable();
+            refreshStats();
+        } catch (error) {
+            console.error('[Dashboard] Error fetching listings:', error);
+        }
     }
 
     /* ── Form field definitions per type ── */
@@ -182,18 +204,34 @@
         });
         tbody.querySelectorAll('[data-del]').forEach(btn => {
             btn.addEventListener('click', async () => {
-                if (!confirm('Delete this listing?')) return;
+                if (!confirm('Are you sure you want to delete this listing?')) return;
                 const id = btn.dataset.del;
-                const p = LISTINGS.find(x => x.id == id);
-                if (!p) return;
+                
+                const token = localStorage.getItem('Trustate_token');
+                if (!token) return;
 
-                // Simulated delete for front-end only
-                const id = btn.dataset.del;
-                const i = LISTINGS.findIndex(x => x.id == id);
-                if (i > -1) { 
-                    LISTINGS.splice(i, 1); 
-                    renderTable(); 
-                    refreshStats(); 
+                try {
+                    const response = await fetch(`http://localhost:5000/api/properties/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'x-auth-token': token
+                        }
+                    });
+
+                    if (response.ok) {
+                        const i = LISTINGS.findIndex(x => x.id == id);
+                        if (i > -1) { 
+                            LISTINGS.splice(i, 1); 
+                            renderTable(); 
+                            refreshStats(); 
+                        }
+                    } else {
+                        const err = await response.json();
+                        alert('Error: ' + (err.message || 'Could not delete listing'));
+                    }
+                } catch (error) {
+                    console.error('Delete error:', error);
+                    alert('Server error while deleting');
                 }
             });
         });

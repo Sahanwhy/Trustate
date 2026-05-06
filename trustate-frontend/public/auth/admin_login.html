@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login — Trustate</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/admin_auth.css">
+</head>
+
+<body>
+
+    <div class="auth-card">
+        <div class="auth-header">
+            <a href="../index.html" class="auth-logo">
+                <span class="auth-logo-text">Trustate</span>
+                <span class="dot"></span>
+            </a>
+            <h1 class="auth-title">Admin Console</h1>
+            <p class="auth-sub">Please enter your credentials to continue.</p>
+        </div>
+
+        <form class="auth-form" id="loginForm">
+            <div class="form-group">
+                <label class="form-label" for="email">Admin Email</label>
+                <div class="form-input-wrap">
+                    <input type="email" id="email" class="form-input" placeholder="admin@landify.com" required
+                        autofocus>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <div class="form-input-wrap">
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="remember-me">
+                    <input type="checkbox" id="remember">
+                    Remember me
+                </label>
+                <a href="#" class="forgot-link">Forgot?</a>
+            </div>
+
+            <button type="submit" class="auth-btn" id="submitBtn">
+                Sign In to Dashboard →
+            </button>
+        </form>
+
+        <div class="auth-foot">
+            Don't have an admin account? <a href="admin_signup.html">Request access</a>
+        </div>
+    </div>
+
+    <!-- Error Toast -->
+    <div class="auth-toast" id="toast">Invalid credentials</div>
+
+    <!-- JS -->
+    <script src="../assets/js/admin_auth.js"></script>
+</body>
+
+</html>

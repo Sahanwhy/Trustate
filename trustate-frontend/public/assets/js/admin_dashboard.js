@@ -1,6 +1,6 @@
 /**
  * Trustate — admin_dashboard.js
- * Premium interactivity for the admin panel.
+ * Real-time data integration for the admin panel.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,301 +10,281 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebarOverlay = document.getElementById('sidebarOverlay');
     const topbarTitle = document.getElementById('topbarTitle');
 
-    // Section Switchers
-    const swProp = document.getElementById('swProp');
-    const swRent = document.getElementById('swRent');
-    const sectionProp = document.getElementById('sectionProp');
-    const sectionRent = document.getElementById('sectionRent');
+    // ─── Data State ───
+    let properties = [];
 
-    // Feedback Modal
-    const feedbackFab = document.getElementById('feedbackFab');
-    const feedbackModal = document.getElementById('feedbackModal');
-    const modalClose = document.getElementById('modalClose');
-    const modalCancel = document.getElementById('modalCancel');
-    const modalSubmit = document.getElementById('modalSubmit');
-    const starRow = document.getElementById('starRow');
-
-    // Drawer
-    const drawerOverlay = document.getElementById('drawerOverlay');
-    const drawer = document.getElementById('drawer');
-    const drawerClose = document.getElementById('drawerClose');
-
-    // Toast
-    const toast = document.getElementById('toast');
-
-    // ─── State ───
-    let activeSection = 'prop'; // 'prop' or 'rent'
-    let activeTabs = {
-        prop: 'pending',
-        rent: 'pending'
-    };
-
-    // ─── Initialization ───
-    init();
-
-    function init() {
-        setupEventListeners();
-        renderCounts();
-        loadMockData();
-    }
-
-    // ─── Event Listeners ───
-    function setupEventListeners() {
-        // Sidebar Mobile Toggle
-        hamburger?.addEventListener('click', () => {
-            sidebar?.classList.add('mob-open');
-            sidebarOverlay?.classList.add('active');
-        });
-
-        sidebarOverlay?.addEventListener('click', () => {
-            sidebar?.classList.remove('mob-open');
-            sidebarOverlay?.classList.remove('active');
-        });
-
-        // Section Switching (Main Switcher)
-        swProp?.addEventListener('click', () => switchSection('prop'));
-        swRent?.addEventListener('click', () => switchSection('rent'));
-
-        // Sidebar Nav Items (Proxy to section/tab)
-        document.querySelectorAll('.adm-nav-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                const section = item.getAttribute('data-goto');
-                const tab = item.getAttribute('data-tab');
-                
-                if (section) switchSection(section);
-                if (tab) switchTab(section, tab);
-
-                // Close sidebar on mobile
-                sidebar?.classList.remove('mob-open');
-                sidebarOverlay?.classList.remove('active');
-            });
-        });
-
-        // Tab Switching within sections
-        document.querySelectorAll('.adm-tab').forEach(tabBtn => {
-            tabBtn.addEventListener('click', () => {
-                const section = tabBtn.getAttribute('data-section');
-                const tab = tabBtn.getAttribute('data-tab');
-                switchTab(section, tab);
-            });
-        });
-
-        // Feedback Modal
-        feedbackFab?.addEventListener('click', () => {
-            feedbackModal?.classList.add('active');
-        });
-
-        [modalClose, modalCancel].forEach(btn => {
-            btn?.addEventListener('click', () => {
-                feedbackModal?.classList.remove('active');
-            });
-        });
-
-        modalSubmit?.addEventListener('click', () => {
-            showToast('Thank you for your feedback! 🚀');
-            feedbackModal?.classList.remove('active');
-        });
-
-        // Star Rating
-        starRow?.querySelectorAll('.star-btn').forEach(star => {
-            star.addEventListener('click', () => {
-                const rating = star.getAttribute('data-s');
-                starRow.querySelectorAll('.star-btn').forEach(s => {
-                    const sRating = s.getAttribute('data-s');
-                    s.classList.toggle('active', sRating <= rating);
-                });
-            });
-        });
-
-        // Drawer Close
-        drawerClose?.addEventListener('click', closeDrawer);
-        drawerOverlay?.addEventListener('click', closeDrawer);
-    }
-
-    // ─── Navigation Logic ───
-    function switchSection(section) {
-        activeSection = section;
-
-        // Update Switcher Buttons
-        swProp?.classList.toggle('active', section === 'prop');
-        swRent?.classList.toggle('active', section === 'rent');
-
-        // Update Section Visibility
-        if (sectionProp) sectionProp.style.display = section === 'prop' ? 'block' : 'none';
-        if (sectionRent) sectionRent.style.display = section === 'rent' ? 'block' : 'none';
-
-        // Update Topbar Title
-        const sectionLabel = section === 'prop' ? 'Properties' : 'Rent Listings';
-        const tabLabel = activeTabs[section].charAt(0).toUpperCase() + activeTabs[section].slice(1);
-        if (topbarTitle) topbarTitle.innerHTML = `${sectionLabel} <span>/ ${tabLabel}</span>`;
-
-        // Update Sidebar Active Item
-        document.querySelectorAll('.adm-nav-item').forEach(item => {
-            const itemSection = item.getAttribute('data-goto');
-            const itemTab = item.getAttribute('data-tab');
-            const isActive = (itemSection === section && !itemTab);
-            item.classList.toggle('active', isActive);
-        });
-    }
-
-    function switchTab(section, tab) {
-        activeTabs[section] = tab;
-
-        // Update Tab Buttons UI
-        document.querySelectorAll(`.adm-tab[data-section="${section}"]`).forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
-        });
-
-        // Update Panels UI
-        document.querySelectorAll(`#section${section.charAt(0).toUpperCase() + section.slice(1)} .adm-panel`).forEach(panel => {
-            const panelId = `${section}-panel-${tab}`;
-            panel.classList.toggle('active', panel.id === panelId);
-        });
-
-        // Update Topbar Title
-        const sectionLabel = section === 'prop' ? 'Properties' : 'Rent Listings';
-        const tabLabel = tab.charAt(0).toUpperCase() + tab.slice(1);
-        if (topbarTitle) topbarTitle.innerHTML = `${sectionLabel} <span>/ ${tabLabel}</span>`;
-    }
-
-    // ─── UI Rendering ───
-    function renderCounts() {
-        // Mock counts
-        const counts = {
-            'sb-prop-pending': 12,
-            'sb-rent-pending': 5,
-            'sw-prop-count': 48,
-            'sw-rent-count': 22,
-            'prop-pending-count': 12,
-            'prop-approved-count': 32,
-            'prop-rejected-count': 4,
-            'prop-sold-count': 10,
-            'prop-users-count': 124,
-            'prop-inq-count': 18,
-            'rent-pending-count': 5,
-            'rent-approved-count': 15,
-            'rent-rejected-count': 2,
-            'rent-sold-count': 5,
-            'rent-users-count': 88,
-            'rent-inq-count': 12
-        };
-
-        for (const [id, count] of Object.entries(counts)) {
-            const el = document.getElementById(id);
-            if (el) el.textContent = count;
-        }
-    }
-
-    function loadMockData() {
-        const propPendingBody = document.getElementById('prop-pending-body');
-        if (!propPendingBody) return;
-
-        const mockProps = [
-            { id: 1, name: 'Skyline Luxury Apartment', type: 'Residential', loc: 'Mumbai, MH', price: '₹2.4 Cr', date: '2 hours ago' },
-            { id: 2, name: 'Green Valley Plot', type: 'Undeveloped', loc: 'Pune, MH', price: '₹85 L', date: '5 hours ago' },
-            { id: 3, name: 'Modern Office Space', type: 'Commercial', loc: 'Bangalore, KA', price: '₹4.2 Cr', date: 'Yesterday' },
-            { id: 4, name: 'Palm Villa', type: 'Residential', loc: 'Goa, GA', price: '₹3.1 Cr', date: '2 days ago' }
-        ];
-
-        propPendingBody.innerHTML = mockProps.map(p => `
-            <tr>
-                <td>
-                    <div class="prop-cell">
-                        <div class="prop-thumb">🏢</div>
-                        <div>
-                            <div class="prop-name">${p.name}</div>
-                            <div class="prop-meta">ID: #LNF-${1000 + p.id}</div>
-                        </div>
-                    </div>
-                </td>
-                <td><span class="badge badge-inactive">${p.type}</span></td>
-                <td>${p.loc}</td>
-                <td><strong>${p.price}</strong></td>
-                <td style="color:var(--adm-muted)">${p.date}</td>
-                <td>
-                    <div class="tbl-acts">
-                        <button class="act-btn" onclick="viewProperty(${p.id})" title="View Details">👁️</button>
-                        <button class="act-btn approve" onclick="approveItem(${p.id})" title="Approve">✓</button>
-                        <button class="act-btn reject" onclick="rejectItem(${p.id})" title="Reject">✕</button>
-                    </div>
-                </td>
-            </tr>
-        `).join('');
-    }
-
-    // ─── Utility Functions ───
-    window.viewProperty = (id) => {
-        const drawerBody = document.getElementById('drawerBody');
-        const drawerTitle = document.getElementById('drawerTitle');
-        if (drawerTitle) drawerTitle.textContent = `Property Details #LNF-${1000 + id}`;
+    async function fetchAllData() {
+        const adminData = JSON.parse(localStorage.getItem('adminUser'));
         
-        if (drawerBody) {
-            drawerBody.innerHTML = `
-                <div style="padding:1.5rem; display:flex; flex-direction:column; gap:1.2rem">
-                    <div style="width:100%; height:200px; background:var(--adm-lg); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:3rem">
-                        🏠
-                    </div>
-                    <div>
-                        <h3 style="margin-bottom:.5rem">Skyline Luxury Apartment</h3>
-                        <p style="color:var(--adm-muted); font-size:.9rem">Premium 3BHK with sea view, high-end amenities, and prime location.</p>
-                    </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; font-size:.85rem">
-                        <div>
-                            <div style="color:var(--adm-muted)">Price</div>
-                            <div style="font-weight:700">₹2.4 Cr</div>
-                        </div>
-                        <div>
-                            <div style="color:var(--adm-muted)">Area</div>
-                            <div style="font-weight:700">1850 sq.ft</div>
-                        </div>
-                        <div>
-                            <div style="color:var(--adm-muted)">Seller</div>
-                            <div style="font-weight:700; color:var(--adm-blue-mid)">Rajesh Kumar</div>
-                        </div>
-                        <div>
-                            <div style="color:var(--adm-muted)">Posted</div>
-                            <div style="font-weight:700">May 05, 2026</div>
-                        </div>
-                    </div>
-                    <div style="padding:1rem; background:var(--adm-off); border-radius:8px; border:1px solid var(--adm-lg)">
-                        <div style="font-weight:700; margin-bottom:.5rem; font-size:.85rem">Verification Documents</div>
-                        <div style="display:flex; gap:.5rem; flex-wrap:wrap">
-                            <span style="padding:.3rem .6rem; background:#fff; border:1px solid var(--adm-mg); border-radius:4px; font-size:.7rem">📄 Sale_Deed.pdf</span>
-                            <span style="padding:.3rem .6rem; background:#fff; border:1px solid var(--adm-mg); border-radius:4px; font-size:.7rem">📄 Tax_Receipt.pdf</span>
-                        </div>
-                    </div>
-                </div>
-            `;
+        if (!adminData || !adminData.token) {
+            console.error('No admin session found');
+            window.location.href = '../auth/admin_login.html';
+            return;
         }
 
-        drawerOverlay?.classList.add('active');
-        drawer?.classList.add('active');
+        const adminToken = adminData.token;
+
+        // Update UI with admin info
+        if (adminData.admin) {
+            document.querySelector('.adm-name').textContent = adminData.admin.fullName;
+            document.querySelector('.adm-avatar').textContent = adminData.admin.fullName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/api/admin/properties', {
+                headers: {
+                    'x-auth-token': adminToken
+                }
+            });
+
+            if (!response.ok) throw new Error('Failed to fetch properties');
+
+            properties = await response.json();
+            renderAll();
+        } catch (err) {
+            console.error('Fetch Error:', err);
+            showToast('Error loading properties');
+        }
+    }
+
+    function renderAll() {
+        renderTable('pending');
+        renderTable('approved');
+        renderTable('rejected');
+        updateStats();
+    }
+
+    function renderTable(status) {
+        const tbody = document.getElementById(`prop-${status}-body`);
+        if (!tbody) return;
+
+        const filtered = properties.filter(p => (p.status || 'pending') === status);
+        tbody.innerHTML = '';
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.3)">No ${status} properties found.</td></tr>`;
+            return;
+        }
+
+        filtered.forEach(p => {
+            const tr = document.createElement('tr');
+            const date = new Date(p.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+            
+            tr.innerHTML = `
+                <td>
+                    <div class="adm-prop-cell">
+                        <img src="${p.images?.[0] || '../assets/img/placeholder-prop.jpg'}" class="adm-prop-thumb">
+                        <div>
+                            <div class="adm-prop-name">${p.title}</div>
+                            <div class="adm-prop-id">ID: ${p._id.substring(18)}</div>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="adm-type-badge">${p.type || 'Residential'}</span></td>
+                <td><div class="adm-prop-loc">${p.city_town_village}, ${p.district}</div></td>
+                <td><div class="adm-prop-price">₹${parseFloat(p.price).toLocaleString('en-IN')}</div></td>
+                <td><div class="adm-prop-date">${date}</div></td>
+                <td>
+                    <button class="adm-act-btn" onclick="openDrawer('${p._id}')">View Details</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // Update counts in tabs
+        const countEl = document.getElementById(`prop-${status}-count`);
+        if (countEl) countEl.textContent = filtered.length;
+        
+        if (status === 'pending') {
+            const sbCount = document.getElementById('sb-prop-pending');
+            if (sbCount) sbCount.textContent = filtered.length;
+        }
+    }
+
+    function updateStats() {
+        const total = properties.length;
+        const pending = properties.filter(p => p.status === 'pending').length;
+        const approved = properties.filter(p => p.status === 'approved').length;
+        
+        const statCards = document.querySelectorAll('.adm-stat-val');
+        if (statCards.length >= 3) {
+            statCards[0].textContent = total;
+            statCards[1].textContent = pending;
+            statCards[2].textContent = approved;
+        }
+
+        const swCount = document.getElementById('sw-prop-count');
+        if (swCount) swCount.textContent = total;
+    }
+
+    window.openDrawer = function(id) {
+        const p = properties.find(x => x._id === id);
+        if (!p) return;
+
+        const drawer = document.getElementById('drawer');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+        const body = document.getElementById('drawerBody');
+
+        body.innerHTML = `
+            <div class="dr-section">
+                <div class="dr-label">Property Title</div>
+                <div class="dr-val" style="font-size:1.2rem;font-weight:600">${p.title}</div>
+            </div>
+            <div class="dr-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
+                <div class="dr-section">
+                    <div class="dr-label">Price</div>
+                    <div class="dr-val">₹${parseFloat(p.price).toLocaleString('en-IN')}</div>
+                </div>
+                <div class="dr-section">
+                    <div class="dr-label">Type</div>
+                    <div class="dr-val" style="text-transform:capitalize">${p.type}</div>
+                </div>
+            </div>
+            <div class="dr-section" style="margin-bottom:1.5rem">
+                <div class="dr-label">Location</div>
+                <div class="dr-val">${p.locality ? p.locality + ', ' : ''}${p.city_town_village}, ${p.district}, ${p.state}</div>
+            </div>
+            <div class="dr-section" style="margin-bottom:1.5rem">
+                <div class="dr-label">Description</div>
+                <div class="dr-val" style="line-height:1.6; color:rgba(255,255,255,0.7)">${p.description || 'No description provided.'}</div>
+            </div>
+            <div class="dr-section">
+                <div class="dr-label">Property Images</div>
+                <div class="dr-img-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
+                    ${p.images.map(img => `<img src="${img}" class="dr-img" style="width:100%; height:80px; object-fit:cover; border-radius:8px; cursor:pointer" onclick="window.open('${img}')">`).join('')}
+                </div>
+            </div>
+        `;
+
+        // Action buttons
+        document.getElementById('drawerApprove').onclick = () => updateStatus(p._id, 'approved');
+        document.getElementById('drawerReject').onclick = () => updateStatus(p._id, 'rejected');
+
+        // Hide/Show action buttons based on current status
+        const foot = document.getElementById('drawerFoot');
+        if (p.status === 'pending') {
+            foot.style.display = 'grid';
+        } else {
+            foot.style.display = 'none';
+        }
+
+        drawer.classList.add('open');
+        drawerOverlay.classList.add('open');
     };
 
-    window.approveItem = (id) => {
-        showToast(`Property #LNF-${1000+id} has been approved. ✅`);
-        closeDrawer();
-    };
+    async function updateStatus(id, newStatus) {
+        const adminToken = JSON.parse(localStorage.getItem('adminUser'))?.token;
+        if (!adminToken) return;
 
-    window.rejectItem = (id) => {
-        showToast(`Property #LNF-${1000+id} has been rejected. ✕`, 'error');
-        closeDrawer();
-    };
+        const btn = newStatus === 'approved' ? document.getElementById('drawerApprove') : document.getElementById('drawerReject');
+        const originalText = btn.textContent;
+        btn.textContent = 'Processing...';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/admin/properties/${id}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': adminToken
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+
+            if (!response.ok) throw new Error('Failed to update status');
+
+            showToast(`Property ${newStatus} successfully`, 'success');
+            closeDrawer();
+            fetchAllData(); 
+        } catch (err) {
+            console.error('Update Error:', err);
+            showToast('Error updating status');
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    }
 
     function closeDrawer() {
-        drawerOverlay?.classList.remove('active');
-        drawer?.classList.remove('active');
+        document.getElementById('drawer').classList.remove('open');
+        document.getElementById('drawerOverlay').classList.remove('open');
     }
 
-    function showToast(msg, type = 'success') {
-        if (!toast) return;
-        toast.textContent = msg;
-        toast.className = `adm-toast active ${type}`;
-        
-        setTimeout(() => {
-            toast.classList.remove('active');
-        }, 3000);
+    document.getElementById('drawerClose').onclick = closeDrawer;
+    document.getElementById('drawerOverlay').onclick = closeDrawer;
+
+    function showToast(msg, type = 'error') {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.style.background = type === 'success' ? '#00C47A' : '#FF4D4D';
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
     }
+
+    // Tab Navigation
+    document.querySelectorAll('.adm-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const section = tab.dataset.section;
+            const targetTab = tab.dataset.tab;
+
+            document.querySelectorAll(`.adm-tab[data-section="${section}"]`).forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            document.querySelectorAll(`.adm-panel[id^="${section}-panel-"]`).forEach(p => p.classList.remove('active'));
+            const panel = document.getElementById(`${section}-panel-${targetTab}`);
+            if (panel) panel.classList.add('active');
+        });
+    });
+
+    // Sidebar Links
+    document.querySelectorAll('.adm-nav-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const goto = item.dataset.goto;
+            if (goto === 'prop') {
+                document.getElementById('sectionProp').style.display = 'block';
+                document.getElementById('sectionRent').style.display = 'none';
+                document.getElementById('swProp').classList.add('active');
+                document.getElementById('swRent').classList.remove('active');
+            } else if (goto === 'rent') {
+                document.getElementById('sectionProp').style.display = 'none';
+                document.getElementById('sectionRent').style.display = 'block';
+                document.getElementById('swProp').classList.remove('active');
+                document.getElementById('swRent').classList.add('active');
+            }
+        });
+    });
+
+    // Section Buttons
+    document.getElementById('swProp').onclick = () => {
+        document.getElementById('sectionProp').style.display = 'block';
+        document.getElementById('sectionRent').style.display = 'none';
+        document.getElementById('swProp').classList.add('active');
+        document.getElementById('swRent').classList.remove('active');
+    };
+    document.getElementById('swRent').onclick = () => {
+        document.getElementById('sectionProp').style.display = 'none';
+        document.getElementById('sectionRent').style.display = 'block';
+        document.getElementById('swProp').classList.remove('active');
+        document.getElementById('swRent').classList.add('active');
+    };
+
+    // Logout
+    document.querySelector('.adm-logout a').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('adminUser');
+        window.location.href = '../auth/admin_login.html';
+    });
+
+    // Mobile Sidebar
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('open');
+    });
+    sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('open');
+    });
+
+    // Initial Load
+    fetchAllData();
 });
-

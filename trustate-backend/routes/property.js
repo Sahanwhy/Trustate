@@ -51,4 +51,28 @@ router.get('/my-listings', auth, async (req, res) => {
     }
 });
 
+// @route   DELETE api/properties/:id
+// @desc    Delete a listing
+// @access  Private
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const property = await ResidentialProperty.findById(req.params.id);
+
+        if (!property) {
+            return res.status(404).json({ message: 'Property not found' });
+        }
+
+        // Check user ownership
+        if (property.sellerId.toString() !== req.user.userId) {
+            return res.status(401).json({ message: 'User not authorized' });
+        }
+
+        await property.deleteOne();
+        res.json({ message: 'Property removed' });
+    } catch (error) {
+        console.error('Error deleting property:', error);
+        res.status(500).json({ message: 'Server error while deleting property' });
+    }
+});
+
 module.exports = router;

@@ -11,6 +11,11 @@ const residentialPropertySchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    type: {
+        type: String,
+        required: true,
+        enum: ['residential', 'commercial', 'agricultural', 'underdeveloped']
+    },
     state: {
         type: String,
         required: true
