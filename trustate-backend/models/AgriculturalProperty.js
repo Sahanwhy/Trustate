@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const residentialPropertySchema = new mongoose.Schema({
+const agriculturalPropertySchema = new mongoose.Schema({
     sellerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -13,7 +13,7 @@ const residentialPropertySchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        default: 'residential'
+        default: 'agricultural'
     },
     subtype: {
         type: String,
@@ -26,27 +26,24 @@ const residentialPropertySchema = new mongoose.Schema({
     location_link: String,
     description: String,
     
-    // Residential specific
-    bhk: String,
-    furnishing: String,
-    super_area: Number,
-    carpet_area: Number,
-    floor_num: Number,
-    total_floors: Number,
-    plot_area: Number,
-    built_up_area: Number,
-    floors_count: Number,
-    property_age: Number,
-    parking: String,
-    amenities: String,
-    total_area: Number,
-    ideal_for: String,
-    private_terrace: String,
-    luxury_amenities: String,
+    // Agricultural specific
+    soil_type: String,
+    irrigation: String,
+    crop_type: String,
+    plantation_type: String,
+    plantation_age: Number,
+    yield: String,
+    livestock_type: String,
+    capacity: String,
+    utilities: String,
+    infrastructure: String,
+    facilities: String,
+    soil_potential: String,
     plot_size: Number,
     area_unit: String,
+    total_area: Number,
     road_access: String,
-    facing: String,
+    ownership: String,
 
     price: {
         type: Number,
@@ -56,7 +53,6 @@ const residentialPropertySchema = new mongoose.Schema({
         type: String,
         default: 'No'
     },
-    ownership_type: String,
     
     images: [String],
     documents: [String],
@@ -71,6 +67,6 @@ const residentialPropertySchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-}, { collection: 'Residential_property' });
+}, { collection: 'Agricultural_property' });
 
-module.exports = mongoose.model('ResidentialProperty', residentialPropertySchema);
+module.exports = mongoose.model('AgriculturalProperty', agriculturalPropertySchema);

@@ -70,17 +70,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('tr');
             const date = new Date(p.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
             
+            // Map types to pretty labels and classes
+            const typeLabels = {
+                'residential': { text: 'Residential', class: 'type-res' },
+                'commercial': { text: 'Commercial', class: 'type-com' },
+                'agricultural': { text: 'Agricultural', class: 'type-agr' },
+                'underdeveloped': { text: 'Undeveloped', class: 'type-und' }
+            };
+            const tCfg = typeLabels[p.type] || { text: p.type, class: '' };
+
             tr.innerHTML = `
                 <td>
                     <div class="adm-prop-cell">
-                        <img src="${p.images?.[0] || '../assets/img/placeholder-prop.jpg'}" class="adm-prop-thumb">
                         <div>
                             <div class="adm-prop-name">${p.title}</div>
                             <div class="adm-prop-id">ID: ${p._id.substring(18)}</div>
                         </div>
                     </div>
                 </td>
-                <td><span class="adm-type-badge">${p.type || 'Residential'}</span></td>
+                <td><span class="adm-type-badge ${tCfg.class}">${tCfg.text}</span></td>
                 <td><div class="adm-prop-loc">${p.city_town_village}, ${p.district}</div></td>
                 <td><div class="adm-prop-price">₹${parseFloat(p.price).toLocaleString('en-IN')}</div></td>
                 <td><div class="adm-prop-date">${date}</div></td>
@@ -125,6 +133,54 @@ document.addEventListener('DOMContentLoaded', () => {
         const drawerOverlay = document.getElementById('drawerOverlay');
         const body = document.getElementById('drawerBody');
 
+        // Helper to render type-specific fields
+        let extraFields = '';
+        if (p.type === 'residential') {
+            extraFields = `
+                <div class="dr-section">
+                    <div class="dr-label">BHK & Area</div>
+                    <div class="dr-val">${p.bhk || 'N/A'} • ${p.super_area || p.total_area || 'N/A'} sq ft</div>
+                </div>
+                <div class="dr-section">
+                    <div class="dr-label">Furnishing</div>
+                    <div class="dr-val">${p.furnishing || 'N/A'}</div>
+                </div>
+            `;
+        } else if (p.type === 'commercial') {
+            extraFields = `
+                <div class="dr-section">
+                    <div class="dr-label">Commercial Type</div>
+                    <div class="dr-val" style="text-transform:capitalize">${p.subtype || p.office_type || p.retail_type || 'N/A'}</div>
+                </div>
+                <div class="dr-section">
+                    <div class="dr-label">Area & Floor</div>
+                    <div class="dr-val">${p.carpet_area || p.total_area || 'N/A'} sq ft • Floor ${p.floor_num || 'N/A'}</div>
+                </div>
+            `;
+        } else if (p.type === 'agricultural') {
+            extraFields = `
+                <div class="dr-section">
+                    <div class="dr-label">Land Usage</div>
+                    <div class="dr-val">${p.subtype || 'N/A'} • ${p.soil_type || 'N/A'} Soil</div>
+                </div>
+                <div class="dr-section">
+                    <div class="dr-label">Irrigation & Crop</div>
+                    <div class="dr-val">${p.irrigation || 'N/A'} • ${p.crop_type || 'N/A'}</div>
+                </div>
+            `;
+        } else if (p.type === 'underdeveloped') {
+            extraFields = `
+                <div class="dr-section">
+                    <div class="dr-label">Classification</div>
+                    <div class="dr-val">${p.subtype || 'N/A'} • ${p.land_classification || 'N/A'}</div>
+                </div>
+                <div class="dr-section">
+                    <div class="dr-label">Dimensions</div>
+                    <div class="dr-val">${p.plot_dimensions || 'N/A'} • ${p.total_area || 'N/A'} ${p.area_unit || 'sq ft'}</div>
+                </div>
+            `;
+        }
+
         body.innerHTML = `
             <div class="dr-section">
                 <div class="dr-label">Property Title</div>
@@ -133,16 +189,18 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="dr-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
                 <div class="dr-section">
                     <div class="dr-label">Price</div>
-                    <div class="dr-val">₹${parseFloat(p.price).toLocaleString('en-IN')}</div>
+                    <div class="dr-val">₹${parseFloat(p.price).toLocaleString('en-IN')} ${p.negotiable === 'Yes' ? '<span style="font-size:0.7rem;color:var(--lf-accent)">(Neg)</span>' : ''}</div>
                 </div>
                 <div class="dr-section">
-                    <div class="dr-label">Type</div>
+                    <div class="dr-label">Category</div>
                     <div class="dr-val" style="text-transform:capitalize">${p.type}</div>
                 </div>
+                ${extraFields}
             </div>
             <div class="dr-section" style="margin-bottom:1.5rem">
                 <div class="dr-label">Location</div>
                 <div class="dr-val">${p.locality ? p.locality + ', ' : ''}${p.city_town_village}, ${p.district}, ${p.state}</div>
+                ${p.location_link ? `<a href="${p.location_link}" target="_blank" style="font-size:0.8rem;color:var(--lf-accent);text-decoration:none;display:block;margin-top:0.4rem">📍 View on Google Maps</a>` : ''}
             </div>
             <div class="dr-section" style="margin-bottom:1.5rem">
                 <div class="dr-label">Description</div>
@@ -151,9 +209,19 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="dr-section">
                 <div class="dr-label">Property Images</div>
                 <div class="dr-img-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
-                    ${p.images.map(img => `<img src="${img}" class="dr-img" style="width:100%; height:80px; object-fit:cover; border-radius:8px; cursor:pointer" onclick="window.open('${img}')">`).join('')}
+                    ${p.images && p.images.length > 0 
+                        ? p.images.map(img => `<img src="${img}" class="dr-img" style="width:100%; height:80px; object-fit:cover; border-radius:8px; cursor:pointer" onclick="window.open('${img}')">`).join('')
+                        : '<div style="color:rgba(255,255,255,0.3)">No images uploaded.</div>'
+                    }
                 </div>
             </div>
+            ${p.documents && p.documents.length > 0 ? `
+            <div class="dr-section" style="margin-top:1.5rem">
+                <div class="dr-label">Documents</div>
+                <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem">
+                    ${p.documents.map((doc, idx) => `<a href="${doc}" target="_blank" style="padding:0.4rem 0.8rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:white;text-decoration:none;font-size:0.8rem">Doc ${idx+1} ↗</a>`).join('')}
+                </div>
+            </div>` : ''}
         `;
 
         // Action buttons

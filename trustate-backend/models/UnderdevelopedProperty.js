@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const residentialPropertySchema = new mongoose.Schema({
+const underdevelopedPropertySchema = new mongoose.Schema({
     sellerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -13,7 +13,7 @@ const residentialPropertySchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        default: 'residential'
+        default: 'underdeveloped'
     },
     subtype: {
         type: String,
@@ -26,27 +26,24 @@ const residentialPropertySchema = new mongoose.Schema({
     location_link: String,
     description: String,
     
-    // Residential specific
-    bhk: String,
-    furnishing: String,
-    super_area: Number,
-    carpet_area: Number,
-    floor_num: Number,
-    total_floors: Number,
-    plot_area: Number,
-    built_up_area: Number,
-    floors_count: Number,
-    property_age: Number,
-    parking: String,
-    amenities: String,
+    // Underdeveloped specific
+    sub_category: String,
     total_area: Number,
-    ideal_for: String,
-    private_terrace: String,
-    luxury_amenities: String,
-    plot_size: Number,
     area_unit: String,
-    road_access: String,
+    plot_dimensions: String,
+    title_type: String,
+    land_classification: String,
+    access_road: String,
+    utilities_nearby: String,
+    water_body_type: String,
+    distance_from_water: Number,
+    flood_risk: String,
+    direct_access: String,
+    corner_confirmed: String,
+    road_width_1: Number,
+    road_width_2: Number,
     facing: String,
+    layout_approved: String,
 
     price: {
         type: Number,
@@ -56,7 +53,6 @@ const residentialPropertySchema = new mongoose.Schema({
         type: String,
         default: 'No'
     },
-    ownership_type: String,
     
     images: [String],
     documents: [String],
@@ -71,6 +67,6 @@ const residentialPropertySchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-}, { collection: 'Residential_property' });
+}, { collection: 'Underdeveloped_land' });
 
-module.exports = mongoose.model('ResidentialProperty', residentialPropertySchema);
+module.exports = mongoose.model('UnderdevelopedProperty', underdevelopedPropertySchema);

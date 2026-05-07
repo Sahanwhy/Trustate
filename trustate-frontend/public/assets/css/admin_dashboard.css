@@ -704,7 +704,7 @@ table.adm-tbl {
 }
 
 /* Badges */
-.badge {
+.badge, .adm-type-badge {
     display: inline-flex;
     align-items: center;
     gap: .3rem;
@@ -723,59 +723,29 @@ table.adm-tbl {
     flex-shrink: 0;
 }
 
-.badge-pending {
-    background: #FFFBEB;
-    color: #B7791F;
-}
+.badge-pending { background: #FFFBEB; color: #B7791F; }
+.badge-pending::before { background: #F6AD55; }
 
-.badge-pending::before {
-    background: #F6AD55;
-}
+.badge-approved { background: #E6F7ED; color: #2A7A4B; }
+.badge-approved::before { background: #00C47A; }
 
-.badge-approved {
-    background: #E6F7ED;
-    color: #2A7A4B;
-}
+.badge-rejected { background: #FFF5F5; color: #C53030; }
+.badge-rejected::before { background: #FC8181; }
 
-.badge-approved::before {
-    background: #00C47A;
-}
+.badge-sold { background: #EBF8FF; color: #2B6CB0; }
+.badge-sold::before { background: #2878B5; }
 
-.badge-rejected {
-    background: #FFF5F5;
-    color: #C53030;
-}
+/* Category Type Badges */
+.type-res { background: #E6F7ED; color: #2A7A4B; border: 1px solid rgba(0, 196, 122, 0.1); }
+.type-com { background: #EBF8FF; color: #2B6CB0; border: 1px solid rgba(40, 120, 181, 0.1); }
+.type-agr { background: #FFFBEB; color: #B7791F; border: 1px solid rgba(246, 173, 85, 0.1); }
+.type-und { background: #F7FAFC; color: #4A5568; border: 1px solid var(--adm-mg); }
 
-.badge-rejected::before {
-    background: #FC8181;
-}
+.badge-active { background: #E6F7ED; color: #2A7A4B; }
+.badge-active::before { background: #00C47A; }
 
-.badge-sold {
-    background: #EBF8FF;
-    color: #2B6CB0;
-}
-
-.badge-sold::before {
-    background: #2878B5;
-}
-
-.badge-active {
-    background: #E6F7ED;
-    color: #2A7A4B;
-}
-
-.badge-active::before {
-    background: #00C47A;
-}
-
-.badge-inactive {
-    background: #EBF2F8;
-    color: #7A9AB5;
-}
-
-.badge-inactive::before {
-    background: #D0DDE8;
-}
+.badge-inactive { background: #EBF2F8; color: #7A9AB5; }
+.badge-inactive::before { background: #D0DDE8; }
 
 /* Table action buttons */
 .tbl-acts {

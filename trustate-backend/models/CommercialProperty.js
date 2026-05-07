@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const residentialPropertySchema = new mongoose.Schema({
+const commercialPropertySchema = new mongoose.Schema({
     sellerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -13,7 +13,7 @@ const residentialPropertySchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        default: 'residential'
+        default: 'commercial'
     },
     subtype: {
         type: String,
@@ -26,27 +26,36 @@ const residentialPropertySchema = new mongoose.Schema({
     location_link: String,
     description: String,
     
-    // Residential specific
-    bhk: String,
+    // Commercial specific
+    office_type: String,
+    retail_type: String,
     furnishing: String,
     super_area: Number,
     carpet_area: Number,
     floor_num: Number,
     total_floors: Number,
-    plot_area: Number,
-    built_up_area: Number,
-    floors_count: Number,
-    property_age: Number,
     parking: String,
-    amenities: String,
-    total_area: Number,
-    ideal_for: String,
-    private_terrace: String,
-    luxury_amenities: String,
+    backup_internet: String,
+    frontage: Number,
+    footfall: String,
+    land_area: Number,
+    capacity: String,
+    ceiling_height: Number,
+    truck_access: String,
+    industry_type: String,
+    power_capacity: Number,
+    rooms_count: Number,
+    occupancy: Number,
+    hotel_features: String,
+    seating: Number,
+    kitchen_setup: String,
+    gas_provision: String,
+    location_type: String,
+    listing_type: String,
+    maintenance: Number,
     plot_size: Number,
     area_unit: String,
     road_access: String,
-    facing: String,
 
     price: {
         type: Number,
@@ -56,7 +65,6 @@ const residentialPropertySchema = new mongoose.Schema({
         type: String,
         default: 'No'
     },
-    ownership_type: String,
     
     images: [String],
     documents: [String],
@@ -71,6 +79,6 @@ const residentialPropertySchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-}, { collection: 'Residential_property' });
+}, { collection: 'Commercial_property' });
 
-module.exports = mongoose.model('ResidentialProperty', residentialPropertySchema);
+module.exports = mongoose.model('CommercialProperty', commercialPropertySchema);

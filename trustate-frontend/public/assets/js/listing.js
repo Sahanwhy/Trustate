@@ -180,7 +180,7 @@
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/properties/residential', {
+            const response = await fetch('http://localhost:5000/api/properties/submit', {
                 method: 'POST',
                 headers: {
                     'x-auth-token': token
