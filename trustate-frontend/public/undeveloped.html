@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Trustate — Verified agricultural land for sale. Farmland, plantations, orchards, farmhouses and mixed-use agri land.">
-  <title>Agricultural Land — Trustate</title>
+  <meta name="description" content="Trustate — Raw land, vacant plots and empty land for sale. Build whatever you envision from scratch.">
+  <title>Undeveloped Land — Trustate</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../Trustate-frontend/public/assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
   <style>
-    .page-hero { padding: 140px 5% 80px; background: linear-gradient(150deg, rgba(26,74,46,.92) 0%, rgba(11,31,58,.85) 55%, rgba(26,58,92,.7) 100%), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1600&q=80') center/cover no-repeat; position: relative; }
+    .page-hero { padding: 140px 5% 80px; background: linear-gradient(150deg, rgba(11,31,58,.92) 0%, rgba(58,84,112,.85) 60%, rgba(26,74,46,.6) 100%), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat; position: relative; }
     .page-hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 140px; background: linear-gradient(to top, var(--off-white), transparent); }
     .page-hero__inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
     .page-hero h1 { font-family: 'Cormorant Garamond',serif; font-size: clamp(2.5rem,6vw,4.5rem); font-weight: 700; color: var(--white); letter-spacing: -.025em; line-height: 1.08; margin-bottom: 1rem; }
@@ -16,42 +16,41 @@
     .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,.65); max-width: 520px; font-weight: 300; line-height: 1.75; }
     .page-hero__badge { display: inline-flex; align-items: center; gap: .55rem; background: rgba(0,196,122,.15); border: 1px solid rgba(0,196,122,.35); color: #7FFFC4; padding: .42rem 1rem; border-radius: var(--radius-pill); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.5rem; }
     .page-content { max-width: 1200px; margin: 0 auto; padding: 4rem 5% 6rem; }
-    .subtype-overview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 4rem; }
-    .subtype-card { background: var(--white); border-radius: var(--radius); padding: 1.6rem; text-align: center; box-shadow: var(--shadow-sm); border-bottom: 3px solid transparent; transition: all .25s; cursor: pointer; }
-    .subtype-card:hover, .subtype-card.active { border-color: var(--green-mid); transform: translateY(-3px); box-shadow: var(--shadow-md); }
-    .subtype-card__icon { font-size: 2.2rem; margin-bottom: .6rem; }
-    .subtype-card__name { font-size: .9rem; font-weight: 600; color: var(--navy); margin-bottom: .2rem; }
-    .subtype-card__desc { font-size: .76rem; color: var(--text-muted); line-height: 1.4; }
-    .subtype-card__count { font-size: .72rem; color: var(--green-mid); font-weight: 600; margin-top: .4rem; }
+
+    /* What is undeveloped land — info strip */
+    .info-strip { background: var(--navy); border-radius: var(--radius-lg); padding: 2.5rem 3rem; margin-bottom: 3rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; }
+    .info-item { display: flex; flex-direction: column; gap: .4rem; }
+    .info-item__icon { font-size: 1.8rem; }
+    .info-item__title { font-family: 'Cormorant Garamond',serif; font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .info-item__desc { font-size: .82rem; color: rgba(255,255,255,.5); font-weight: 300; line-height: 1.55; }
+
+    .subtype-overview { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 3rem; }
+    .subtype-card { background: var(--white); border-radius: var(--radius); padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-bottom: 3px solid transparent; transition: all .25s; cursor: pointer; }
+    .subtype-card:hover, .subtype-card.active { border-color: var(--text-mid); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .subtype-card__icon { font-size: 2rem; margin-bottom: .6rem; }
+    .subtype-card__name { font-size: .88rem; font-weight: 600; color: var(--navy); }
+    .subtype-card__count { font-size: .72rem; color: var(--text-muted); margin-top: .3rem; }
     .subtype-card__count[data-count]::before { content: attr(data-count) " listings"; }
-    @media(max-width:768px){ .subtype-overview { grid-template-columns: repeat(2,1fr); } }
+
+    @media(max-width:768px){ .info-strip { grid-template-columns: 1fr; } .subtype-overview { grid-template-columns: repeat(2,1fr); } }
   </style>
 </head>
 <body>
 
 <nav class="navbar" id="navbar">
-  <a href="../index.html" class="navbar__logo">Trustate<span class="logo-dot"></span></a>
+  <a href="index.html" class="navbar__logo">Trustate<span class="logo-dot"></span></a>
   <ul class="navbar__links">
     <li><a href="residential.html">Residential</a></li>
     <li><a href="commercial.html">Commercial</a></li>
-    <li class="nav-item">
-      <a href="agricultural.html" style="color:var(--accent)">Agricultural <span class="chevron">▾</span></a>
-      <div class="nav-dropdown">
-        <a href="agricultural.html?subtype=farmland"><span class="dd-icon">🌾</span> Farmland (Basic)</a>
-        <a href="agricultural.html?subtype=plantation"><span class="dd-icon">🌳</span> Plantation / Orchard</a>
-        <a href="agricultural.html?subtype=farmhouse"><span class="dd-icon">🏡</span> Farmhouse + Land</a>
-        <a href="agricultural.html?subtype=agri-plot"><span class="dd-icon">📐</span> Agricultural Plot</a>
-        <a href="agricultural.html?subtype=mixed-agri"><span class="dd-icon">🌿</span> Mixed-Use Agri</a>
-      </div>
-    </li>
-    <li><a href="undeveloped.html">Undeveloped Land</a></li>
+    <li><a href="agricultural.html">Agricultural</a></li>
+    <li><a href="undeveloped.html" style="color:var(--accent)">Undeveloped Land</a></li>
     <li><a href="#" class="navbar__cta">List Property</a></li>
   </ul>
   <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-menu__close" id="mobileClose">✕</button>
-  <a href="../index.html">Home</a>
+  <a href="index.html">Home</a>
   <a href="residential.html">Residential</a>
   <a href="commercial.html">Commercial</a>
   <a href="agricultural.html">Agricultural</a>
@@ -61,53 +60,62 @@
 
 <div class="page-hero">
   <div class="page-hero__inner">
-    <div class="page-hero__badge">🌾 Agricultural Land</div>
-    <h1>Invest in India's<br><em>Green Future</em></h1>
-    <p>Farmland, plantations, orchards, farmhouses and mixed-use agricultural plots — verified, titled, and ready for your vision.</p>
+    <div class="page-hero__badge">🏔 Undeveloped Land</div>
+    <h1>Raw Land.<br><em>Your Vision.</em></h1>
+    <p>Vacant plots, raw land and empty spaces with no construction or infrastructure. Start completely from scratch — verified and ready.</p>
   </div>
 </div>
 
 <div class="page-content">
 
+  <!-- What is undeveloped land -->
+  <div class="info-strip reveal">
+    <div class="info-item">
+      <div class="info-item__icon">🏔</div>
+      <div class="info-item__title">Raw Land</div>
+      <div class="info-item__desc">Completely unimproved land — no structures, utilities, or clearing. Maximum flexibility for any use.</div>
+    </div>
+    <div class="info-item">
+      <div class="info-item__icon">📍</div>
+      <div class="info-item__title">Vacant Plot</div>
+      <div class="info-item__desc">Cleared, surveyed and titled plots with defined boundaries. Ready to build residential or commercial structures.</div>
+    </div>
+    <div class="info-item">
+      <div class="info-item__icon">✅</div>
+      <div class="info-item__title">Admin-Verified</div>
+      <div class="info-item__desc">Every plot is verified for title, survey accuracy, and location legitimacy before it appears here.</div>
+    </div>
+  </div>
+
   <div class="subtype-overview reveal">
-    <div class="subtype-card active" onclick="filterPage(this,'farmland')">
-      <div class="subtype-card__icon">🌾</div>
-      <div class="subtype-card__name">Agricultural Land / Farmland</div>
-      <div class="subtype-card__desc">Basic arable land for crop farming and general agriculture</div>
+    <div class="subtype-card active" onclick="filterPage(this,'vacant-plot')">
+      <div class="subtype-card__icon">📍</div>
+      <div class="subtype-card__name">Vacant Plot</div>
       <div class="subtype-card__count" data-count=""></div>
     </div>
-    <div class="subtype-card" onclick="filterPage(this,'plantation')">
-      <div class="subtype-card__icon">🌳</div>
-      <div class="subtype-card__name">Plantation / Orchard Land</div>
-      <div class="subtype-card__desc">Established plantations, orchards and perennial crop farms</div>
+    <div class="subtype-card" onclick="filterPage(this,'raw-land')">
+      <div class="subtype-card__icon">🏔</div>
+      <div class="subtype-card__name">Raw Land</div>
       <div class="subtype-card__count" data-count=""></div>
     </div>
-    <div class="subtype-card" onclick="filterPage(this,'farmhouse')">
-      <div class="subtype-card__icon">🏡</div>
-      <div class="subtype-card__name">Farmhouse with Agricultural Land</div>
-      <div class="subtype-card__desc">Residential farmhouse combined with cultivated land</div>
+    <div class="subtype-card" onclick="filterPage(this,'waterfront')">
+      <div class="subtype-card__icon">🌊</div>
+      <div class="subtype-card__name">Waterfront Land</div>
       <div class="subtype-card__count" data-count=""></div>
     </div>
-    <div class="subtype-card" onclick="filterPage(this,'agri-plot')">
+    <div class="subtype-card" onclick="filterPage(this,'corner-piece')">
       <div class="subtype-card__icon">📐</div>
-      <div class="subtype-card__name">Agricultural Plot (Small Holdings)</div>
-      <div class="subtype-card__desc">Compact titled plots ideal for small-scale farming</div>
-      <div class="subtype-card__count" data-count=""></div>
-    </div>
-    <div class="subtype-card" onclick="filterPage(this,'mixed-agri')">
-      <div class="subtype-card__icon">🌿</div>
-      <div class="subtype-card__name">Mixed-Use Agricultural Land</div>
-      <div class="subtype-card__desc">Combines crops, livestock or aquaculture infrastructure</div>
+      <div class="subtype-card__name">Corner Piece</div>
       <div class="subtype-card__count" data-count=""></div>
     </div>
   </div>
 
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;" class="reveal">
-    <p style="font-size:.88rem;color:var(--text-muted)">Showing: <strong id="active-filter-label" style="color:var(--navy)">All Agricultural</strong></p>
+    <p style="font-size:.88rem;color:var(--text-muted)">Showing: <strong id="active-filter-label" style="color:var(--navy)">All Undeveloped Land</strong></p>
     <button onclick="filterPage(null,'all')" style="font-size:.82rem;color:var(--blue);font-weight:600;cursor:pointer;background:none;border:none;">Clear Filter</button>
   </div>
 
-  <div class="listings-grid" id="grid-agri" data-api-endpoint="/api/v1/listings?category=agri" data-page="1">
+  <div class="listings-grid" id="grid-undeveloped" data-api-endpoint="/api/v1/listings?category=undeveloped" data-page="1">
     <div class="listings-empty">Loading properties…</div>
   </div>
 
@@ -130,7 +138,7 @@
   </div>
 </footer>
 
-<script src="../Trustate-frontend/public/assets/js/main.js"></script>
+<script src="assets/js/main.js"></script>
 <script>
   window.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
@@ -143,10 +151,12 @@
   function filterPage(tile, subtype) {
     document.querySelectorAll('.subtype-card').forEach(c => c.classList.remove('active'));
     if (tile) tile.classList.add('active');
-    const label = tile ? tile.querySelector('.subtype-card__name')?.textContent : 'All Agricultural';
-    document.getElementById('active-filter-label').textContent = label || 'All Agricultural';
-    // fetchListings({ category: 'agri', subtype }).then(data => renderCards(document.getElementById('grid-agri'), data));
-    console.log('[Trustate] Filter agri by subtype:', subtype);
+    const label = tile ? tile.querySelector('.subtype-card__name')?.textContent : 'All Undeveloped Land';
+    document.getElementById('active-filter-label').textContent = label || 'All Undeveloped Land';
+    // ── Backend hook ──
+    fetchListings({ category: 'undeveloped', subtype })
+      .then(data => renderCards(document.getElementById('grid-undeveloped'), data))
+      .catch(err => console.error('Filter failed', err));
   }
 </script>
 </body>

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/admin/properties', {
+            const response = await fetch('http://127.0.0.1:5000/api/admin/properties', {
                 headers: {
                     'x-auth-token': adminToken
                 }
@@ -103,7 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${sellerHtml}</td>
                 <td><div class="adm-prop-date">${date}</div></td>
                 <td>
-                    <button class="adm-act-btn" onclick="openDrawer('${p._id}')">View Details</button>
+                    <div style="display:flex;gap:0.4rem">
+                        <button class="adm-act-btn" onclick="openDrawer('${p._id}')">View</button>
+                        <button class="adm-act-btn" style="background:var(--adm-blue-mid);color:white" onclick="openEditDrawer('${p._id}')">Edit</button>
+                    </div>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -245,11 +248,13 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         // Action buttons
-        document.getElementById('drawerApprove').onclick = () => updateStatus(p._id, 'approved');
-        document.getElementById('drawerReject').onclick = () => updateStatus(p._id, 'rejected');
+        const foot = document.getElementById('drawerFoot');
+        foot.innerHTML = `
+            <button id="drawerApprove" class="drawer-act-btn approve" onclick="updateStatus('${p._id}', 'approved')">Approve Property</button>
+            <button id="drawerReject" class="drawer-act-btn reject" onclick="updateStatus('${p._id}', 'rejected')">Reject Listing</button>
+        `;
 
         // Hide/Show action buttons based on current status
-        const foot = document.getElementById('drawerFoot');
         if (p.status === 'pending') {
             foot.style.display = 'grid';
         } else {
@@ -260,7 +265,177 @@ document.addEventListener('DOMContentLoaded', () => {
         drawerOverlay.classList.add('open');
     };
 
-    async function updateStatus(id, newStatus) {
+    window.openEditDrawer = function(id) {
+        const p = properties.find(x => x._id === id);
+        if (!p) return;
+
+        const drawer = document.getElementById('drawer');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+        const body = document.getElementById('drawerBody');
+
+        // Dynamically build extra fields for editing
+        let extraFieldsHtml = '';
+        if (p.type === 'residential') {
+            extraFieldsHtml = `
+                <div class="dr-section"><label class="dr-label">BHK</label><input type="text" id="edit-bhk" class="adm-filter-sel" style="width:100%" value="${p.bhk || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Furnishing</label><input type="text" id="edit-furnishing" class="adm-filter-sel" style="width:100%" value="${p.furnishing || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Super Area</label><input type="number" id="edit-super_area" class="adm-filter-sel" style="width:100%" value="${p.super_area || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Floor No.</label><input type="number" id="edit-floor_num" class="adm-filter-sel" style="width:100%" value="${p.floor_num || ''}"></div>
+            `;
+        } else if (p.type === 'commercial') {
+            extraFieldsHtml = `
+                <div class="dr-section"><label class="dr-label">Commercial Subtype</label><input type="text" id="edit-subtype" class="adm-filter-sel" style="width:100%" value="${p.subtype || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Carpet Area</label><input type="number" id="edit-carpet_area" class="adm-filter-sel" style="width:100%" value="${p.carpet_area || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Floor No.</label><input type="number" id="edit-floor_num" class="adm-filter-sel" style="width:100%" value="${p.floor_num || ''}"></div>
+            `;
+        } else if (p.type === 'agricultural') {
+            extraFieldsHtml = `
+                <div class="dr-section"><label class="dr-label">Usage Subtype</label><input type="text" id="edit-subtype" class="adm-filter-sel" style="width:100%" value="${p.subtype || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Soil Type</label><input type="text" id="edit-soil_type" class="adm-filter-sel" style="width:100%" value="${p.soil_type || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Irrigation</label><input type="text" id="edit-irrigation" class="adm-filter-sel" style="width:100%" value="${p.irrigation || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Crop Type</label><input type="text" id="edit-crop_type" class="adm-filter-sel" style="width:100%" value="${p.crop_type || ''}"></div>
+            `;
+        } else if (p.type === 'underdeveloped') {
+            extraFieldsHtml = `
+                <div class="dr-section"><label class="dr-label">Subcategory</label><input type="text" id="edit-subtype" class="adm-filter-sel" style="width:100%" value="${p.subtype || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Land Class</label><input type="text" id="edit-land_classification" class="adm-filter-sel" style="width:100%" value="${p.land_classification || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Plot Dimensions</label><input type="text" id="edit-plot_dimensions" class="adm-filter-sel" style="width:100%" value="${p.plot_dimensions || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Total Area</label><input type="number" id="edit-total_area" class="adm-filter-sel" style="width:100%" value="${p.total_area || ''}"></div>
+            `;
+        }
+
+        body.innerHTML = `
+            <div class="dr-section">
+                <label class="dr-label">Property Title</label>
+                <input type="text" id="edit-title" class="adm-filter-sel" style="width:100%;margin-top:0.5rem" value="${p.title}">
+            </div>
+            <div class="dr-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
+                <div class="dr-section"><label class="dr-label">Price (₹)</label><input type="number" id="edit-price" class="adm-filter-sel" style="width:100%" value="${p.price}"></div>
+                <div class="dr-section"><label class="dr-label">Category</label><div class="dr-val" style="text-transform:capitalize;margin-top:0.3rem">${p.type}</div></div>
+                ${extraFieldsHtml}
+            </div>
+            <div class="dr-section" style="margin-bottom:1.5rem">
+                <label class="dr-label">Location Details</label>
+                <div class="dr-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top:0.5rem">
+                    <input type="text" id="edit-locality" placeholder="Locality" class="adm-filter-sel" value="${p.locality || ''}">
+                    <input type="text" id="edit-city" placeholder="City/Town" class="adm-filter-sel" value="${p.city_town_village || ''}">
+                    <input type="text" id="edit-district" placeholder="District" class="adm-filter-sel" value="${p.district || ''}">
+                    <input type="text" id="edit-state" placeholder="State" class="adm-filter-sel" value="${p.state || ''}">
+                </div>
+            </div>
+            <div class="dr-section" style="margin-bottom:1.5rem">
+                <label class="dr-label">Description</label>
+                <textarea id="edit-desc" class="adm-filter-sel" style="width:100%;margin-top:0.5rem;height:100px;resize:none;padding:0.8rem">${p.description || ''}</textarea>
+            </div>
+            <div class="dr-section">
+                <div class="dr-label">Manage Images <span style="font-size:0.6rem;color:var(--adm-muted)">(Click red X to remove)</span></div>
+                <div id="edit-img-grid" class="dr-img-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
+                    ${p.images && p.images.length > 0 
+                        ? p.images.map((img, idx) => `
+                            <div class="edit-img-wrap" style="position:relative">
+                                <img src="${img}" class="dr-img" style="width:100%; height:80px; object-fit:cover; border-radius:8px;">
+                                <button onclick="removeImage('${p._id}', ${idx})" style="position:absolute;top:-5px;right:-5px;background:#FC8181;color:white;border-radius:50%;width:20px;height:20px;font-size:12px;display:flex;align-items:center;justify-content:center;border:2px solid white">×</button>
+                            </div>
+                        `).join('')
+                        : '<div style="color:rgba(255,255,255,0.3)">No images uploaded.</div>'
+                    }
+                </div>
+            </div>
+        `;
+
+        const foot = document.getElementById('drawerFoot');
+        foot.innerHTML = `
+            <button class="drawer-act-btn" style="background:var(--adm-navy);color:white" onclick="saveProperty('${p._id}')">Save Changes</button>
+            <button class="drawer-act-btn" style="background:var(--adm-lg);color:var(--adm-text)" onclick="closeDrawer()">Cancel</button>
+        `;
+        foot.style.display = 'grid';
+
+        drawer.classList.add('open');
+        drawerOverlay.classList.add('open');
+    };
+
+    window.removeImage = function(propId, imgIdx) {
+        const p = properties.find(x => x._id === propId);
+        if (!p) return;
+        
+        if (confirm('Remove this image?')) {
+            p.images.splice(imgIdx, 1);
+            openEditDrawer(propId); // Refresh drawer
+        }
+    };
+
+    window.saveProperty = async function(id) {
+        const p = properties.find(x => x._id === id);
+        if (!p) return;
+
+        const updateData = {
+            title: document.getElementById('edit-title').value,
+            price: document.getElementById('edit-price').value,
+            description: document.getElementById('edit-desc').value,
+            locality: document.getElementById('edit-locality').value,
+            city_town_village: document.getElementById('edit-city').value,
+            district: document.getElementById('edit-district').value,
+            state: document.getElementById('edit-state').value,
+            images: p.images
+        };
+
+        // Add type-specific fields
+        if (p.type === 'residential') {
+            updateData.bhk = document.getElementById('edit-bhk').value;
+            updateData.furnishing = document.getElementById('edit-furnishing').value;
+            updateData.super_area = document.getElementById('edit-super_area').value;
+            updateData.floor_num = document.getElementById('edit-floor_num').value;
+        } else if (p.type === 'commercial') {
+            updateData.subtype = document.getElementById('edit-subtype').value;
+            updateData.carpet_area = document.getElementById('edit-carpet_area').value;
+            updateData.floor_num = document.getElementById('edit-floor_num').value;
+        } else if (p.type === 'agricultural') {
+            updateData.subtype = document.getElementById('edit-subtype').value;
+            updateData.soil_type = document.getElementById('edit-soil_type').value;
+            updateData.irrigation = document.getElementById('edit-irrigation').value;
+            updateData.crop_type = document.getElementById('edit-crop_type').value;
+        } else if (p.type === 'underdeveloped') {
+            updateData.subtype = document.getElementById('edit-subtype').value;
+            updateData.land_classification = document.getElementById('edit-land_classification').value;
+            updateData.plot_dimensions = document.getElementById('edit-plot_dimensions').value;
+            updateData.total_area = document.getElementById('edit-total_area').value;
+        }
+
+        const adminData = JSON.parse(localStorage.getItem('adminUser'));
+        const adminToken = adminData ? adminData.token : null;
+
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/api/admin/properties/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': adminToken
+                },
+                body: JSON.stringify(updateData)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                showToast('Property updated successfully!', 'success');
+                // Update local properties array
+                const idx = properties.findIndex(x => x._id === id);
+                properties[idx] = data.property;
+                
+                renderTable('pending');
+                renderTable('approved');
+                renderTable('rejected');
+                renderTable('sold');
+                closeDrawer();
+            } else {
+                alert(data.message || 'Update failed');
+            }
+        } catch (err) {
+            console.error('Update Error:', err);
+            alert('Server error while updating');
+        }
+    };
+
+    window.updateStatus = async function(id, newStatus) {
         const adminToken = JSON.parse(localStorage.getItem('adminUser'))?.token;
         if (!adminToken) return;
 
@@ -270,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = true;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/admin/properties/${id}/status`, {
+            const response = await fetch(`http://127.0.0.1:5000/api/admin/properties/${id}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -299,6 +474,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('drawerClose').onclick = closeDrawer;
     document.getElementById('drawerOverlay').onclick = closeDrawer;
+    
+    // Prevent drawer from closing when clicking inside it
+    document.getElementById('drawer').onclick = (e) => {
+        e.stopPropagation();
+    };
 
     function showToast(msg, type = 'error') {
         const t = document.getElementById('toast');

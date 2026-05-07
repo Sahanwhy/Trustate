@@ -57,11 +57,51 @@ router.put('/properties/:id/status', adminAuth, async (req, res) => {
         if (status === 'approved') {
             property.approvedAt = Date.now();
         }
-
         await property.save();
         res.json({ message: `Property ${status} successfully`, property });
     } catch (err) {
         console.error('Admin Update Status Error:', err.message);
+        res.status(500).send('Server error');
+    }
+});
+
+// @route   PUT api/admin/properties/:id
+// @desc    Update property details (admin)
+// @access  Private (Admin)
+router.put('/properties/:id', adminAuth, async (req, res) => {
+    try {
+        let property = null;
+        let ModelUsed = null;
+        const models = [ResidentialProperty, CommercialProperty, AgriculturalProperty, UnderdevelopedProperty];
+
+        for (let M of models) {
+            property = await M.findById(req.params.id);
+            if (property) {
+                ModelUsed = M;
+                break;
+            }
+        }
+
+        if (!property) {
+            return res.status(404).json({ message: 'Property not found' });
+        }
+
+        // Update fields provided in req.body
+        const updateData = { ...req.body };
+        
+        // Remove _id and sellerId to prevent accidental overwrites
+        delete updateData._id;
+        delete updateData.sellerId;
+
+        const updatedProperty = await ModelUsed.findByIdAndUpdate(
+            req.params.id,
+            { $set: updateData },
+            { new: true }
+        ).populate('sellerId', 'fullName email phoneNumber');
+
+        res.json({ message: 'Property updated successfully', property: updatedProperty });
+    } catch (err) {
+        console.error('Admin Update Property Error:', err.message);
         res.status(500).send('Server error');
     }
 });

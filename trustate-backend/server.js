@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 // Request Logger
 app.use((req, res, next) => {
@@ -21,6 +22,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/properties', require('./routes/property'));
 app.use('/api/admin/auth', require('./routes/adminAuth'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/v1', require('./routes/publicListing'));
 
 // Basic Route
 app.get('/', (req, res) => {

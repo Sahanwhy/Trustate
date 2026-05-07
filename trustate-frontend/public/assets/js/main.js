@@ -7,10 +7,49 @@
    CONFIG — swap BASE_URL for your real API endpoint
    ---------------------------------------------------------------- */
 const API = {
-  BASE_URL: '/api/v1',          // <-- change to your backend URL
+  BASE_URL: 'http://127.0.0.1:5000/api/v1',
   LISTINGS: '/listings',
   SEARCH:   '/listings/search',
 };
+
+/**
+ * AUTO-LOAD GRIDS
+ * Find all .listings-grid elements and fetch their data using their data-api-endpoint attribute.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.listings-grid').forEach(grid => {
+    const endpoint = grid.dataset.apiEndpoint;
+    if (!endpoint) return;
+
+    // Show loading state
+    grid.innerHTML = '<div class="listings-empty">Loading properties...</div>';
+
+    // Parse params from endpoint (e.g. /api/v1/listings?category=residential)
+    let params = {};
+    try {
+        const url = new URL(endpoint, window.location.origin);
+        params = Object.fromEntries(url.searchParams.entries());
+    } catch (e) {
+        // Fallback for relative paths without origin
+        const queryString = endpoint.split('?')[1];
+        if (queryString) {
+            params = Object.fromEntries(new URLSearchParams(queryString).entries());
+        }
+    }
+
+    console.log(`[Trustate] Loading ${params.category || 'listings'} for grid:`, grid.id);
+
+    fetchListings(params)
+      .then(data => {
+        console.log(`[Trustate] Received ${data.length} items for ${params.category}`);
+        renderCards(grid, data);
+      })
+      .catch(err => {
+        console.error('Failed to load listings for grid:', grid.id, err);
+        grid.innerHTML = '<div class="listings-empty">Failed to load listings. Please try again.</div>';
+      });
+  });
+});
 
 /* ----------------------------------------------------------------
    NAVBAR — scroll effect + hamburger
@@ -99,16 +138,21 @@ function handleSearch() {
 
         const selected = pill.dataset.subtype; // 'all' or specific subtype key
 
-        // Filter cards
-        grid.querySelectorAll('.prop-card').forEach(card => {
-          const matches = selected === 'all' || card.dataset.subtype === selected;
-          card.style.display = matches ? '' : 'none';
-        });
-
         // ── Backend hook ──
-        // If you want server-side filtering, call your API here:
-        // fetchListings({ category: section.dataset.category, subtype: selected })
-        //   .then(data => renderCards(grid, data));
+        let category = '';
+        try {
+            const url = new URL(grid.dataset.apiEndpoint, window.location.origin);
+            category = url.searchParams.get('category');
+        } catch (e) {
+            const queryString = grid.dataset.apiEndpoint.split('?')[1];
+            if (queryString) {
+                category = new URLSearchParams(queryString).get('category');
+            }
+        }
+        
+        fetchListings({ category, subtype: selected })
+          .then(data => renderCards(grid, data))
+          .catch(err => console.error('Filter failed', err));
 
         checkEmpty(grid);
       });
@@ -189,8 +233,8 @@ async function fetchListings(params = {}) {
  * }
  */
 function renderCards(grid, listings) {
-  // Clear skeleton / old cards
-  grid.querySelectorAll('.prop-card').forEach(c => c.remove());
+  // Clear loading state / skeleton / old cards
+  grid.innerHTML = '';
 
   if (!listings || listings.length === 0) {
     checkEmpty(grid);
@@ -213,9 +257,23 @@ function buildCard(listing) {
   card.dataset.type    = listing.category;
   card.dataset.subtype = listing.subtype;
 
+  const images = listing.images || [];
+  let currentIdx = 0;
+
   card.innerHTML = `
     <div class="prop-card__img">
-      <img src="${escHtml(listing.image)}" alt="${escHtml(listing.title)}" loading="lazy">
+      <div class="prop-card__slider">
+        <div class="prop-card__slider-inner">
+          ${images.map(img => `<img src="${escHtml(img)}" alt="${escHtml(listing.title)}" loading="lazy">`).join('')}
+        </div>
+        ${images.length > 1 ? `
+          <button class="slider-btn slider-btn--prev" aria-label="Previous image">‹</button>
+          <button class="slider-btn slider-btn--next" aria-label="Next image">›</button>
+          <div class="slider-dots">
+            ${images.map((_, i) => `<span class="slider-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
+          </div>
+        ` : ''}
+      </div>
       <span class="prop-badge prop-badge--${escHtml(listing.category)}">${categoryLabel(listing.category)}</span>
       <span class="prop-subtype-badge">${escHtml(listing.subtypeLabel)}</span>
       ${listing.verified ? '<span class="badge-verified">✓ Verified</span>' : ''}
@@ -232,6 +290,31 @@ function buildCard(listing) {
       </div>
     </div>
   `;
+
+  // Slider Logic
+  if (images.length > 1) {
+    const inner = card.querySelector('.prop-card__slider-inner');
+    const dots = card.querySelectorAll('.slider-dot');
+    const prev = card.querySelector('.slider-btn--prev');
+    const next = card.querySelector('.slider-btn--next');
+
+    const updateSlider = (idx) => {
+      inner.style.transform = `translateX(-${idx * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    };
+
+    prev.onclick = (e) => {
+      e.stopPropagation();
+      currentIdx = (currentIdx - 1 + images.length) % images.length;
+      updateSlider(currentIdx);
+    };
+
+    next.onclick = (e) => {
+      e.stopPropagation();
+      currentIdx = (currentIdx + 1) % images.length;
+      updateSlider(currentIdx);
+    };
+  }
 
   // Click → navigate to detail page
   card.addEventListener('click', () => {
