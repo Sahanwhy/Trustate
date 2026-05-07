@@ -79,6 +79,15 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             const tCfg = typeLabels[p.type] || { text: p.type, class: '' };
 
+            const seller = p.sellerId || {};
+            const sellerHtml = `
+                <div class="adm-seller-info">
+                    <div style="font-weight:700;color:var(--adm-navy);font-size:0.75rem">${seller.fullName || 'Unknown'}</div>
+                    <div style="font-size:0.68rem;color:var(--adm-muted)">${seller.email || 'No Email'}</div>
+                    <div style="font-size:0.68rem;color:var(--adm-blue-mid);font-weight:600">${seller.phoneNumber || 'No Phone'}</div>
+                </div>
+            `;
+
             tr.innerHTML = `
                 <td>
                     <div class="adm-prop-cell">
@@ -91,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><span class="adm-type-badge ${tCfg.class}">${tCfg.text}</span></td>
                 <td><div class="adm-prop-loc">${p.city_town_village}, ${p.district}</div></td>
                 <td><div class="adm-prop-price">₹${parseFloat(p.price).toLocaleString('en-IN')}</div></td>
+                <td>${sellerHtml}</td>
                 <td><div class="adm-prop-date">${date}</div></td>
                 <td>
                     <button class="adm-act-btn" onclick="openDrawer('${p._id}')">View Details</button>
@@ -182,6 +192,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         body.innerHTML = `
+            <div class="dr-section" style="background:var(--adm-off);padding:1rem;border-radius:12px;margin-bottom:1.5rem;border:1px solid var(--adm-lg)">
+                <div class="dr-label" style="margin-bottom:0.5rem">Seller Profile</div>
+                <div style="display:flex;align-items:center;gap:0.75rem">
+                    <div class="adm-avatar" style="width:40px;height:40px;font-size:0.9rem">${(p.sellerId?.fullName || 'U').charAt(0)}</div>
+                    <div>
+                        <div style="font-weight:700;color:var(--adm-navy)">${p.sellerId?.fullName || 'Unknown Seller'}</div>
+                        <div style="font-size:0.75rem;color:var(--adm-muted)">${p.sellerId?.email || 'N/A'} • ${p.sellerId?.phoneNumber || 'N/A'}</div>
+                    </div>
+                </div>
+            </div>
             <div class="dr-section">
                 <div class="dr-label">Property Title</div>
                 <div class="dr-val" style="font-size:1.2rem;font-weight:600">${p.title}</div>

@@ -7,15 +7,15 @@ const AgriculturalProperty = require('../models/AgriculturalProperty');
 const UnderdevelopedProperty = require('../models/UnderdevelopedProperty');
 
 // @route   GET api/admin/properties
-// @desc    Get all properties from ALL collections for admin management
+// @desc    Get all properties from ALL collections with seller details
 // @access  Private (Admin)
 router.get('/properties', adminAuth, async (req, res) => {
     try {
         const [resList, comList, agrList, undList] = await Promise.all([
-            ResidentialProperty.find().sort({ createdAt: -1 }),
-            CommercialProperty.find().sort({ createdAt: -1 }),
-            AgriculturalProperty.find().sort({ createdAt: -1 }),
-            UnderdevelopedProperty.find().sort({ createdAt: -1 })
+            ResidentialProperty.find().populate('sellerId', 'fullName email phoneNumber').sort({ createdAt: -1 }),
+            CommercialProperty.find().populate('sellerId', 'fullName email phoneNumber').sort({ createdAt: -1 }),
+            AgriculturalProperty.find().populate('sellerId', 'fullName email phoneNumber').sort({ createdAt: -1 }),
+            UnderdevelopedProperty.find().populate('sellerId', 'fullName email phoneNumber').sort({ createdAt: -1 })
         ]);
 
         const allProperties = [...resList, ...comList, ...agrList, ...undList].sort((a, b) => b.createdAt - a.createdAt);
