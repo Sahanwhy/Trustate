@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View property details on Trustate — India's most trusted property platform.">
+  <title>Property Details — Trustate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/property_view.css">
+</head>
+<body>
+
+  <nav class="view-nav">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <a href="../index.html" class="logo">Trustate<span>.</span></a>
+      <a href="../index.html" class="back-btn">← Back to Listings</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Image Gallery -->
+    <section class="property-hero" id="gallery">
+      <div class="main-img-wrap">
+        <img id="mainImage" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80" alt="Property Image" class="main-img">
+      </div>
+      <div class="side-images" id="sideImages">
+        <!-- JS Populated -->
+      </div>
+    </section>
+
+    <div class="view-grid">
+      <!-- Left Column: Details -->
+      <div class="view-main">
+        <div class="detail-header">
+          <span class="detail-badge" id="categoryBadge">Residential</span>
+          <h1 class="detail-title" id="propertyTitle">Loading property...</h1>
+          <div class="detail-location">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span id="propertyLocation">---</span>
+          </div>
+        </div>
+
+        <div class="features-grid" id="featuresGrid">
+          <!-- JS Populated -->
+        </div>
+
+        <section class="details-section">
+          <h2 class="section-title">Overview</h2>
+          <p class="description-text" id="propertyDescription">
+            Loading description...
+          </p>
+
+          <h2 class="section-title">Amenities</h2>
+          <div class="amenities-list" id="amenitiesList">
+            <!-- JS Populated -->
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: Sidebar -->
+      <aside class="sticky-sidebar">
+        <div class="price-card">
+          <div class="price-amount" id="propertyPrice">₹ 0.00</div>
+          <p class="price-meta" id="priceMeta">Negotiable: --- | Ownership: ---</p>
+          
+          <button class="cta-btn" id="inquireBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Inquire via Trustate
+          </button>
+
+          <div class="security-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Admin-Verified Property</span>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem; text-align: center;">
+            Trustate protects your identity. No direct seller contact until the deal is secure.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer style="padding: 4rem 0; background: #1a1a1a; color: #fff; text-align: center;">
+    <div class="container">
+      <p>© 2025 Trustate — All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/property_view.js"></script>
+</body>
+</html>

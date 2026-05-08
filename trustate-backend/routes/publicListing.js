@@ -66,4 +66,40 @@ router.get('/listings', async (req, res) => {
     }
 });
 
+// @route   GET api/v1/property/:category/:id
+// @desc    Get single property details (Public view)
+// @access  Public
+router.get('/property/:category/:id', async (req, res) => {
+    const { category, id } = req.params;
+
+    try {
+        let property;
+        if (category === 'residential') {
+            property = await ResidentialProperty.findById(id);
+        } else if (category === 'commercial') {
+            property = await CommercialProperty.findById(id);
+        } else if (category === 'agri') {
+            property = await AgriculturalProperty.findById(id);
+        } else if (category === 'undeveloped') {
+            property = await UnderdevelopedProperty.findById(id);
+        } else {
+            return res.status(400).json({ message: 'Invalid category' });
+        }
+
+        if (!property || property.status !== 'approved') {
+            return res.status(404).json({ message: 'Property not found' });
+        }
+
+        // Convert to object and remove sellerId / sensitive fields
+        const p = property.toObject();
+        delete p.sellerId;
+        delete p.documents; // Documents are for admin only
+        
+        res.json(p);
+    } catch (err) {
+        console.error('Fetch Single Property Error:', err.message);
+        res.status(500).send('Server error');
+    }
+});
+
 module.exports = router;

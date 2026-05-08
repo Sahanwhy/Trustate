@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commercial Property — Trustate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/property_view.css">
+</head>
+<body>
+  <nav class="view-nav">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <a href="../index.html" class="logo">Trustate<span>.</span></a>
+      <a href="../index.html" class="back-btn">← Back to Listings</a>
+    </div>
+  </nav>
+  <main class="container">
+    <section class="property-hero" id="gallery">
+      <div class="main-img-wrap"><img id="mainImage" src="" alt="Property" class="main-img"></div>
+      <div class="side-images" id="sideImages"></div>
+    </section>
+    <div class="view-grid">
+      <div class="view-main">
+        <div class="detail-header">
+          <span class="detail-badge" id="categoryBadge">Commercial</span>
+          <h1 class="detail-title" id="propertyTitle">Loading...</h1>
+          <div class="detail-location"><span id="propertyLocation">---</span></div>
+        </div>
+        <div class="features-grid" id="featuresGrid"></div>
+        <section class="details-section">
+          <h2 class="section-title">Overview</h2>
+          <p class="description-text" id="propertyDescription">Loading...</p>
+          <h2 class="section-title">Amenities & Infrastructure</h2>
+          <div class="amenities-list" id="amenitiesList"></div>
+        </section>
+      </div>
+      <aside class="sticky-sidebar">
+        <div class="price-card">
+          <div class="price-amount" id="propertyPrice">₹ 0</div>
+          <p class="price-meta" id="priceMeta">---</p>
+          <button class="cta-btn" id="inquireBtn">Inquire via Trustate</button>
+          <div class="security-badge"><span>Admin-Verified Commercial Asset</span></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <script src="../assets/js/property_view.js"></script>
+</body>
+</html>

@@ -318,9 +318,12 @@ function buildCard(listing) {
 
   // Click → navigate to detail page
   card.addEventListener('click', () => {
-    // ── Backend hook ──
-    // window.location.href = `/property/${listing.id}`;
-    console.log('[Trustate] Card clicked, id:', listing.id);
+    let viewPage = 'residential_view.html';
+    if (listing.category === 'commercial') viewPage = 'commercial_view.html';
+    if (listing.category === 'agri') viewPage = 'agricultural_view.html';
+    if (listing.category === 'undeveloped') viewPage = 'underdeveloped_view.html';
+    
+    window.location.href = `property_view/${viewPage}?id=${listing.id}`;
   });
 
   // Trigger reveal observer
