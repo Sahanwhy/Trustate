@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── Data State ───
     let properties = [];
+    let inquiries = [];
 
     async function fetchAllData() {
         const adminData = JSON.parse(localStorage.getItem('adminUser'));
@@ -31,19 +32,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/admin/properties', {
-                headers: {
-                    'x-auth-token': adminToken
-                }
+            // Fetch Properties
+            const propRes = await fetch('http://127.0.0.1:5000/api/admin/properties', {
+                headers: { 'x-auth-token': adminToken }
             });
+            if (propRes.ok) properties = await propRes.json();
 
-            if (!response.ok) throw new Error('Failed to fetch properties');
+            // Fetch Inquiries
+            const inqRes = await fetch('http://127.0.0.1:5000/api/admin/inquiries', {
+                headers: { 'x-auth-token': adminToken }
+            });
+            if (inqRes.ok) inquiries = await inqRes.json();
 
-            properties = await response.json();
             renderAll();
         } catch (err) {
             console.error('Fetch Error:', err);
-            showToast('Error loading properties');
+            showToast('Error loading dashboard data');
         }
     }
 
@@ -51,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTable('pending');
         renderTable('approved');
         renderTable('rejected');
+        renderTable('sold');
+        renderInquiries();
         updateStats();
     }
 
@@ -106,6 +112,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="display:flex;gap:0.4rem">
                         <button class="adm-act-btn" onclick="openDrawer('${p._id}')">View</button>
                         <button class="adm-act-btn" style="background:var(--adm-blue-mid);color:white" onclick="openEditDrawer('${p._id}')">Edit</button>
+                        ${status === 'approved' ? `
+                            <button class="adm-act-btn" style="background:#00C47A;color:white" onclick="updateStatus('${p._id}', 'sold')" title="Mark as Sold">
+                                ✓ Sold
+                            </button>
+                            <button class="adm-act-btn" style="background:#f6ad55;color:white" onclick="updateStatus('${p._id}', 'pending')" title="Move back to Pending">
+                                ↩ Reverse
+                            </button>
+                        ` : ''}
+                        ${status === 'rejected' ? `
+                            <button class="adm-act-btn" style="background:#f6ad55;color:white" onclick="updateStatus('${p._id}', 'pending')" title="Move back to Pending">
+                                ↩ Reverse
+                            </button>
+                            <button class="adm-act-btn" style="background:#FC8181;color:white" onclick="deleteProperty('${p._id}')" title="Delete Listing">
+                                🗑 Delete
+                            </button>
+                        ` : ''}
+                        ${status === 'sold' ? `
+                            <button class="adm-act-btn" style="background:#f6ad55;color:white" onclick="updateStatus('${p._id}', 'pending')" title="Move back to Pending">
+                                ↩ Reverse
+                            </button>
+                        ` : ''}
                     </div>
                 </td>
             `;
@@ -122,20 +149,74 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function renderInquiries() {
+        const list = document.getElementById('prop-inq-list');
+        if (!list) return;
+
+        list.innerHTML = '';
+        if (inquiries.length === 0) {
+            list.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--adm-muted)">No inquiries received yet.</div>';
+            return;
+        }
+
+        inquiries.forEach(inq => {
+            const date = new Date(inq.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+            
+            const div = document.createElement('div');
+            div.className = 'inq-item';
+            
+            // Map internal category to filename
+            let page = 'residential_view.html';
+            if (inq.propertyType === 'commercial') page = 'commercial_view.html';
+            if (inq.propertyType === 'agri') page = 'agricultural_view.html';
+            if (inq.propertyType === 'undeveloped') page = 'underdeveloped_view.html';
+
+            div.innerHTML = `
+                <div class="inq-left">
+                    <div class="inq-header">
+                        <span class="inq-from">${inq.name}</span>
+                        <span class="inq-for">interested in</span>
+                        <strong style="color:var(--adm-navy)">${inq.propertyTitle || 'Property'}</strong>
+                    </div>
+                    <div class="inq-msg" style="margin: 0.5rem 0">
+                        📧 ${inq.email} | 📞 ${inq.phoneNumber}
+                    </div>
+                    <div class="inq-time">${date}</div>
+                </div>
+                <div class="inq-acts">
+                    <a href="../property_view/${page}?id=${inq.propertyId}" target="_blank" class="inq-btn" style="text-decoration:none">
+                        🏢 View Listing
+                    </a>
+                    <button class="inq-btn reply" onclick="window.location.href='mailto:${inq.email}'">Reply via Email</button>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+
+        // Update counts
+        const countEl = document.getElementById('prop-inq-count');
+        if (countEl) countEl.textContent = inquiries.length;
+    }
+
     function updateStats() {
         const total = properties.length;
         const pending = properties.filter(p => p.status === 'pending').length;
         const approved = properties.filter(p => p.status === 'approved').length;
+        const inqCount = inquiries.length;
         
         const statCards = document.querySelectorAll('.adm-stat-val');
-        if (statCards.length >= 3) {
+        if (statCards.length >= 4) {
             statCards[0].textContent = total;
             statCards[1].textContent = pending;
             statCards[2].textContent = approved;
+            statCards[3].textContent = inqCount;
         }
 
         const swCount = document.getElementById('sw-prop-count');
         if (swCount) swCount.textContent = total;
+
+        const sbInq = document.getElementById('sb-inq-count');
+        if (sbInq) sbInq.textContent = inqCount;
     }
 
     window.openDrawer = function(id) {
@@ -439,10 +520,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const adminToken = JSON.parse(localStorage.getItem('adminUser'))?.token;
         if (!adminToken) return;
 
-        const btn = newStatus === 'approved' ? document.getElementById('drawerApprove') : document.getElementById('drawerReject');
-        const originalText = btn.textContent;
-        btn.textContent = 'Processing...';
-        btn.disabled = true;
+        const btn = newStatus === 'approved' ? document.getElementById('drawerApprove') : 
+                    newStatus === 'rejected' ? document.getElementById('drawerReject') : null;
+        
+        let originalText = '';
+        if (btn) {
+            originalText = btn.textContent;
+            btn.textContent = 'Processing...';
+            btn.disabled = true;
+        }
 
         try {
             const response = await fetch(`http://127.0.0.1:5000/api/admin/properties/${id}/status`, {
@@ -462,8 +548,34 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
             console.error('Update Error:', err);
             showToast('Error updating status');
-            btn.textContent = originalText;
-            btn.disabled = false;
+            if (btn) {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+    }
+
+    window.deleteProperty = async function(id) {
+        if (!confirm('Are you sure you want to PERMANENTLY DELETE this listing? This action cannot be undone.')) return;
+
+        const adminToken = JSON.parse(localStorage.getItem('adminUser'))?.token;
+        if (!adminToken) return;
+
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/api/admin/properties/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'x-auth-token': adminToken
+                }
+            });
+
+            if (!response.ok) throw new Error('Failed to delete property');
+
+            showToast('Property deleted successfully', 'success');
+            fetchAllData();
+        } catch (err) {
+            console.error('Delete Error:', err);
+            showToast('Error deleting property');
         }
     }
 

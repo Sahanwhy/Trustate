@@ -209,21 +209,93 @@ img {
     color: rgba(255, 255, 255, .8);
 }
 
-.adm-nav-item.active {
-    background: rgba(30, 95, 142, .45);
-    color: #fff;
+/* ── Inquiries ── */
+.inq-item {
+    background: #fff;
+    border: 1px solid var(--adm-lg);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: var(--adm-sh);
 }
 
-.adm-nav-item .ni-badge {
-    margin-left: auto;
-    background: var(--adm-accent);
+.inq-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--adm-shm);
+    border-color: var(--adm-mg);
+}
+
+.inq-left {
+    flex: 1;
+}
+
+.inq-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.inq-from {
+    font-weight: 700;
+    color: var(--adm-navy);
+}
+
+.inq-for {
+    color: var(--adm-muted);
+}
+
+.inq-msg {
+    font-size: 0.85rem;
+    color: var(--adm-mid);
+}
+
+.inq-time {
+    font-size: 0.72rem;
+    color: var(--adm-muted);
+    font-weight: 600;
+}
+
+.inq-acts {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.inq-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1.5px solid var(--adm-lg);
+    background: #fff;
+    color: var(--adm-navy);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.inq-btn:hover {
+    border-color: var(--adm-navy);
+    background: var(--adm-off);
+}
+
+.inq-btn.reply {
+    background: var(--adm-navy);
     color: #fff;
-    font-size: .58rem;
-    font-weight: 800;
-    padding: .1rem .42rem;
-    border-radius: 20px;
-    min-width: 18px;
-    text-align: center;
+    border-color: var(--adm-navy);
+}
+
+.inq-btn.reply:hover {
+    background: var(--adm-blue);
+    border-color: var(--adm-blue);
 }
 
 .adm-nav-item .ni-badge.warn {
@@ -813,6 +885,28 @@ table.adm-tbl {
 .act-btn.del:hover {
     background: #FC8181;
     color: #fff;
+}
+
+/* --- Admin Action Buttons --- */
+.adm-act-btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: var(--adm-off);
+    color: var(--adm-mid);
+    border: 1px solid var(--adm-lg);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.adm-act-btn:hover {
+    background: var(--adm-lg);
+    color: var(--adm-navy);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 /* ── Users grid ── */

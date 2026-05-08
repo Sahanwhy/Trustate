@@ -5,17 +5,17 @@
 
 const BASE_URL = 'http://127.0.0.1:5000/api/v1';
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
-    
-    // Determine category from the filename
-    const filename = window.location.pathname.split('/').pop();
-    let category = 'residential';
-    if (filename.includes('commercial')) category = 'commercial';
-    if (filename.includes('agricultural')) category = 'agri';
-    if (filename.includes('underdeveloped')) category = 'undeveloped';
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
 
+// Determine category from the filename
+const filename = window.location.pathname.split('/').pop();
+let category = 'residential';
+if (filename.includes('commercial')) category = 'commercial';
+if (filename.includes('agricultural')) category = 'agri';
+if (filename.includes('underdeveloped')) category = 'undeveloped';
+
+document.addEventListener('DOMContentLoaded', async () => {
     if (!id) {
         alert('Property ID not found.');
         window.location.href = '../index.html';
@@ -123,6 +123,94 @@ function swapImage(el) {
     el.src = oldMain;
 }
 
-document.getElementById('inquireBtn').addEventListener('click', () => {
-    alert('Thank you for your interest! A Trustate admin will contact you shortly to coordinate the next steps.');
+// --- Inquiry Modal Logic ---
+const modalHtml = `
+<div class="modal-overlay" id="inquiryModal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeModal">✕</button>
+        <div id="modalForm">
+            <div class="modal-header">
+                <h2 class="modal-title">Property Inquiry</h2>
+                <p class="modal-subtitle">Express your interest and our team will guide you through the process.</p>
+            </div>
+            <form id="inquiryForm">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" id="inqName" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contact Number</label>
+                    <input type="tel" class="form-input" id="inqPhone" placeholder="+91 98765 43210" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="inqEmail" placeholder="john@example.com" required>
+                </div>
+                <button type="submit" class="submit-btn">Submit Inquiry</button>
+            </form>
+        </div>
+        <div id="modalSuccess" class="success-msg">
+            <div class="success-icon">✓</div>
+            <h2 class="modal-title">Inquiry Sent!</h2>
+            <p class="modal-subtitle">Trustate administratives will contact you shortly under 24 hours for the deal.</p>
+            <button class="submit-btn" style="margin-top:2rem" onclick="toggleModal(false)">Close</button>
+        </div>
+    </div>
+</div>
+`;
+
+// Inject modal into body
+document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+const modal = document.getElementById('inquiryModal');
+const inqForm = document.getElementById('inquiryForm');
+const modalFormDiv = document.getElementById('modalForm');
+const modalSuccessDiv = document.getElementById('modalSuccess');
+
+function toggleModal(show) {
+    if (show) {
+        modal.classList.add('active');
+        modalFormDiv.style.display = 'block';
+        modalSuccessDiv.style.display = 'none';
+        inqForm.reset();
+    } else {
+        modal.classList.remove('active');
+    }
+}
+
+document.getElementById('inquireBtn').addEventListener('click', () => toggleModal(true));
+document.getElementById('closeModal').addEventListener('click', () => toggleModal(false));
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) toggleModal(false);
+});
+
+inqForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const payload = {
+        name: document.getElementById('inqName').value,
+        phoneNumber: document.getElementById('inqPhone').value,
+        email: document.getElementById('inqEmail').value,
+        propertyId: id,
+        propertyType: category,
+        propertyTitle: document.getElementById('propertyTitle').innerText
+    };
+
+    try {
+        const response = await fetch(`${BASE_URL}/inquiry`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error('Submission failed');
+
+        modalFormDiv.style.display = 'none';
+        modalSuccessDiv.style.display = 'block';
+    } catch (err) {
+        console.error('Inquiry Error:', err);
+        alert('There was an error submitting your inquiry. Please try again.');
+    }
 });

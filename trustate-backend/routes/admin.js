@@ -5,6 +5,20 @@ const ResidentialProperty = require('../models/ResidentialProperty');
 const CommercialProperty = require('../models/CommercialProperty');
 const AgriculturalProperty = require('../models/AgriculturalProperty');
 const UnderdevelopedProperty = require('../models/UnderdevelopedProperty');
+const Inquiry = require('../models/Inquiry');
+
+// @route   GET api/admin/inquiries
+// @desc    Get all buyer inquiries
+// @access  Private (Admin)
+router.get('/inquiries', adminAuth, async (req, res) => {
+    try {
+        const inquiries = await Inquiry.find().sort({ createdAt: -1 });
+        res.json(inquiries);
+    } catch (err) {
+        console.error('Admin Fetch Inquiries Error:', err.message);
+        res.status(500).send('Server error');
+    }
+});
 
 // @route   GET api/admin/properties
 // @desc    Get all properties from ALL collections with seller details
@@ -27,12 +41,12 @@ router.get('/properties', adminAuth, async (req, res) => {
 });
 
 // @route   PUT api/admin/properties/:id/status
-// @desc    Update property status (approve/reject) across all collections
+// @desc    Update property status (approve/reject/sold/pending) across all collections
 // @access  Private (Admin)
 router.put('/properties/:id/status', adminAuth, async (req, res) => {
     const { status } = req.body;
 
-    if (!['approved', 'rejected', 'pending'].includes(status)) {
+    if (!['approved', 'rejected', 'pending', 'sold'].includes(status)) {
         return res.status(400).json({ message: 'Invalid status' });
     }
 
@@ -58,9 +72,36 @@ router.put('/properties/:id/status', adminAuth, async (req, res) => {
             property.approvedAt = Date.now();
         }
         await property.save();
-        res.json({ message: `Property ${status} successfully`, property });
+        res.json({ message: `Property marked as ${status} successfully`, property });
     } catch (err) {
         console.error('Admin Update Status Error:', err.message);
+        res.status(500).send('Server error');
+    }
+});
+
+// @route   DELETE api/admin/properties/:id
+// @desc    Delete property from any collection
+// @access  Private (Admin)
+router.delete('/properties/:id', adminAuth, async (req, res) => {
+    try {
+        let deleted = false;
+        const models = [ResidentialProperty, CommercialProperty, AgriculturalProperty, UnderdevelopedProperty];
+
+        for (let M of models) {
+            const result = await M.findByIdAndDelete(req.params.id);
+            if (result) {
+                deleted = true;
+                break;
+            }
+        }
+
+        if (!deleted) {
+            return res.status(404).json({ message: 'Property not found' });
+        }
+
+        res.json({ message: 'Property deleted successfully' });
+    } catch (err) {
+        console.error('Admin Delete Property Error:', err.message);
         res.status(500).send('Server error');
     }
 });

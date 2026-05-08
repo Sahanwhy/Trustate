@@ -4,6 +4,33 @@ const ResidentialProperty = require('../models/ResidentialProperty');
 const CommercialProperty = require('../models/CommercialProperty');
 const AgriculturalProperty = require('../models/AgriculturalProperty');
 const UnderdevelopedProperty = require('../models/UnderdevelopedProperty');
+const Inquiry = require('../models/Inquiry');
+
+// @route   POST api/v1/inquiry
+// @desc    Submit a property inquiry
+// @access  Public
+router.post('/inquiry', async (req, res) => {
+    const { name, phoneNumber, email, propertyId, propertyType, propertyTitle } = req.body;
+
+    try {
+        const newInquiry = new Inquiry({
+            name,
+            phoneNumber,
+            email,
+            propertyId,
+            propertyType,
+            propertyTitle
+        });
+
+        await newInquiry.save();
+        res.status(201).json({ message: 'Inquiry submitted successfully' });
+    } catch (err) {
+        console.error('Inquiry Submission Error:', err.message);
+        res.status(500).send('Server error');
+    }
+});
+
+module.exports = router;
 
 // @route   GET api/v1/listings
 // @desc    Get all approved listings by category and optional subtype
