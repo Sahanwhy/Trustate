@@ -71,23 +71,60 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
-/* ----------------------------------------------------------------
-   SEARCH BAR — tab switching
-   ---------------------------------------------------------------- */
+const SUBTYPES = {
+    residential: [
+        { val: 'apartment', lbl: '🏢 Apartment / Flat' },
+        { val: 'house-villa', lbl: '🏡 House / Villa' },
+        { val: 'builder-floor', lbl: '🏗 Builder Floor' },
+        { val: 'studio-1rk', lbl: '🛋 Studio / 1RK' },
+        { val: 'penthouse', lbl: '🌆 Penthouse' },
+        { val: 'plot-land', lbl: '📐 Plot / Land' }
+    ],
+    commercial: [
+        { val: 'office-space', lbl: '🏢 Office Space' },
+        { val: 'retail-shop', lbl: '🛒 Retail Shop' },
+        { val: 'warehouse', lbl: '🏭 Warehouse' },
+        { val: 'industrial', lbl: '⚙️ Industrial' },
+        { val: 'hotel-guest-house', lbl: '🏨 Hotel / Guest House' },
+        { val: 'restaurant', lbl: '🍽️ Restaurant' },
+        { val: 'commercial-land', lbl: '🗺 Commercial Land' }
+    ],
+    agri: [
+        { val: 'farmland', lbl: '🌾 Farmland' },
+        { val: 'plantation-land', lbl: '🌳 Plantation Land' },
+        { val: 'farmhouse-estate', lbl: '🏡 Farmhouse / Estate' },
+        { val: 'livestock-farm', lbl: '🐄 Livestock Farm' },
+        { val: 'unused-barren', lbl: '🏜️ Unused / Barren' }
+    ],
+    undeveloped: [
+        { val: 'vacant-plot', lbl: '📍 Vacant Plot' },
+        { val: 'raw-land', lbl: '🏔 Raw Land' },
+        { val: 'waterfront', lbl: '🌊 Waterfront Land' },
+        { val: 'corner-piece', lbl: '📐 Corner Piece' }
+    ]
+};
+
 (function initSearch() {
   const tabs = document.querySelectorAll('.search-tab');
+  const subtypeSelect = document.getElementById('search-subtype');
+
+  function updateSubtypes(cat) {
+    if (!subtypeSelect) return;
+    const options = SUBTYPES[cat] || [];
+    subtypeSelect.innerHTML = '<option value="">All Types</option>' + 
+      options.map(opt => `<option value="${opt.val}">${opt.lbl}</option>`).join('');
+  }
+
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-
-      // Update category select based on tab
-      const catSelect = document.querySelector('.search-field select[data-field="category"]');
-      if (catSelect) {
-        catSelect.value = tab.dataset.tab || '';
-      }
+      updateSubtypes(tab.dataset.tab);
     });
   });
+
+  // Initial population
+  updateSubtypes('residential');
 
   // Search form submit
   const searchBtn = document.querySelector('.search-btn');
@@ -96,27 +133,51 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 
-/**
- * handleSearch — builds query params and can call your API
- * Replace the console.log with an actual fetch() call
- */
-function handleSearch() {
-  const location = document.querySelector('.search-field input[data-field="location"]')?.value || '';
-  const category  = document.querySelector('.search-field select[data-field="category"]')?.value || '';
-  const price     = document.querySelector('.search-field select[data-field="price"]')?.value || '';
-  const size      = document.querySelector('.search-field select[data-field="size"]')?.value || '';
+async function handleSearch() {
+  const activeTab = document.querySelector('.search-tab.active');
+  const category = activeTab?.dataset.tab || 'residential';
+  const subtype  = document.querySelector('[data-field="subtype"]')?.value || '';
+  const location = document.querySelector('[data-field="location"]')?.value || '';
+  const price    = document.querySelector('[data-field="price"]')?.value || '';
 
-  const params = new URLSearchParams({ location, category, price, size });
+  console.log('[Trustate] Executing Search:', { category, subtype, location, price });
 
-  // ── Backend hook ──
-  // fetch(`${API.BASE_URL}${API.SEARCH}?${params}`)
-  //   .then(r => r.json())
-  //   .then(data => renderSearchResults(data))
-  //   .catch(err => console.error('Search failed', err));
+  const searchBtn = document.querySelector('.search-btn');
+  const originalText = searchBtn.innerHTML;
+  searchBtn.innerHTML = 'Searching...';
+  searchBtn.disabled = true;
 
-  console.log('[Trustate] Search params:', Object.fromEntries(params));
-  // Placeholder: scroll to listings
-  document.getElementById('listings')?.scrollIntoView({ behavior: 'smooth' });
+  try {
+    const params = { category };
+    if (subtype) params.subtype = subtype;
+    if (location) params.location = location;
+    if (price) {
+        const [min, max] = price.split('-');
+        params.minPrice = min;
+        if (max) params.maxPrice = max.replace('+', '');
+    }
+
+    const data = await fetchListings(params);
+    
+    // Find the appropriate grid to show results
+    // For simplicity on index, we'll scroll to that category's section and update its grid
+    const targetGridId = `grid-${category}`;
+    const grid = document.getElementById(targetGridId);
+    
+    if (grid) {
+        renderCards(grid, data);
+        document.getElementById(`section-${category}`)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        alert(`Search results for ${category} updated below.`);
+    }
+
+  } catch (err) {
+    console.error('Search failed', err);
+    alert('Search failed. Please try again.');
+  } finally {
+    searchBtn.innerHTML = originalText;
+    searchBtn.disabled = false;
+  }
 }
 
 /* ----------------------------------------------------------------

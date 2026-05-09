@@ -40,11 +40,11 @@
                 Step 1 — Select Property Type</div>
             <div class="lf-subtype-grid" id="subtypePicker">
                 <button class="lf-subtype-pill" onclick="selectSubtype(this,'apartment')">🏢 Apartment / Flat</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'house')">🏡 House / Villa</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'house-villa')">🏡 House / Villa</button>
                 <button class="lf-subtype-pill" onclick="selectSubtype(this,'builder-floor')">🏗️ Builder Floor</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'studio')">🛋️ Studio / 1RK</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'studio-1rk')">🛋️ Studio / 1RK</button>
                 <button class="lf-subtype-pill" onclick="selectSubtype(this,'penthouse')">🌟 Penthouse</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'plot')">📐 Plot / Land</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'plot-land')">📐 Plot / Land</button>
             </div>
         </div>
 
@@ -266,7 +266,7 @@
                     </div>
                 `
             },
-            'house': {
+            'house-villa': {
                 label: 'Independent House / Villa', icon: '🏡',
                 fields: `
                     <div class="lf-field">
@@ -332,7 +332,7 @@
                     </div>
                 `
             },
-            'studio': {
+            'studio-1rk': {
                 label: 'Studio Apartment / 1RK', icon: '🛋️',
                 fields: `
                     <div class="lf-field">
@@ -378,7 +378,7 @@
                     </div>
                 `
             },
-            'plot': {
+            'plot-land': {
                 label: 'Plot / Land', icon: '📐',
                 fields: `
                     <div class="lf-field">

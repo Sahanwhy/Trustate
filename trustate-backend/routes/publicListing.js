@@ -36,13 +36,55 @@ module.exports = router;
 // @desc    Get all approved listings by category and optional subtype
 // @access  Public
 router.get('/listings', async (req, res) => {
-    const { category, subtype } = req.query;
+    const { category, subtype, location, minPrice, maxPrice } = req.query;
 
     try {
         let results = [];
         const filter = { status: 'approved' };
+        
         if (subtype && subtype !== 'all') {
-            filter.subtype = subtype;
+            // Normalization: map filter-pill keys to all known DB variants
+            // so both old (short) and new (canonical) subtypes match.
+            const SUBTYPE_ALIASES = {
+                // Commercial
+                'office-space': ['office-space', 'office'],
+                'retail-shop': ['retail-shop', 'retail'],
+                'hotel-guest-house': ['hotel-guest-house', 'hotel'],
+                'commercial-land': ['commercial-land', 'com-land'],
+                // Residential
+                'house-villa': ['house-villa', 'house'],
+                'studio-1rk': ['studio-1rk', 'studio'],
+                'plot-land': ['plot-land', 'plot'],
+                // Agricultural
+                'plantation-land': ['plantation-land', 'plantation'],
+                'farmhouse-estate': ['farmhouse-estate', 'farmhouse'],
+                'livestock-farm': ['livestock-farm', 'livestock'],
+                'unused-barren': ['unused-barren', 'barren'],
+            };
+
+            const aliases = SUBTYPE_ALIASES[subtype];
+            if (aliases) {
+                filter.subtype = { $in: aliases };
+            } else {
+                filter.subtype = subtype;
+            }
+        }
+
+        if (location) {
+            filter.$or = [
+                { title: { $regex: location, $options: 'i' } },
+                { city_town_village: { $regex: location, $options: 'i' } },
+                { district: { $regex: location, $options: 'i' } },
+                { state: { $regex: location, $options: 'i' } },
+                { locality: { $regex: location, $options: 'i' } },
+                { description: { $regex: location, $options: 'i' } }
+            ];
+        }
+
+        if (minPrice || maxPrice) {
+            filter.price = {};
+            if (minPrice) filter.price.$gte = Number(minPrice);
+            if (maxPrice) filter.price.$lte = Number(maxPrice);
         }
 
         if (category === 'residential') {
@@ -54,8 +96,6 @@ router.get('/listings', async (req, res) => {
         } else if (category === 'undeveloped') {
             results = await UnderdevelopedProperty.find(filter).sort({ approvedAt: -1 });
         } else {
-            // If no category, fetch some from all? Or just return empty.
-            // For now, let's return empty if no valid category.
             return res.status(400).json({ message: 'Valid category is required' });
         }
 

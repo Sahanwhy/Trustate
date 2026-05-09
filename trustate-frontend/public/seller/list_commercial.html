@@ -39,13 +39,13 @@
                 style="font-size:0.78rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--lf-muted);margin-bottom:0.75rem;">
                 Step 1 — Select Category</div>
             <div class="lf-subtype-grid" id="subtypePicker">
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'office')">🏬 Office Space</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'retail')">🛍️ Retail Shop</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'office-space')">🏬 Office Space</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'retail-shop')">🛍️ Retail Shop</button>
                 <button class="lf-subtype-pill" onclick="selectSubtype(this,'warehouse')">🏭 Warehouse</button>
                 <button class="lf-subtype-pill" onclick="selectSubtype(this,'industrial')">🏗️ Industrial</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'hotel')">🏨 Hotel / Guest House</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'hotel-guest-house')">🏨 Hotel / Guest House</button>
                 <button class="lf-subtype-pill" onclick="selectSubtype(this,'restaurant')">🍽️ Restaurant</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'com-land')">⛽ Commercial Land</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'commercial-land')">⛽ Commercial Land</button>
             </div>
         </div>
 
@@ -227,7 +227,7 @@
     <script src="../assets/js/listing.js"></script>
     <script>
         const SUBTYPE_CONFIG = {
-            'office': {
+            'office-space': {
                 label: 'Office Space', icon: '🏬',
                 fields: `
                     <div class="lf-field">
@@ -280,7 +280,7 @@
                     </div>
                 `
             },
-            'retail': {
+            'retail-shop': {
                 label: 'Retail Shop / Showroom', icon: '🛍️',
                 fields: `
                     <div class="lf-field">
@@ -371,7 +371,7 @@
                     </div>
                 `
             },
-            'hotel': {
+            'hotel-guest-house': {
                 label: 'Hotel / Guest House', icon: '🏨',
                 fields: `
                     <div class="lf-field">
@@ -412,7 +412,7 @@
                     </div>
                 `
             },
-            'com-land': {
+            'commercial-land': {
                 label: 'Commercial Land', icon: '⛽',
                 fields: `
                     <div class="lf-field">

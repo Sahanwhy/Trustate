@@ -40,10 +40,10 @@
                 Step 1 — Select Land Type</div>
             <div class="lf-subtype-grid" id="subtypePicker">
                 <button class="lf-subtype-pill" onclick="selectSubtype(this,'farmland')">🌾 Farmland</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'plantation')">🍃 Plantation Land</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'farmhouse')">🏡 Farmhouse / Estate</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'livestock')">🐄 Livestock Farm</button>
-                <button class="lf-subtype-pill" onclick="selectSubtype(this,'barren')">🏜️ Unused / Barren</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'plantation-land')">🍃 Plantation Land</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'farmhouse-estate')">🏡 Farmhouse / Estate</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'livestock-farm')">🐄 Livestock Farm</button>
+                <button class="lf-subtype-pill" onclick="selectSubtype(this,'unused-barren')">🏜️ Unused / Barren</button>
             </div>
         </div>
 
@@ -265,7 +265,7 @@
                     </div>
                 `
             },
-            'plantation': {
+            'plantation-land': {
                 label: 'Plantation Land', icon: '🍃',
                 fields: `
                     <div class="lf-field">
@@ -293,7 +293,7 @@
                     </div>
                 `
             },
-            'farmhouse': {
+            'farmhouse-estate': {
                 label: 'Farmhouse / Estate', icon: '🏡',
                 fields: `
                     <div class="lf-field">
@@ -314,7 +314,7 @@
                     </div>
                 `
             },
-            'livestock': {
+            'livestock-farm': {
                 label: 'Livestock Farm', icon: '🐄',
                 fields: `
                     <div class="lf-field">
@@ -344,7 +344,7 @@
                     </div>
                 `
             },
-            'barren': {
+            'unused-barren': {
                 label: 'Unused / Barren Land', icon: '🏜️',
                 fields: `
                     <div class="lf-field">

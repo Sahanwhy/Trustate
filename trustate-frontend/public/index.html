@@ -82,7 +82,7 @@
       <li><a href="undeveloped.html">Undeveloped Land</a></li>
 
       <li><a href="#about">About</a></li>
-      <li><a href="trustate-frontend/public/seller/seller_dashboard.html" class="navbar__cta">List Property</a></li>
+      <li><a href="auth/login.html" class="navbar__cta">List Property</a></li>
     </ul>
 
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -98,7 +98,7 @@
     <a href="agricultural.html">Agricultural</a>
     <a href="undeveloped.html">Undeveloped Land</a>
     <a href="#about">About</a>
-    <a href="trustate-frontend/public/seller/seller_dashboard.html" style="color:var(--accent)">List Property</a>
+    <a href="auth/login.html" style="color:var(--accent)">List Property</a>
   </div>
 
 
@@ -143,21 +143,31 @@
           <div class="search-divider"></div>
 
           <div class="search-field">
-            <label for="search-location">Location</label>
-            <input id="search-location" type="text" placeholder="City, state, or region…" data-field="location"
+            <label for="search-subtype">Property Type</label>
+            <select id="search-subtype" data-field="subtype">
+              <option value="">All Types</option>
+              <!-- Populated dynamically via JS -->
+            </select>
+          </div>
+
+          <div class="search-divider"></div>
+
+          <div class="search-field">
+            <label for="search-location">Location / Keyword</label>
+            <input id="search-location" type="text" placeholder="Enter location, title or keyword…" data-field="location"
               autocomplete="off">
           </div>
 
           <div class="search-divider"></div>
 
           <div class="search-field">
-            <label for="search-price">Price Range</label>
+            <label for="search-price">Budget</label>
             <select id="search-price" data-field="price">
               <option value="">Any Budget</option>
-              <option value="0-5m">Under ₦5M</option>
-              <option value="5m-20m">₦5M – ₦20M</option>
-              <option value="20m-100m">₦20M – ₦100M</option>
-              <option value="100m+">₦100M+</option>
+              <option value="0-5000000">Under ₹50L</option>
+              <option value="5000000-10000000">₹50L – ₹1Cr</option>
+              <option value="10000000-50000000">₹1Cr – ₹5Cr</option>
+              <option value="50000000+">₹5Cr+</option>
             </select>
           </div>
 
@@ -266,7 +276,7 @@
               <p><strong>Deal closes</strong> securely with Trustate managing every step to completion</p>
             </div>
           </div>
-          <a href="trustate-frontend/public/seller/seller_dashboard.html" class="model-cta">List Your Property →</a>
+          <a href="auth/login.html" class="model-cta">List Your Property →</a>
         </div>
       </div>
     </div>
@@ -580,7 +590,7 @@
           India's most trusted platform.</p>
         <div class="cta-actions">
           <a href="#listings" class="btn btn--primary">Explore Listings →</a>
-          <a href="#" class="btn btn--ghost">List Your Property</a>
+          <a href="auth/login.html" class="btn btn--ghost">List Your Property</a>
         </div>
       </div>
     </div>

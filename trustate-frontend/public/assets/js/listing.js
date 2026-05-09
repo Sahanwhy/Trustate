@@ -203,8 +203,9 @@
                 btn.style.background = 'var(--lf-accent)';
                 alert(result.message || 'Listing submitted successfully!');
                 
+                // Redirect to seller dashboard after a brief delay
                 setTimeout(() => {
-                    window.location.href = '../seller/seller_dashboard.html';
+                    window.location.href = './seller_dashboard.html';
                 }, 1500);
             } else {
                 throw new Error(result.message || 'Submission failed');
