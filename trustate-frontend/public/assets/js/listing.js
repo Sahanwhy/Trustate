@@ -63,10 +63,10 @@
             stateSelect.appendChild(opt);
         });
 
-        stateSelect.addEventListener('change', function() {
+        stateSelect.addEventListener('change', function () {
             const state = this.value;
             districtSelect.innerHTML = '<option value="">Select district</option>';
-            
+
             if (state && STATES_DATA[state]) {
                 STATES_DATA[state].forEach(dist => {
                     const opt = document.createElement('option');
@@ -96,7 +96,7 @@
 
         const inputs = listingForm.querySelectorAll('input[required], select[required], textarea[required]');
         let filled = 0;
-        
+
         inputs.forEach(input => {
             if (input.type === 'radio') {
                 const name = input.name;
@@ -117,18 +117,18 @@
     listingForm?.addEventListener('change', updateProgress);
 
     // ── Upload Previews ──
-    window.initUploadZones = function() {
+    window.initUploadZones = function () {
         document.querySelectorAll('.lf-upload input[type="file"]').forEach(input => {
-            input.addEventListener('change', function(e) {
+            input.addEventListener('change', function (e) {
                 const preview = this.parentElement.querySelector('.lf-upload-preview');
                 if (!preview) return;
-                
+
                 preview.innerHTML = '';
                 const files = e.target.files;
-                
+
                 for (let i = 0; i < Math.min(files.length, 5); i++) {
                     const reader = new FileReader();
-                    reader.onload = function(event) {
+                    reader.onload = function (event) {
                         const img = document.createElement('img');
                         img.src = event.target.result;
                         preview.appendChild(img);
@@ -141,19 +141,19 @@
     };
 
     // ── Form Submission ──
-    listingForm?.addEventListener('submit', async function(e) {
+    listingForm?.addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         const btn = document.getElementById('submitBtn');
         const originalText = btn.innerHTML;
-        
+
         // Get the selected subtype
         const selectedSubtypeBtn = document.querySelector('.lf-subtype-pill.selected');
         if (!selectedSubtypeBtn) {
             alert('Please select a property type first.');
             return;
         }
-        
+
         // Find the subtype key from SUBTYPE_CONFIG
         let subtype = '';
         for (const [key, config] of Object.entries(window.SUBTYPE_CONFIG || {})) {
@@ -164,7 +164,7 @@
         }
         // Fallback: If not found by label, we might need a better way. 
         // Let's modify selectSubtype to store the current subtype.
-        subtype = window.currentSubtype; 
+        subtype = window.currentSubtype;
 
         btn.disabled = true;
         btn.innerHTML = 'Submitting...';
@@ -202,7 +202,7 @@
                 btn.innerHTML = '✓ Submitted';
                 btn.style.background = 'var(--lf-accent)';
                 alert(result.message || 'Listing submitted successfully!');
-                
+
                 // Redirect to seller dashboard after a brief delay
                 setTimeout(() => {
                     window.location.href = './seller_dashboard.html';
@@ -219,13 +219,13 @@
     });
 
     // ── Shared Listing Logic ──
-    window.selectSubtype = function(btn, sub) {
+    window.selectSubtype = function (btn, sub) {
         if (typeof SUBTYPE_CONFIG === 'undefined') return;
-        
+
         window.currentSubtype = sub; // Store the current subtype globally
         document.querySelectorAll('.lf-subtype-pill').forEach(p => p.classList.remove('selected'));
         btn.classList.add('selected');
-        
+
         const cfg = SUBTYPE_CONFIG[sub];
         if (!cfg) return;
 
@@ -237,17 +237,17 @@
         if (iconEl) iconEl.textContent = cfg.icon;
         if (tagEl) tagEl.textContent = cfg.label;
         if (fieldsEl) fieldsEl.innerHTML = cfg.fields;
-        
+
         if (formEl) {
             formEl.style.display = 'block';
             formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        
+
         initUploadZones();
         updateProgress();
     };
 
-    window.resetForm = function() {
+    window.resetForm = function () {
         const formEl = document.getElementById('listingForm');
         if (formEl) formEl.style.display = 'none';
         document.querySelectorAll('.lf-subtype-pill').forEach(p => p.classList.remove('selected'));

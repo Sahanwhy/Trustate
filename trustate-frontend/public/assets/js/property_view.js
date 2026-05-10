@@ -37,10 +37,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 function renderPropertyDetails(p, category) {
     // Basic Info
     document.getElementById('propertyTitle').innerText = p.title;
-    document.getElementById('propertyLocation').innerText = `${p.city_town_village || ''}, ${p.district || ''}, ${p.state || ''}`.replace(/^, /, '');
+    const locationParts = [p.locality, p.city_town_village, p.district, p.state].filter(Boolean);
+    document.getElementById('propertyLocation').innerText = locationParts.join(', ');
+    
     document.getElementById('propertyPrice').innerText = `₹${(p.price || 0).toLocaleString('en-IN')}`;
     document.getElementById('propertyDescription').innerText = p.description || 'No description provided.';
     document.getElementById('priceMeta').innerText = `Negotiable: ${p.negotiable} | Ownership: ${p.ownership_type || p.ownership || 'N/A'}`;
+    
+    // Property ID & Badge
+    if (document.getElementById('propertyIdDisplay')) {
+        document.getElementById('propertyIdDisplay').innerText = `ID: ${p._id.substring(18).toUpperCase()}`;
+    }
+    if (document.getElementById('categoryBadge')) {
+        const catMap = { 'residential': 'Residential', 'commercial': 'Commercial', 'agri': 'Agricultural', 'undeveloped': 'Undeveloped Land' };
+        document.getElementById('categoryBadge').innerText = catMap[category] || 'Property';
+    }
 
     // Images
     const mainImg = document.getElementById('mainImage');
@@ -72,7 +83,7 @@ function renderPropertyDetails(p, category) {
             { label: 'Built-up Area', value: formatArea(p.built_up_area, p.area_unit) },
             { label: 'Plot Area', value: formatArea(p.plot_area, p.area_unit) },
             { label: 'Furnishing', value: p.furnishing },
-            { label: 'Floor', value: p.floor_num !== undefined ? `${p.floor_num} of ${p.total_floors || 'N/A'}` : null },
+            { label: 'Floor', value: p.floor_num !== undefined && p.floor_num !== null ? `${p.floor_num} of ${p.total_floors || 'N/A'}` : null },
             { label: 'Property Age', value: p.property_age ? `${p.property_age} Years` : null },
             { label: 'Facing', value: p.facing },
             { label: 'Parking', value: p.parking }
@@ -80,30 +91,40 @@ function renderPropertyDetails(p, category) {
     } else if (category === 'commercial') {
         features = [
             { label: 'Subtype', value: p.subtype },
+            { label: 'Listing For', value: p.listing_type },
             { label: 'Office/Retail Type', value: p.office_type || p.retail_type || p.industry_type },
             { label: 'Super Area', value: formatArea(p.super_area, p.area_unit) },
             { label: 'Carpet Area', value: formatArea(p.carpet_area, p.area_unit) },
-            { label: 'Land Area', value: formatArea(p.land_area, p.area_unit) },
-            { label: 'Floor', value: p.floor_num !== undefined ? `${p.floor_num} of ${p.total_floors || 'N/A'}` : null },
+            { label: 'Land/Plot Area', value: formatArea(p.land_area || p.plot_size, p.area_unit) },
+            { label: 'Built-up Area', value: formatArea(p.built_up_area, p.area_unit) },
+            { label: 'Floor', value: p.floor_num !== undefined && p.floor_num !== null ? `${p.floor_num} of ${p.total_floors || 'N/A'}` : null },
             { label: 'Furnishing', value: p.furnishing },
             { label: 'Parking', value: p.parking },
-            { label: 'Road Access', value: p.road_access },
+            { label: 'Road Access', value: p.road_access ? `${p.road_access} ft` : null },
             { label: 'Ceiling Height', value: p.ceiling_height ? `${p.ceiling_height} ft` : null },
-            { label: 'Power Capacity', value: p.power_capacity ? `${p.power_capacity} KW` : null }
+            { label: 'Power Capacity', value: p.power_capacity ? `${p.power_capacity} KW` : null },
+            { label: 'Frontage', value: p.frontage ? `${p.frontage} ft` : null },
+            { label: 'Footfall', value: p.footfall },
+            { label: 'Rooms Count', value: p.rooms_count },
+            { label: 'Occupancy', value: p.occupancy ? `${p.occupancy}%` : null },
+            { label: 'Seating', value: p.seating },
+            { label: 'Location Type', value: p.location_type },
+            { label: 'Maintenance', value: p.maintenance ? `₹${p.maintenance}/mo` : null }
         ];
     } else if (category === 'agri') {
         features = [
             { label: 'Subtype', value: p.subtype },
-            { label: 'Total Area', value: formatArea(p.total_area || p.plot_size, p.area_unit || 'Acres') },
+            { label: 'Total Area', value: formatArea(p.total_area || p.plot_size || p.land_area, p.area_unit || 'Acres') },
             { label: 'Soil Type', value: p.soil_type },
             { label: 'Soil Potential', value: p.soil_potential },
             { label: 'Irrigation', value: p.irrigation },
             { label: 'Main Crop', value: p.crop_type },
             { label: 'Plantation', value: p.plantation_type },
             { label: 'Plantation Age', value: p.plantation_age ? `${p.plantation_age} Years` : null },
+            { label: 'Yield', value: p.yield },
             { label: 'Livestock', value: p.livestock_type },
             { label: 'Capacity', value: p.capacity },
-            { label: 'Road Access', value: p.road_access }
+            { label: 'Road Access', value: p.road_access ? `${p.road_access} ft` : null }
         ];
     } else { // underdeveloped
         features = [
@@ -117,6 +138,8 @@ function renderPropertyDetails(p, category) {
             { label: 'Corner Plot', value: p.corner_confirmed },
             { label: 'Road Widths', value: p.road_width_1 ? `${p.road_width_1}ft / ${p.road_width_2 || '?'}ft` : null },
             { label: 'Water Body', value: p.water_body_type },
+            { label: 'Water Distance', value: p.distance_from_water ? `${p.distance_from_water} m` : null },
+            { label: 'Flood Risk', value: p.flood_risk },
             { label: 'Title Type', value: p.title_type }
         ];
     }
@@ -141,18 +164,27 @@ function renderPropertyDetails(p, category) {
     const amenitiesList = document.getElementById('amenitiesList');
     let ams = [];
 
-    // 1. Generic amenities fields
-    const rawAms = p.amenities || p.infrastructure || p.facilities || p.hotel_features || p.luxury_amenities || p.utilities || p.utilities_nearby || '';
-    if (rawAms) ams = rawAms.split(',').map(a => a.trim()).filter(Boolean);
+    // 1. Aggregate generic amenities fields
+    const amFields = ['amenities', 'infrastructure', 'facilities', 'hotel_features', 'luxury_amenities', 'utilities', 'utilities_nearby', 'luxury_features'];
+    amFields.forEach(field => {
+        if (p[field]) {
+            const items = p[field].split(',').map(a => a.trim()).filter(Boolean);
+            ams = [...ams, ...items];
+        }
+    });
 
     // 2. Specific "boolean-ish" amenities
-    if (p.backup_internet === 'Yes') ams.push('High-speed Internet Backup');
-    if (p.truck_access === 'Yes') ams.push('Heavy Truck Access');
+    if (p.backup_internet === 'Yes' || p.backup_internet === 'Both Available') ams.push('High-speed Internet Backup');
+    if (p.truck_access && p.truck_access !== 'No Large Vehicle Access') ams.push('Heavy Truck Access');
     if (p.gas_provision === 'Yes') ams.push('Industrial Gas Provision');
-    if (p.kitchen_setup === 'Yes') ams.push('Commercial Kitchen Setup');
+    if (p.kitchen_setup && p.kitchen_setup !== 'Empty Shell') ams.push('Commercial Kitchen Setup');
     if (p.private_terrace === 'Yes') ams.push('Private Terrace');
     if (p.layout_approved === 'Yes') ams.push('Layout Approved');
     if (p.direct_access === 'Yes') ams.push('Direct Waterfront Access');
+    if (p.parking && p.parking !== 'No' && p.parking !== '0') ams.push('Parking Available');
+
+    // Remove duplicates
+    ams = [...new Set(ams)];
 
     if (ams.length > 0) {
         amenitiesList.innerHTML = ams.map(a => `

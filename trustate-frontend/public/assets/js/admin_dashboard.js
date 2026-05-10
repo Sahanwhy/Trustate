@@ -243,34 +243,50 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (p.type === 'commercial') {
             extraFields = `
                 <div class="dr-section">
-                    <div class="dr-label">Commercial Type</div>
-                    <div class="dr-val" style="text-transform:capitalize">${p.subtype || p.office_type || p.retail_type || 'N/A'}</div>
+                    <div class="dr-label">Type & Listing</div>
+                    <div class="dr-val" style="text-transform:capitalize">${p.subtype || 'N/A'} (${p.listing_type || 'Sale'})</div>
                 </div>
                 <div class="dr-section">
-                    <div class="dr-label">Area & Floor</div>
-                    <div class="dr-val">${p.carpet_area || p.total_area || 'N/A'} sq ft • Floor ${p.floor_num || 'N/A'}</div>
+                    <div class="dr-label">Areas</div>
+                    <div class="dr-val">Super: ${p.super_area || 'N/A'} • Carpet: ${p.carpet_area || 'N/A'} sq ft</div>
+                </div>
+                <div class="dr-section">
+                    <div class="dr-label">Building Details</div>
+                    <div class="dr-val">Floor: ${p.floor_num || 'N/A'} of ${p.total_floors || 'N/A'} • Parking: ${p.parking || 'N/A'}</div>
+                </div>
+                <div class="dr-section">
+                    <div class="dr-label">Business Specifics</div>
+                    <div class="dr-val">${p.rooms_count ? `Rooms: ${p.rooms_count} • ` : ''}${p.seating ? `Seating: ${p.seating} • ` : ''}${p.occupancy ? `Occupancy: ${p.occupancy}%` : ''}</div>
                 </div>
             `;
         } else if (p.type === 'agricultural') {
             extraFields = `
                 <div class="dr-section">
-                    <div class="dr-label">Land Usage</div>
+                    <div class="dr-label">Land Usage & Soil</div>
                     <div class="dr-val">${p.subtype || 'N/A'} • ${p.soil_type || 'N/A'} Soil</div>
                 </div>
                 <div class="dr-section">
                     <div class="dr-label">Irrigation & Crop</div>
                     <div class="dr-val">${p.irrigation || 'N/A'} • ${p.crop_type || 'N/A'}</div>
                 </div>
+                <div class="dr-section">
+                    <div class="dr-label">Area & Yield</div>
+                    <div class="dr-val">${p.plot_size || p.total_area || 'N/A'} ${p.area_unit || 'Acres'} • Yield: ${p.yield || 'N/A'}</div>
+                </div>
             `;
         } else if (p.type === 'underdeveloped') {
             extraFields = `
                 <div class="dr-section">
-                    <div class="dr-label">Classification</div>
-                    <div class="dr-val">${p.subtype || 'N/A'} • ${p.land_classification || 'N/A'}</div>
+                    <div class="dr-label">Classification & Use</div>
+                    <div class="dr-val">${p.subtype || 'N/A'} • ${p.sub_category || 'N/A'}</div>
                 </div>
                 <div class="dr-section">
-                    <div class="dr-label">Dimensions</div>
+                    <div class="dr-label">Dimensions & Area</div>
                     <div class="dr-val">${p.plot_dimensions || 'N/A'} • ${p.total_area || 'N/A'} ${p.area_unit || 'sq ft'}</div>
+                </div>
+                <div class="dr-section">
+                    <div class="dr-label">Features</div>
+                    <div class="dr-val">${p.water_body_type ? `Near ${p.water_body_type} • ` : ''}${p.corner_confirmed === 'Yes' ? 'Corner Plot' : ''}</div>
                 </div>
             `;
         }
@@ -365,22 +381,25 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         } else if (p.type === 'commercial') {
             extraFieldsHtml = `
-                <div class="dr-section"><label class="dr-label">Commercial Subtype</label><input type="text" id="edit-subtype" class="adm-filter-sel" style="width:100%" value="${p.subtype || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Subtype</label><input type="text" id="edit-subtype" class="adm-filter-sel" style="width:100%" value="${p.subtype || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Super Area</label><input type="number" id="edit-super_area" class="adm-filter-sel" style="width:100%" value="${p.super_area || ''}"></div>
                 <div class="dr-section"><label class="dr-label">Carpet Area</label><input type="number" id="edit-carpet_area" class="adm-filter-sel" style="width:100%" value="${p.carpet_area || ''}"></div>
                 <div class="dr-section"><label class="dr-label">Floor No.</label><input type="number" id="edit-floor_num" class="adm-filter-sel" style="width:100%" value="${p.floor_num || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Total Floors</label><input type="number" id="edit-total_floors" class="adm-filter-sel" style="width:100%" value="${p.total_floors || ''}"></div>
             `;
         } else if (p.type === 'agricultural') {
             extraFieldsHtml = `
-                <div class="dr-section"><label class="dr-label">Usage Subtype</label><input type="text" id="edit-subtype" class="adm-filter-sel" style="width:100%" value="${p.subtype || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Subtype</label><input type="text" id="edit-subtype" class="adm-filter-sel" style="width:100%" value="${p.subtype || ''}"></div>
                 <div class="dr-section"><label class="dr-label">Soil Type</label><input type="text" id="edit-soil_type" class="adm-filter-sel" style="width:100%" value="${p.soil_type || ''}"></div>
                 <div class="dr-section"><label class="dr-label">Irrigation</label><input type="text" id="edit-irrigation" class="adm-filter-sel" style="width:100%" value="${p.irrigation || ''}"></div>
                 <div class="dr-section"><label class="dr-label">Crop Type</label><input type="text" id="edit-crop_type" class="adm-filter-sel" style="width:100%" value="${p.crop_type || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Yield</label><input type="text" id="edit-yield" class="adm-filter-sel" style="width:100%" value="${p.yield || ''}"></div>
             `;
         } else if (p.type === 'underdeveloped') {
             extraFieldsHtml = `
-                <div class="dr-section"><label class="dr-label">Subcategory</label><input type="text" id="edit-subtype" class="adm-filter-sel" style="width:100%" value="${p.subtype || ''}"></div>
-                <div class="dr-section"><label class="dr-label">Land Class</label><input type="text" id="edit-land_classification" class="adm-filter-sel" style="width:100%" value="${p.land_classification || ''}"></div>
-                <div class="dr-section"><label class="dr-label">Plot Dimensions</label><input type="text" id="edit-plot_dimensions" class="adm-filter-sel" style="width:100%" value="${p.plot_dimensions || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Subtype</label><input type="text" id="edit-subtype" class="adm-filter-sel" style="width:100%" value="${p.subtype || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Planned Use</label><input type="text" id="edit-sub_category" class="adm-filter-sel" style="width:100%" value="${p.sub_category || ''}"></div>
+                <div class="dr-section"><label class="dr-label">Dimensions</label><input type="text" id="edit-plot_dimensions" class="adm-filter-sel" style="width:100%" value="${p.plot_dimensions || ''}"></div>
                 <div class="dr-section"><label class="dr-label">Total Area</label><input type="number" id="edit-total_area" class="adm-filter-sel" style="width:100%" value="${p.total_area || ''}"></div>
             `;
         }
@@ -468,16 +487,19 @@ document.addEventListener('DOMContentLoaded', () => {
             updateData.floor_num = document.getElementById('edit-floor_num').value;
         } else if (p.type === 'commercial') {
             updateData.subtype = document.getElementById('edit-subtype').value;
+            updateData.super_area = document.getElementById('edit-super_area').value;
             updateData.carpet_area = document.getElementById('edit-carpet_area').value;
             updateData.floor_num = document.getElementById('edit-floor_num').value;
+            updateData.total_floors = document.getElementById('edit-total_floors').value;
         } else if (p.type === 'agricultural') {
             updateData.subtype = document.getElementById('edit-subtype').value;
             updateData.soil_type = document.getElementById('edit-soil_type').value;
             updateData.irrigation = document.getElementById('edit-irrigation').value;
             updateData.crop_type = document.getElementById('edit-crop_type').value;
+            updateData.yield = document.getElementById('edit-yield').value;
         } else if (p.type === 'underdeveloped') {
             updateData.subtype = document.getElementById('edit-subtype').value;
-            updateData.land_classification = document.getElementById('edit-land_classification').value;
+            updateData.sub_category = document.getElementById('edit-sub_category').value;
             updateData.plot_dimensions = document.getElementById('edit-plot_dimensions').value;
             updateData.total_area = document.getElementById('edit-total_area').value;
         }
